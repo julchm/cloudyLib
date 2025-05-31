@@ -22,94 +22,92 @@ namespace cloudyLib.Data
         {
             base.OnModelCreating(modelBuilder);
 
+           
+
             // BookAuthor - composite key
             modelBuilder.Entity<BookAuthor>()
-                .HasKey(ba => new { ba.Book_id, ba.Author_id });
+                .HasKey(ba => new { ba.BookId, ba.AuthorId }); 
 
             modelBuilder.Entity<BookAuthor>()
                 .HasOne(ba => ba.Book)
                 .WithMany(b => b.BookAuthors)
-                .HasForeignKey(ba => ba.Book_id);
+                .HasForeignKey(ba => ba.BookId); 
 
             modelBuilder.Entity<BookAuthor>()
                 .HasOne(ba => ba.Author)
                 .WithMany(a => a.BookAuthors)
-                .HasForeignKey(ba => ba.Author_id);
+                .HasForeignKey(ba => ba.AuthorId); 
 
             // BookGenre - composite key
             modelBuilder.Entity<BookGenre>()
-                .HasKey(bg => new { bg.Book_id, bg.Genre_id });
+                .HasKey(bg => new { bg.BookId, bg.GenreId }); 
 
             modelBuilder.Entity<BookGenre>()
                 .HasOne(bg => bg.Book)
                 .WithMany(b => b.BookGenres)
-                .HasForeignKey(bg => bg.Book_id);
+                .HasForeignKey(bg => bg.BookId); 
 
             modelBuilder.Entity<BookGenre>()
                 .HasOne(bg => bg.Genre)
                 .WithMany(g => g.BookGenres)
-                .HasForeignKey(bg => bg.Genre_id);
+                .HasForeignKey(bg => bg.GenreId); 
 
             // Rate - composite key
             modelBuilder.Entity<Rate>()
-                .HasKey(r => new { r.User_id, r.Book_id });
+                .HasKey(r => new { r.UserId, r.BookId }); 
 
             modelBuilder.Entity<Rate>()
                 .HasOne(r => r.User)
                 .WithMany(u => u.Rates)
-                .HasForeignKey(r => r.User_id);
+                .HasForeignKey(r => r.UserId); 
 
             modelBuilder.Entity<Rate>()
                 .HasOne(r => r.Book)
                 .WithMany(b => b.Rates)
-                .HasForeignKey(r => r.Book_id);
+                .HasForeignKey(r => r.BookId); 
 
             // Review
             modelBuilder.Entity<Review>()
                 .HasOne(r => r.User)
                 .WithMany(u => u.Reviews)
-                .HasForeignKey(r => r.User_id);
+                .HasForeignKey(r => r.UserId); 
 
             modelBuilder.Entity<Review>()
                 .HasOne(r => r.Book)
                 .WithMany(b => b.Reviews)
-                .HasForeignKey(r => r.Book_id);
+                .HasForeignKey(r => r.BookId); 
 
             // BookLoan
             modelBuilder.Entity<BookLoan>()
                 .HasOne(bl => bl.Book)
                 .WithMany(b => b.BookLoans)
-                .HasForeignKey(bl => bl.Book_id);
+                .HasForeignKey(bl => bl.BookId); 
 
             modelBuilder.Entity<BookLoan>()
                 .HasOne(bl => bl.User)
                 .WithMany(u => u.BookLoans)
-                .HasForeignKey(bl => bl.User_id);
+                .HasForeignKey(bl => bl.UserId); 
 
-            // Book - Author
-            modelBuilder.Entity<Book>()
-                .HasOne(b => b.Author)
-                .WithMany()
-                .HasForeignKey(b => b.Author_id)
-                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
         }
 
         public void SeedData()
         {
-            if (Users.Any()) return; 
+            if (Users.Any()) return;
 
             var faker = new Faker("pl");
 
-
-
             // 1. Użytkownicy
             var users = new Faker<User>()
-                .RuleFor(u => u.First_Name, f => f.Name.FirstName())
-                .RuleFor(u => u.Last_Name, f => f.Name.LastName())
+                .RuleFor(u => u.FirstName, f => f.Name.FirstName()) 
+                .RuleFor(u => u.LastName, f => f.Name.LastName())   
                 .RuleFor(u => u.Email, f => f.Internet.Email())
-                .RuleFor(u => u.Phone_number, f => f.Phone.PhoneNumber("###-###-###"))
+                .RuleFor(u => u.PhoneNumber, f => f.Phone.PhoneNumber("###-###-###")) 
                 .RuleFor(u => u.Password, f => f.Internet.Password(8, true, @"!@#$%^&*"))
-                .RuleFor(u => u.Role, f => f.PickRandom(new[] { "reader", "admin" }))
+                .RuleFor(u => u.Role, f => f.PickRandom(new[] { "Reader", "Administrator" })) 
                 .Generate(20);
 
             Users.AddRange(users);
@@ -117,8 +115,8 @@ namespace cloudyLib.Data
 
             // 2. Autorzy
             var authors = new Faker<Author>()
-                .RuleFor(a => a.First_name, f => f.Name.FirstName())
-                .RuleFor(a => a.Last_name, f => f.Name.LastName())
+                .RuleFor(a => a.FirstName, f => f.Name.FirstName()) 
+                .RuleFor(a => a.LastName, f => f.Name.LastName())   
                 .Generate(10);
 
             Authors.AddRange(authors);
@@ -140,11 +138,9 @@ namespace cloudyLib.Data
             var books = new Faker<Book>()
                 .RuleFor(b => b.Title, f => f.Lorem.Sentence(3))
                 .RuleFor(b => b.ISBN, f => f.Random.Replace("###-#-##-######-#"))
-                .RuleFor(b => b.Availability, f => f.Random.Bool(0.7f))
-                .RuleFor(b => b.Date_added, f => f.Date.Past(2))
-                .RuleFor(b => b.Year_of_release, f => (short)f.Date.Past(20).Year)
-                .RuleFor(b => b.Number_of_loans, f => f.Random.Int(0, 20))
-                .RuleFor(b => b.Author_id, f => f.PickRandom(authors).Author_id)
+                .RuleFor(b => b.AvailableCopies, f => f.Random.Int(1, 5)) 
+                .RuleFor(b => b.DateAdded, f => f.Date.Past(2))          
+                .RuleFor(b => b.YearOfRelease, f => (short)f.Date.Past(20).Year) 
                 .Generate(30);
 
             Books.AddRange(books);
@@ -154,8 +150,8 @@ namespace cloudyLib.Data
             var bookAuthors = books
                 .SelectMany(b => authors.OrderBy(_ => Guid.NewGuid()).Take(2), (book, author) => new BookAuthor
                 {
-                    Book_id = book.Book_id,
-                    Author_id = author.Author_id
+                    BookId = book.BookId,     
+                    AuthorId = author.AuthorId 
                 })
                 .Distinct()
                 .ToList();
@@ -167,8 +163,8 @@ namespace cloudyLib.Data
             var bookGenres = books
                 .SelectMany(b => genres.OrderBy(_ => Guid.NewGuid()).Take(2), (book, genre) => new BookGenre
                 {
-                    Book_id = book.Book_id,
-                    Genre_id = genre.Genre_id
+                    BookId = book.BookId,     
+                    GenreId = genre.GenreId   
                 })
                 .Distinct()
                 .ToList();
@@ -178,10 +174,10 @@ namespace cloudyLib.Data
 
             // 7. Recenzje
             var reviews = new Faker<Review>()
-                .RuleFor(r => r.Book_id, f => f.PickRandom(books).Book_id)
-                .RuleFor(r => r.User_id, f => f.PickRandom(users).User_id)
+                .RuleFor(r => r.BookId, f => f.PickRandom(books).BookId)   
+                .RuleFor(r => r.UserId, f => f.PickRandom(users).UserId)  
                 .RuleFor(r => r.Contents, f => f.Lorem.Paragraph())
-                .RuleFor(r => r.Date_added, f => f.Date.Past())
+                .RuleFor(r => r.DateAdded, f => f.Date.Past())             
                 .Generate(50);
 
             Reviews.AddRange(reviews);
@@ -190,9 +186,9 @@ namespace cloudyLib.Data
             // 8. Oceny
             var rates = users.SelectMany(u => books.OrderBy(_ => Guid.NewGuid()).Take(5).Select(b => new Rate
             {
-                User_id = u.User_id,
-                Book_id = b.Book_id,
-                Rate_value = (int)faker.Random.Int(1, 5)
+                UserId = u.UserId,     
+                BookId = b.BookId,      
+                RateValue = (int)faker.Random.Int(1, 5)
             })).ToList();
 
             Rates.AddRange(rates);
@@ -200,24 +196,22 @@ namespace cloudyLib.Data
 
             // 9. Wypożyczenia
             var bookLoans = new Faker<BookLoan>()
-                .RuleFor(l => l.Book_id, f => f.PickRandom(books).Book_id)
-                .RuleFor(l => l.User_id, f => f.PickRandom(users).User_id)
-                .RuleFor(l => l.Loan_date, f => f.Date.Past(1))
-                .RuleFor(l => l.Planned_return_date, (f, l) => l.Loan_date.AddDays(14))
-                .RuleFor(l => l.Return_date, (f, l) =>
+                .RuleFor(l => l.BookId, f => f.PickRandom(books).BookId)     
+                .RuleFor(l => l.UserId, f => f.PickRandom(users).UserId)     
+                .RuleFor(l => l.LoanDate, f => f.Date.Past(1))               
+                .RuleFor(l => l.PlannedReturnDate, (f, l) => l.LoanDate.AddDays(14)) 
+                .RuleFor(l => l.ReturnDate, (f, l) =>                        
                 {
-                    if (f.Random.Bool(0.7f)) 
+                    if (f.Random.Bool(0.7f))
                     {
-                        return l.Planned_return_date?.AddDays(f.Random.Int(-3, 10)); 
+                        return l.PlannedReturnDate?.AddDays(f.Random.Int(-3, 10));
                     }
-                    return null; 
+                    return null;
                 })
                 .Generate(40);
 
             BookLoans.AddRange(bookLoans);
             SaveChanges();
         }
-
-
     }
 }

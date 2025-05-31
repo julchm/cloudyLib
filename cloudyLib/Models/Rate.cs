@@ -1,28 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace cloudyLib.Models
 {
     public class Rate
     {
         [Key]
-        [Column(Order = 1)]
-        [ForeignKey("User")]
-        public int User_id { get; set; }
-        public User User { get; set; }
+        public int UserId { get; set; } 
+        public User User { get; set; } = null!;
 
         [Key]
-        [Column(Order = 2)]
-        [ForeignKey("Book")]
-        public int Book_id { get; set; }
-        public Book Book { get; set; }
+        public int BookId { get; set; } 
+        public Book Book { get; set; } = null!;
 
         [Required]
-        public int Rate_value { get; set; }
+        [Range(1, 5, ErrorMessage = "Ocena musi być od 1 do 5")]
+        public int RateValue { get; set; } 
     }
 }

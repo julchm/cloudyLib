@@ -1,25 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace cloudyLib.Models
 {
     public class BookGenre
     {
         [Key]
-        [Column(Order = 1)]
-        [ForeignKey("Book")]
-        public int Book_id { get; set; }
-        public Book Book { get; set; }
+        public int BookId { get; set; } 
+        public Book Book { get; set; } = null!;
 
         [Key]
-        [Column(Order = 2)]
-        [ForeignKey("Genre")]
-        public int Genre_id { get; set; }
-        public Genre Genre { get; set; }
+        public int GenreId { get; set; } 
+        public Genre Genre { get; set; } = null!;
     }
 }

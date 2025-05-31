@@ -1,33 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace cloudyLib.Models
 {
     public class BookLoan
     {
         [Key]
-        public int Book_loan_id { get; set; }
+        public int BookLoanId { get; set; } 
 
-        [ForeignKey("Book")]
-        public int Book_id { get; set; }
-        public Book Book { get; set; }
+        public int BookId { get; set; }
+        public Book Book { get; set; } = null!;
 
-        [ForeignKey("User")]
-        public int User_id { get; set; }
-        public User User { get; set; }
+        public int UserId { get; set; } 
+        public User User { get; set; } = null!;
 
         [Column(TypeName = "date")]
-        public DateTime Loan_date { get; set; }
+        public DateTime LoanDate { get; set; } 
 
         [Column(TypeName = "date")]
-        public DateTime? Planned_return_date { get; set; }
+        public DateTime? PlannedReturnDate { get; set; } 
 
         [Column(TypeName = "date")]
-        public DateTime? Return_date { get; set; }
+        public DateTime? ReturnDate { get; set; } 
     }
 }
