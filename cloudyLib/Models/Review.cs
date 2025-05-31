@@ -11,20 +11,20 @@ namespace cloudyLib.Models
     public class Review
     {
         [Key]
-        public int review_id { get; set; }
+        public int Review_id { get; set; }
 
         [ForeignKey("User")]
-        public int user_id { get; set; }
+        public int User_id { get; set; }
         public User User { get; set; }
 
         [ForeignKey("Book")]
-        public int book_id { get; set; }
+        public int Book_id { get; set; }
         public Book Book { get; set; }
 
         [Required]
-        public string contents { get; set; }
+        public string Contents { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime date_added { get; set; }
+        public DateTime Date_added { get; set; }
     }
 }

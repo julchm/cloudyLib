@@ -13,16 +13,16 @@ namespace cloudyLib.Models
         [Key]
         [Column(Order = 1)]
         [ForeignKey("User")]
-        public int user_id { get; set; }
+        public int User_id { get; set; }
         public User User { get; set; }
 
         [Key]
         [Column(Order = 2)]
         [ForeignKey("Book")]
-        public int book_id { get; set; }
+        public int Book_id { get; set; }
         public Book Book { get; set; }
 
         [Required]
-        public byte rate_value { get; set; }
+        public int Rate_value { get; set; }
     }
 }

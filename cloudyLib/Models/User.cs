@@ -12,30 +12,33 @@ namespace cloudyLib.Models
     public class User
     {
         [Key]
-        public int user_id { get; set; }
+        public int User_id { get; set; }
 
-        [Required]
-        [MaxLength(30)]
-        public string first_name { get; set; }
+        [Required(ErrorMessage = "Imię jest wymagane")]
+        [MaxLength(50, ErrorMessage = "Maksymalnie 50 znaków")]
+        public string First_Name { get; set; }
 
-        [Required]
-        [MaxLength(50)]
-        public string last_name { get; set; }
+        [Required(ErrorMessage = "Nazwisko jest wymagane")]
+        [MaxLength(50, ErrorMessage = "Maksymalnie 50 znaków")]
+        public string Last_Name { get; set; }
 
-        [Required]
-        [MaxLength(50)]
-        public string email { get; set; }
+
+        [Required(ErrorMessage = "Email jest wymagany")]
+        [EmailAddress(ErrorMessage = "Niepoprawny format email")]
+        public string Email { get; set; }
 
         [MaxLength(12)]
-        public string phone_number { get; set; }
+        [Phone(ErrorMessage = "Niepoprawny format numeru telefonu")]
+        public string Phone_number { get; set; }
 
-        [ForeignKey("Address")]
-        public int address_id { get; set; }
-        public Address Address { get; set; }
+
+        [Required(ErrorMessage = "Hasło jest wymagane")]
+        [MaxLength(100, ErrorMessage = "Maksymalnie 100 znaków")]
+        public string Password { get; set; }
 
         [Required]
         [MaxLength(20)]
-        public string role { get; set; }
+        public string Role { get; set; }
 
         // Navigation properties
         public ICollection<BookLoan> BookLoans { get; set; }

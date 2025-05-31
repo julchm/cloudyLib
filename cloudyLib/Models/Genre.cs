@@ -10,11 +10,11 @@ namespace cloudyLib.Models
     public class Genre
     {
         [Key]
-        public int genre_id { get; set; }
+        public int Genre_id { get; set; }
 
         [Required]
         [MaxLength(50)]
-        public string name { get; set; }
+        public string Name { get; set; }
 
         // Navigation property
         public ICollection<BookGenre> BookGenres { get; set; }

@@ -10,18 +10,18 @@ namespace cloudyLib.Models
     public class Author
     {
         [Key]
-        public int author_id { get; set; }
+        public int Author_id { get; set; }
 
         [Required]
         [MaxLength(50)]
-        public string first_name { get; set; }
+        public string First_name { get; set; }
 
         [Required]
         [MaxLength(50)]
-        public string last_name { get; set; }
+        public string Last_name { get; set; }
 
         // Navigation property
         public ICollection<BookAuthor> BookAuthors { get; set; }
-        public object Books { get;  set; }
+        
     }
 }

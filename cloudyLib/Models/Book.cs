@@ -11,26 +11,26 @@ namespace cloudyLib.Models
     public class Book
     {
         [Key]
-        public int book_id { get; set; }
+        public int Book_id { get; set; }
 
         [ForeignKey("Author")]
-        public int author_id { get; set; }
+        public int Author_id { get; set; }
         public Author Author { get; set; }
 
         [Required]
         [MaxLength(50)]
-        public string title { get; set; }
+        public string Title { get; set; }
 
         [MaxLength(17)]
-        public string? isbn { get; set; }
+        public string? ISBN { get; set; }
 
-        public short year_of_release { get; set; }
+        public short Year_of_release { get; set; }
 
-        public bool availability { get; set; }
+        public bool Availability { get; set; }
 
-        public DateTime date_added { get; set; }
+        public DateTime Date_added { get; set; }
 
-        public int number_of_loans { get; set; }
+        public int Number_of_loans { get; set; }
 
         // Navigation properties
         public ICollection<BookLoan> BookLoans { get; set; }
@@ -38,6 +38,5 @@ namespace cloudyLib.Models
         public ICollection<Rate> Rates { get; set; }
         public ICollection<BookAuthor> BookAuthors { get; set; }
         public ICollection<BookGenre> BookGenres { get; set; }
-        public object Authors { get; set; }
     }
 }
