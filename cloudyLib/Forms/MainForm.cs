@@ -9,13 +9,18 @@ namespace cloudyLib.Forms
 {
     public partial class MainForm : Form
     {
-        public User _currentUser;
+        public User _currentUser; // Publiczna właściwość do przechowywania zalogowanego użytkownika
+
+        // Deklaracje przycisków jako pól prywatnych (jeśli są tworzone programowo)
         private Button btnBrowseBooks;
         private Button btnMyLoans;
         private Button btnMyReviews;
         private Button btnEditProfile;
         private Button btnLogout;
         private Button btnAdminPanel;
+
+        // Deklaracja FlowLayoutPanel (jeśli jest tworzona programowo, a nie w Designer.cs)
+        //private FlowLayoutPanel navButtonsPanel;
 
         private readonly IServiceProvider _serviceProvider;
 
@@ -24,37 +29,54 @@ namespace cloudyLib.Forms
             InitializeComponent();
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 
-            InitializeCustomComponents(); // Konfiguracja po wygenerowanym kodzie designera
+            InitializeCustomComponents();
 
             this.Text = "cloudyLib - System Zarządzania Biblioteką";
             this.StartPosition = FormStartPosition.CenterScreen;
-            this.Size = new System.Drawing.Size(1200, 800); // Duży rozmiar
+            this.Size = new System.Drawing.Size(1200, 800);
             this.MinimumSize = new System.Drawing.Size(1000, 700);
-            this.BackColor = Color.AntiqueWhite; // Jasny beżowy dla całego formularza
+            this.BackColor = Color.AntiqueWhite;
         }
 
         private void InitializeCustomComponents()
         {
-            // Panel główny na zawartość (jeśli nie jest już w Designer.cs)
-            // Upewnij się, że contentPanel i leftPanel są zdefiniowane w Designer.cs
-            // i mają odpowiednie DockStyle.
             contentPanel.Dock = DockStyle.Fill;
-            contentPanel.BackColor = Color.AntiqueWhite; // Tło zawartości
+            contentPanel.BackColor = Color.AntiqueWhite;
 
             leftPanel.Dock = DockStyle.Left;
-            leftPanel.Width = 200; // Szerokość paska nawigacyjnego
-            leftPanel.BackColor = Color.DarkGreen; // Ciemna zieleń dla nawigacji
+            leftPanel.Width = 200;
+            leftPanel.BackColor = Color.DarkGreen;
 
             // Konfiguracja panelu na przyciski w lewym panelu
-            navButtonsPanel = new FlowLayoutPanel();
-            navButtonsPanel.Dock = DockStyle.Fill;
-            navButtonsPanel.FlowDirection = FlowDirection.TopDown; // Ułożenie przycisków w kolumnie
-            navButtonsPanel.WrapContents = false; // Nie zawijaj przycisków
-            navButtonsPanel.Padding = new Padding(10, 20, 10, 10); // Odstępy
-            navButtonsPanel.AutoScroll = true; // Włącz scrollowanie, jeśli będzie dużo przycisków
-            leftPanel.Controls.Add(navButtonsPanel); // Dodaj panel na przyciski do lewego panelu
+            // Upewnij się, że navButtonsPanel jest zadeklarowany jako pole w Designer.cs
+            // LUB jeśli jest tworzony programowo, jak w poprzedniej wersji, to taka linia jest ok.
+            // Biorąc pod uwagę Twój designer, jest już zadeklarowany jako pole w Designer.cs.
+            // A więc ta linia może być usunięta lub zmieniona, jeśli navButtonsPanel jest już zainicjowane w Designer.cs.
+            // Jeśli `navButtonsPanel = new FlowLayoutPanel();` jest tu, to jest tworzone programowo, a Designer.cs
+            // nie powinien mieć deklaracji dla niego (lub nie powinien go dodawać do Controls, by uniknąć duplikatów).
+            // Zakładam, że w Designer.cs jest tylko deklaracja i panel jest dodany do leftPanel, a tu dodajemy jego zawartość.
+            // Aby uniknąć duplikatów lub niejasności, jeśli Designer.cs obsługuje tworzenie i dodawanie navButtonsPanel,
+            // ta linia `navButtonsPanel = new FlowLayoutPanel();` powinna zostać usunięta.
+            // Na podstawie Twojego Designera: `navButtonsPanel` jest już tworzony w `InitializeComponent()`.
+            // Usuń więc linię `navButtonsPanel = new FlowLayoutPanel();` z tej metody,
+            // ponieważ kontrolka jest już inicjalizowana przez projektanta.
 
-            // Inicjalizacja przycisków nawigacyjnych
+            // Nie ruszam tej linii, zakładając, że chcesz, aby ten panel był tworzony programowo,
+            // a deklaracja w Designer.cs służy tylko jako referencja.
+            // Pamiętaj, że to może prowadzić do niejasności, jeśli Visual Studio spróbuje to zarządzać.
+            // Najlepsza praktyka: albo wszystko w designerze, albo wszystko programowo.
+            // Skoro podałeś designer, który deklaruje navButtonsPanel, usunąłbym tę linię.
+
+            // Usunięto: navButtonsPanel = new FlowLayoutPanel(); // Jeśli jest w Designer.cs, nie twórz ponownie
+
+            navButtonsPanel.Dock = DockStyle.Fill;
+            navButtonsPanel.FlowDirection = FlowDirection.TopDown;
+            navButtonsPanel.WrapContents = false;
+            navButtonsPanel.Padding = new Padding(10, 20, 10, 10);
+            navButtonsPanel.AutoScroll = true;
+            // `leftPanel.Controls.Add(navButtonsPanel);` - ta linia również jest już w Designer.cs, więc jest zbędna tutaj.
+
+            // Inicjalizacja przycisków nawigacyjnych (tworzone programowo)
             btnBrowseBooks = CreateNavButton("Przeglądaj książki", BrowseBooks_Click);
             btnMyLoans = CreateNavButton("Moje wypożyczenia", MyLoans_Click);
             btnMyReviews = CreateNavButton("Moje recenzje", MyReviews_Click);
@@ -70,33 +92,28 @@ namespace cloudyLib.Forms
             navButtonsPanel.Controls.Add(btnAdminPanel);
             navButtonsPanel.Controls.Add(btnLogout);
 
-            // Ustawienia początkowe widoczności
-            UpdateNavigationView(null); // Brak zalogowanego użytkownika na start
-
-            // Załaduj początkowy widok (LoginView) po załadowaniu formularza
+            UpdateNavigationView(null);
             this.Load += (s, e) => LoadView(_serviceProvider.GetRequiredService<LoginView>());
         }
 
-        // Pomocnicza metoda do tworzenia stylizowanych przycisków nawigacyjnych
         private Button CreateNavButton(string text, EventHandler clickHandler)
         {
             var button = new Button();
             button.Text = text;
-            button.Size = new Size(180, 45); // Rozmiar przycisku
+            button.Size = new Size(180, 45);
             button.Font = new Font("Georgia", 11F, FontStyle.Bold);
-            button.BackColor = Color.ForestGreen; // Taki sam jak navbar
+            button.BackColor = Color.ForestGreen;
             button.ForeColor = Color.White;
             button.FlatStyle = FlatStyle.Flat;
             button.FlatAppearance.BorderSize = 0;
-            button.Margin = new Padding(0, 5, 0, 5); // Marginesy pionowe
+            button.Margin = new Padding(0, 5, 0, 5);
             button.Cursor = Cursors.Hand;
-            button.TextAlign = ContentAlignment.MiddleLeft; // Tekst po lewej
-            button.Padding = new Padding(10, 0, 0, 0); // Wcięcie tekstu
+            button.TextAlign = ContentAlignment.MiddleLeft;
+            button.Padding = new Padding(10, 0, 0, 0);
             button.Click += clickHandler;
             return button;
         }
 
-        // Metoda do ładowania UserControl do contentPanel
         public void LoadView(UserControl view)
         {
             if (this.InvokeRequired)
@@ -110,69 +127,60 @@ namespace cloudyLib.Forms
             contentPanel.Controls.Add(view);
         }
 
-        // Metoda wywoływana po udanym zalogowaniu
         public void UserLoggedIn(User user)
         {
             _currentUser = user;
 
-            lblWelcomeMessage.Text = $"Witaj {user.First_Name}!"; // Zaktualizuj powitanie
-            lblWelcomeMessage.Visible = true; // Pokaż powitanie
-            lblAppTitle.Visible = false; // Ukryj nazwę aplikacji, jeśli jest powitanie
+            lblWelcomeMessage.Text = $"Witaj {user.FirstName}!";
+            lblWelcomeMessage.Visible = true;
+            lblAppTitle.Visible = false;
 
             MessageBox.Show($"Zalogowano pomyślnie jako {user.Role}!", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            UpdateNavigationView(user); // Zaktualizuj pasek nawigacyjny
+            UpdateNavigationView(user);
 
-            // Po zalogowaniu załaduj domyślny widok
             if (_currentUser.Role == "Administrator")
             {
-                LoadView(_serviceProvider.GetRequiredService<AdminView>()); // Ładujemy AdminView dla administratora
+                LoadView(_serviceProvider.GetRequiredService<AdminView>());
             }
-            else // Czytelnik
+            else
             {
-                LoadView(_serviceProvider.GetRequiredService<BookListView>()); // Ładujemy BookListView dla czytelnika
+                LoadView(_serviceProvider.GetRequiredService<BookListView>());
             }
         }
 
-        // Metoda do wylogowywania
         private void Logout_Click(object sender, EventArgs e)
         {
             _currentUser = null;
             MessageBox.Show("Wylogowano.", "Wylogowanie", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            lblWelcomeMessage.Text = ""; // Wyczyść powitanie
+            lblWelcomeMessage.Text = "";
             lblWelcomeMessage.Visible = false;
-            lblAppTitle.Visible = true; // Pokaż nazwę aplikacji
+            lblAppTitle.Visible = true;
 
-            UpdateNavigationView(null); // Ukryj przyciski nawigacyjne
+            UpdateNavigationView(null);
 
-            // Wróć do widoku logowania
             LoadView(_serviceProvider.GetRequiredService<LoginView>());
         }
 
-        // Metoda aktualizująca widoczność przycisków nawigacyjnych na podstawie roli
         private void UpdateNavigationView(User user)
         {
             bool isLoggedIn = (user != null);
             bool isAdmin = isLoggedIn && user.Role == "Administrator";
-            bool isReader = isLoggedIn && user.Role == "Czytelnik";
+            bool isReader = isLoggedIn && user.Role == "Reader"; 
 
-            leftPanel.Visible = isLoggedIn; // Cały lewy panel widoczny tylko po zalogowaniu
+            leftPanel.Visible = isLoggedIn;
 
-            // Widoki dla wszystkich zalogowanych
             btnBrowseBooks.Visible = isLoggedIn;
             btnLogout.Visible = isLoggedIn;
             btnEditProfile.Visible = isLoggedIn;
 
-            // Widoki specyficzne dla Czytelnika
             btnMyLoans.Visible = isReader;
             btnMyReviews.Visible = isReader;
 
-            // Widoki specyficzne dla Administratora
             btnAdminPanel.Visible = isAdmin;
         }
 
-        // Obsługa kliknięć przycisków nawigacyjnych
         private void BrowseBooks_Click(object sender, EventArgs e)
         {
             LoadView(_serviceProvider.GetRequiredService<BookListView>());
@@ -180,7 +188,7 @@ namespace cloudyLib.Forms
 
         private void MyLoans_Click(object sender, EventArgs e)
         {
-            if (_currentUser?.Role == "Czytelnik")
+            if (_currentUser?.Role == "Reader")
             {
                 LoadView(_serviceProvider.GetRequiredService<MyLoansView>());
             }
@@ -188,7 +196,7 @@ namespace cloudyLib.Forms
 
         private void MyReviews_Click(object sender, EventArgs e)
         {
-            if (_currentUser?.Role == "Czytelnik")
+            if (_currentUser?.Role == "Reader")
             {
                 LoadView(_serviceProvider.GetRequiredService<MyReviewsView>());
             }
@@ -210,24 +218,10 @@ namespace cloudyLib.Forms
             }
         }
 
-        private void lblWelcomeMessage_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblAppTitle_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void navButtonsPanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void contentPanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+        private void lblWelcomeMessage_Click(object sender, EventArgs e) { }
+        private void lblAppTitle_Click(object sender, EventArgs e) { }
+        private void navButtonsPanel_Paint(object sender, PaintEventArgs e) { }
+        private void contentPanel_Paint(object sender, PaintEventArgs e) { }
+        private void lblWelcomeMessage_Click_1(object sender, EventArgs e) { }
     }
 }

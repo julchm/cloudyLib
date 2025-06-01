@@ -37,166 +37,168 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.lblTitle = new System.Windows.Forms.Label();
-            this.lblEmail = new System.Windows.Forms.Label();
-            this.txtEmail = new System.Windows.Forms.TextBox();
-            this.lblPassword = new System.Windows.Forms.Label();
-            this.txtPassword = new System.Windows.Forms.TextBox();
-            this.lblMessage = new System.Windows.Forms.Label();
-            this.btnLogin = new System.Windows.Forms.Button();
-            this.lblRegister = new System.Windows.Forms.Label();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.SuspendLayout();
-            //
+            tableLayoutPanel1 = new TableLayoutPanel();
+            lblTitle = new Label();
+            lblEmail = new Label();
+            txtEmail = new TextBox();
+            lblPassword = new Label();
+            txtPassword = new TextBox();
+            lblMessage = new Label();
+            btnLogin = new Button();
+            lblRegister = new Label();
+            tableLayoutPanel1.SuspendLayout();
+            SuspendLayout();
+            // 
             // tableLayoutPanel1
-            //
-            this.tableLayoutPanel1.BackColor = System.Drawing.Color.AntiqueWhite; // Jasny beżowy
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 350F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.lblTitle, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.lblEmail, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(this.txtEmail, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.lblPassword, 1, 5);
-            this.tableLayoutPanel1.Controls.Add(this.txtPassword, 1, 6);
-            this.tableLayoutPanel1.Controls.Add(this.lblMessage, 1, 7);
-            this.tableLayoutPanel1.Controls.Add(this.btnLogin, 1, 8);
-            this.tableLayoutPanel1.Controls.Add(this.lblRegister, 0, 10);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 12;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(800, 450);
-            this.tableLayoutPanel1.TabIndex = 0;
-            //
+            // 
+            tableLayoutPanel1.BackColor = Color.AntiqueWhite;
+            tableLayoutPanel1.ColumnCount = 3;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 350F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.Controls.Add(lblTitle, 0, 1);
+            tableLayoutPanel1.Controls.Add(lblEmail, 1, 3);
+            tableLayoutPanel1.Controls.Add(txtEmail, 1, 4);
+            tableLayoutPanel1.Controls.Add(lblPassword, 1, 5);
+            tableLayoutPanel1.Controls.Add(txtPassword, 1, 6);
+            tableLayoutPanel1.Controls.Add(lblMessage, 1, 7);
+            tableLayoutPanel1.Controls.Add(btnLogin, 1, 8);
+            tableLayoutPanel1.Controls.Add(lblRegister, 0, 10);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(0, 0);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 12;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.Size = new Size(800, 450);
+            tableLayoutPanel1.TabIndex = 0;
+            // 
             // lblTitle
-            //
-            this.tableLayoutPanel1.SetColumnSpan(this.lblTitle, 3);
-            this.lblTitle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblTitle.Font = new System.Drawing.Font("Georgia", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0))); // Georgia, pogrubiona
-            this.lblTitle.ForeColor = System.Drawing.Color.DarkGreen; // Ciemna zieleń
-            this.lblTitle.Location = new System.Drawing.Point(3, 89);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(794, 60);
-            this.lblTitle.TabIndex = 0;
-            this.lblTitle.Text = "Logowanie do cloudyLib";
-            this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            //
+            // 
+            tableLayoutPanel1.SetColumnSpan(lblTitle, 3);
+            lblTitle.Dock = DockStyle.Fill;
+            lblTitle.Font = new Font("Georgia", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTitle.ForeColor = Color.DarkGreen;
+            lblTitle.Location = new Point(3, 60);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(794, 60);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "Logowanie do cloudyLib";
+            lblTitle.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // lblEmail
-            //
-            this.lblEmail.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblEmail.AutoSize = true;
-            this.lblEmail.Font = new System.Drawing.Font("Georgia", 10F); // Georgia
-            this.lblEmail.ForeColor = System.Drawing.Color.Black; // Czarny
-            this.lblEmail.Location = new System.Drawing.Point(228, 175);
-            this.lblEmail.Name = "lblEmail";
-            this.lblEmail.Size = new System.Drawing.Size(55, 23);
-            this.lblEmail.TabIndex = 1;
-            this.lblEmail.Text = "Email:";
-            //
+            // 
+            lblEmail.Anchor = AnchorStyles.Left;
+            lblEmail.AutoSize = true;
+            lblEmail.Font = new Font("Georgia", 10F);
+            lblEmail.ForeColor = Color.Black;
+            lblEmail.Location = new Point(228, 142);
+            lblEmail.Name = "lblEmail";
+            lblEmail.Size = new Size(59, 20);
+            lblEmail.TabIndex = 1;
+            lblEmail.Text = "Email:";
+            // 
             // txtEmail
-            //
-            this.txtEmail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtEmail.BackColor = System.Drawing.Color.WhiteSmoke; // Jaśniejszy beżowy/szarobiały dla pól
-            this.txtEmail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtEmail.Font = new System.Drawing.Font("Georgia", 10F); // Georgia
-            this.txtEmail.ForeColor = System.Drawing.Color.Black; // Czarny
-            this.txtEmail.Location = new System.Drawing.Point(228, 203);
-            this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(344, 30);
-            this.txtEmail.TabIndex = 2;
-            //
+            // 
+            txtEmail.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            txtEmail.BackColor = Color.WhiteSmoke;
+            txtEmail.BorderStyle = BorderStyle.FixedSingle;
+            txtEmail.Font = new Font("Georgia", 10F);
+            txtEmail.ForeColor = Color.Black;
+            txtEmail.Location = new Point(228, 169);
+            txtEmail.Name = "txtEmail";
+            txtEmail.Size = new Size(344, 26);
+            txtEmail.TabIndex = 2;
+            txtEmail.TextChanged += txtEmail_TextChanged;
+            // 
             // lblPassword
-            //
-            this.lblPassword.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblPassword.AutoSize = true;
-            this.lblPassword.Font = new System.Drawing.Font("Georgia", 10F); // Georgia
-            this.lblPassword.ForeColor = System.Drawing.Color.Black; // Czarny
-            this.lblPassword.Location = new System.Drawing.Point(228, 238);
-            this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(57, 23);
-            this.lblPassword.TabIndex = 3;
-            this.lblPassword.Text = "Hasło:";
-            //
+            // 
+            lblPassword.Anchor = AnchorStyles.Left;
+            lblPassword.AutoSize = true;
+            lblPassword.Font = new Font("Georgia", 10F);
+            lblPassword.ForeColor = Color.Black;
+            lblPassword.Location = new Point(228, 202);
+            lblPassword.Name = "lblPassword";
+            lblPassword.Size = new Size(58, 20);
+            lblPassword.TabIndex = 3;
+            lblPassword.Text = "Hasło:";
+            // 
             // txtPassword
-            //
-            this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPassword.BackColor = System.Drawing.Color.WhiteSmoke; // Jaśniejszy beżowy/szarobiały dla pól
-            this.txtPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtPassword.Font = new System.Drawing.Font("Georgia", 10F); // Georgia
-            this.txtPassword.ForeColor = System.Drawing.Color.Black; // Czarny
-            this.txtPassword.Location = new System.Drawing.Point(228, 266);
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(344, 30);
-            this.txtPassword.TabIndex = 4;
-            //
+            // 
+            txtPassword.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            txtPassword.BackColor = Color.WhiteSmoke;
+            txtPassword.BorderStyle = BorderStyle.FixedSingle;
+            txtPassword.Font = new Font("Georgia", 10F);
+            txtPassword.ForeColor = Color.Black;
+            txtPassword.Location = new Point(228, 229);
+            txtPassword.Name = "txtPassword";
+            txtPassword.Size = new Size(344, 26);
+            txtPassword.TabIndex = 4;
+            txtPassword.TextChanged += txtPassword_TextChanged;
+            // 
             // lblMessage
-            //
-            this.lblMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblMessage.Font = new System.Drawing.Font("Georgia", 9F, System.Drawing.FontStyle.Italic); // Georgia, kursywa
-            this.lblMessage.ForeColor = System.Drawing.Color.Red; // Pozostawiamy czerwony dla błędów
-            this.lblMessage.Location = new System.Drawing.Point(228, 299);
-            this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(344, 25);
-            this.lblMessage.TabIndex = 7;
-            this.lblMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblMessage.Visible = false;
-            //
+            // 
+            lblMessage.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            lblMessage.Font = new Font("Georgia", 9F, FontStyle.Italic);
+            lblMessage.ForeColor = Color.Red;
+            lblMessage.Location = new Point(228, 262);
+            lblMessage.Name = "lblMessage";
+            lblMessage.Size = new Size(344, 25);
+            lblMessage.TabIndex = 7;
+            lblMessage.TextAlign = ContentAlignment.MiddleCenter;
+            lblMessage.Visible = false;
+            // 
             // btnLogin
-            //
-            this.btnLogin.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnLogin.BackColor = System.Drawing.Color.ForestGreen; // Ciemniejsza zieleń dla przycisku
-            this.btnLogin.FlatAppearance.BorderSize = 0;
-            this.btnLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLogin.Font = new System.Drawing.Font("Georgia", 11F, System.Drawing.FontStyle.Bold); // Georgia, pogrubiona
-            this.btnLogin.ForeColor = System.Drawing.Color.White; // Biały tekst
-            this.btnLogin.Location = new System.Drawing.Point(294, 332);
-            this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(200, 40);
-            this.btnLogin.TabIndex = 5;
-            this.btnLogin.Text = "Zaloguj się";
-            this.btnLogin.UseVisualStyleBackColor = false;
-            //
+            // 
+            btnLogin.Anchor = AnchorStyles.None;
+            btnLogin.BackColor = Color.ForestGreen;
+            btnLogin.FlatAppearance.BorderSize = 0;
+            btnLogin.FlatStyle = FlatStyle.Flat;
+            btnLogin.Font = new Font("Georgia", 11F, FontStyle.Bold);
+            btnLogin.ForeColor = Color.White;
+            btnLogin.Location = new Point(300, 295);
+            btnLogin.Name = "btnLogin";
+            btnLogin.Size = new Size(200, 40);
+            btnLogin.TabIndex = 5;
+            btnLogin.Text = "Zaloguj się";
+            btnLogin.UseVisualStyleBackColor = false;
+            // 
             // lblRegister
-            //
-            this.tableLayoutPanel1.SetColumnSpan(this.lblRegister, 3);
-            this.lblRegister.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblRegister.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblRegister.Font = new System.Drawing.Font("Georgia", 9.75F, System.Drawing.FontStyle.Underline); // Georgia, podkreślona
-            this.lblRegister.ForeColor = System.Drawing.Color.SaddleBrown; // Brązowy link, pasujący do tematu
-            this.lblRegister.Location = new System.Drawing.Point(3, 397);
-            this.lblRegister.Name = "lblRegister";
-            this.lblRegister.Size = new System.Drawing.Size(794, 30);
-            this.lblRegister.TabIndex = 6;
-            this.lblRegister.Text = "Nie masz konta? Zarejestruj się";
-            this.lblRegister.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            //
+            // 
+            tableLayoutPanel1.SetColumnSpan(lblRegister, 3);
+            lblRegister.Cursor = Cursors.Hand;
+            lblRegister.Dock = DockStyle.Fill;
+            lblRegister.Font = new Font("Georgia", 9.75F, FontStyle.Underline);
+            lblRegister.ForeColor = Color.SaddleBrown;
+            lblRegister.Location = new Point(3, 360);
+            lblRegister.Name = "lblRegister";
+            lblRegister.Size = new Size(794, 30);
+            lblRegister.TabIndex = 6;
+            lblRegister.Text = "Nie masz konta? Zarejestruj się";
+            lblRegister.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // LoginView
-            //
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.AntiqueWhite; // Jasny beżowy dla całego UserControl
-            this.Controls.Add(this.tableLayoutPanel1);
-            this.Font = new System.Drawing.Font("Georgia", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0))); // Domyślna czcionka dla widoku
-            this.Name = "LoginView";
-            this.Size = new System.Drawing.Size(800, 450);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
-            this.ResumeLayout(false);
+            // 
+            AutoScaleDimensions = new SizeF(8F, 17F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.AntiqueWhite;
+            Controls.Add(tableLayoutPanel1);
+            Font = new Font("Georgia", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Name = "LoginView";
+            Size = new Size(800, 450);
+            tableLayoutPanel1.ResumeLayout(false);
+            tableLayoutPanel1.PerformLayout();
+            ResumeLayout(false);
 
         }
 

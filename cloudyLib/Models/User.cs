@@ -30,10 +30,13 @@ namespace cloudyLib.Models
         [MaxLength(12)]
         public string? PhoneNumber { get; set; }
 
+        [Required]
+        [StringLength(255)]
+        public string PasswordHash { get; set; } 
 
-        [Required(ErrorMessage = "Hasło jest wymagane")]
-        [MaxLength(256, ErrorMessage = "Maksymalna długość hasła to 256 znaków")] 
-        public string Password { get; set; } = null!;
+        [NotMapped] 
+        [StringLength(100, MinimumLength = 6)] 
+        public string Password { get; set; }
 
         [Required]
         [MaxLength(20)]

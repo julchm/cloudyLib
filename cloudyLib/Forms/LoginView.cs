@@ -2,27 +2,22 @@
 using System.Drawing;
 using System.Windows.Forms;
 using cloudyLib.Data;
-using Microsoft.EntityFrameworkCore; // Potrzebne do interakcji z bazą danych
-using Microsoft.Extensions.DependencyInjection; // Potrzebne do IServiceProvider
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using cloudyLib.Models;
-
-// Zakładam, że masz te przestrzenie nazw
-// using cloudyLib.Data; // Dla AppDbContext
-// using cloudyLib.Models; // Dla modeli użytkowników (User)
-// using cloudyLib.Services; // Dla ewentualnych serwisów (AuthService, UserService)
+using BCrypt.Net; 
 
 namespace cloudyLib.Forms
 {
     public partial class LoginView : UserControl
     {
-
-        private readonly LibraryDbContext _db; // Zgodnie z Twoim plikiem LibraryDbContext.cs
-        private readonly MainForm _mainForm; // Główny formularz aplikacji
-        private readonly IServiceProvider _serviceProvider; // Do wstrzykiwania innych widoków
+        private readonly LibraryDbContext _db;
+        private readonly MainForm _mainForm;
+        private readonly IServiceProvider _serviceProvider;
 
         public LoginView(LibraryDbContext db, MainForm mainForm, IServiceProvider serviceProvider)
         {
-            InitializeComponent(); // Wywołane przez projektanta
+            InitializeComponent();
             _db = db ?? throw new ArgumentNullException(nameof(db));
             _mainForm = mainForm ?? throw new ArgumentNullException(nameof(mainForm));
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
@@ -32,32 +27,29 @@ namespace cloudyLib.Forms
 
         private void ConfigureLoginControls()
         {
-            // Ustawienia początkowe kontrolek
             if (this.txtPassword != null)
             {
-                this.txtPassword.PasswordChar = '●'; // Użycie symbolu dla hasła
+                this.txtPassword.PasswordChar = '●';
             }
 
-            // Przypisanie zdarzeń do przycisków i linków
             if (this.btnLogin != null)
             {
-                this.btnLogin.Click -= btnLogin_Click; // Usuń istniejący, aby uniknąć podwójnego przypisania
+                this.btnLogin.Click -= btnLogin_Click;
                 this.btnLogin.Click += btnLogin_Click;
-                this.btnLogin.Cursor = Cursors.Hand; // Zmień kursor na łapkę
+                this.btnLogin.Cursor = Cursors.Hand;
             }
 
             if (this.lblRegister != null)
             {
                 this.lblRegister.Click -= lblRegister_Click;
                 this.lblRegister.Click += lblRegister_Click;
-                this.lblRegister.Cursor = Cursors.Hand; // Zmień kursor na łapkę
+                this.lblRegister.Cursor = Cursors.Hand;
             }
 
-            // Inicjalizacja wiadomości o błędach
             if (this.lblMessage != null)
             {
-                this.lblMessage.Text = ""; // Upewnij się, że jest pusta na początku
-                this.lblMessage.Visible = false; // Ukryj na początku
+                this.lblMessage.Text = "";
+                this.lblMessage.Visible = false;
             }
         }
 
@@ -68,17 +60,17 @@ namespace cloudyLib.Forms
                 MessageBox.Show("Błąd wewnętrzny: Brak możliwości wyświetlenia komunikatu.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            lblMessage.Visible = false; // Ukryj poprzedni błąd
+            lblMessage.Visible = false;
 
-            if (this.txtEmail == null || this.txtPassword == null) // Zmienione z txtUsername
+            if (this.txtEmail == null || this.txtPassword == null)
             {
                 lblMessage.Text = "Błąd wewnętrzny: Pola formularza nie są dostępne.";
                 lblMessage.Visible = true;
                 return;
             }
 
-            var email = this.txtEmail.Text.Trim(); // Zmienione z username
-            var password = this.txtPassword.Text;
+            var email = this.txtEmail.Text.Trim();
+            var password = this.txtPassword.Text; 
 
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
             {
@@ -89,19 +81,13 @@ namespace cloudyLib.Forms
 
             try
             {
-                // W Twojej bazie danych jest pole Email_varchar i Password_hash
-                // Należy tutaj zaimplementować prawdziwą logikę logowania.
-                // Upewnij się, że PasswordHasher jest dostępny.
-
-                // Przykładowa logika logowania (DO ZASTĄPIENIA WŁASNĄ IMPLEMENTACJĄ)
-                // Zakładam, że masz statyczną klasę PasswordHasher lub serwis do haszowania
                 var user = await _db.Users
+                                    .AsNoTracking() 
                                     .FirstOrDefaultAsync(u => u.Email == email);
 
-                if (user != null && VerifyPassword(password, user.Password)) // Użyj Twojej funkcji VerifyPassword
+                if (user != null && VerifyPassword(password, user.PasswordHash)) 
                 {
-                    // Użytkownik zalogowany pomyślnie
-                    _mainForm.UserLoggedIn(user); // Przekaż obiekt User do MainForm
+                    _mainForm.UserLoggedIn(user); 
                 }
                 else
                 {
@@ -113,25 +99,30 @@ namespace cloudyLib.Forms
             {
                 lblMessage.Text = "Wystąpił błąd podczas logowania. Spróbuj ponownie. (" + ex.Message + ")";
                 lblMessage.Visible = true;
+                // W środowisku deweloperskim możesz również zalogować pełny wyjątek:
+                // Console.WriteLine(ex.ToString());
             }
         }
 
-        // PRZYKŁADOWA FUNKCJA WERYFIKACJI HASŁA (DO ZASTĄPIENIA PRZEZ BEZPIECZNĄ BIBLIOTEKĘ HASZUJĄCĄ)
-        // W rzeczywistości powinieneś używać bezpiecznej biblioteki (np. BCrypt.Net) i
-        // umieścić tę logikę w warstwie serwisowej.
+        // POPRAWIONA FUNKCJA WERYFIKACJI HASŁA PRZEZ BCrypt
         private bool VerifyPassword(string enteredPassword, string storedHashedPassword)
         {
-            // Pamiętaj, że tutaj powinieneś użyć biblioteki do haszowania/weryfikacji
-            // np. return BCrypt.Net.BCrypt.Verify(enteredPassword, storedHashedPassword);
-            // NA RAZIE TYLKO DLA DEMONSTRACJI:
-            return enteredPassword == storedHashedPassword; // TO NIE JEST BEZPIECZNE!
+            try
+            {
+                return BCrypt.Net.BCrypt.Verify(enteredPassword, storedHashedPassword);
+            }
+            catch (Exception ex)
+            {
+                
+                Console.Error.WriteLine($"Błąd weryfikacji hasła BCrypt: {ex.Message}");
+                return false;
+            }
         }
 
         private void lblRegister_Click(object sender, EventArgs e)
         {
             try
             {
-                // Załaduj widok rejestracji
                 var registerView = _serviceProvider.GetRequiredService<RegisterView>();
                 _mainForm.LoadView(registerView);
             }
@@ -141,8 +132,16 @@ namespace cloudyLib.Forms
             }
         }
 
-        // W UserControl nie ma bezpośrednio zdarzenia Load, jeśli jest osadzony
-        // ale można dodać np. OnVisibleChanged lub OnHandleCreated
+        private void txtEmail_TextChanged(object sender, EventArgs e)
+        {
+            // Możesz dodać logikę walidacji e-maila w czasie rzeczywistym, jeśli chcesz
+        }
+
+        private void txtPassword_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
         // private void LoginView_Load(object sender, EventArgs e) { }
     }
 }

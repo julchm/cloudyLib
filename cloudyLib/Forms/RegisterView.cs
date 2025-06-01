@@ -6,19 +6,13 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using cloudyLib.Data;
-
-// Zakładam, że masz te przestrzenie nazw
-// using cloudyLib.Data; // Dla LibraryDbContext
-// using cloudyLib.Models;   // Modele User i Address
-// using cloudyLib.Services; // Dla User-Service
+using cloudyLib.Models;
+using BCrypt.Net; // DODAJ TEN USING!
 
 namespace cloudyLib.Forms
 {
     public partial class RegisterView : UserControl
     {
-        // Kontrolki z Designer.cs
-        
-
         private readonly LibraryDbContext _db;
         private readonly MainForm _mainForm;
         private readonly IServiceProvider _serviceProvider;
@@ -35,19 +29,9 @@ namespace cloudyLib.Forms
 
         private void ConfigureRegisterControls()
         {
-            // Ustawienia początkowe
             if (txtPassword != null) txtPassword.PasswordChar = '●';
             if (txtConfirmPassword != null) txtConfirmPassword.PasswordChar = '●';
 
-            if (cmbCountry != null)
-            {
-                cmbCountry.Items.Add("Polska");
-                cmbCountry.SelectedItem = "Polska";
-                cmbCountry.Enabled = false; // Zablokuj wybór, bo ma być tylko Polska
-                cmbCountry.ForeColor = Color.DarkGray; // Oznacz jako nieaktywne
-            }
-
-            // Przypisanie zdarzeń
             if (btnRegister != null)
             {
                 btnRegister.Click -= btnRegister_Click;
@@ -63,10 +47,9 @@ namespace cloudyLib.Forms
             }
 
             // Walidacja na bieżąco
-            if (txtEmail != null) txtEmail.Leave -= txtEmail_Leave; txtEmail.Leave += txtEmail_Leave;
-            if (txtPhone != null) txtPhone.KeyPress -= txtPhone_KeyPress; txtPhone.KeyPress += txtPhone_KeyPress;
-            if (txtPhone != null) txtPhone.Leave -= txtPhone_Leave; txtPhone.Leave += txtPhone_Leave;
-            if (txtPostalCode != null) txtPostalCode.Leave -= txtPostalCode_Leave; txtPostalCode.Leave += txtPostalCode_Leave;
+            if (txtEmail != null) { txtEmail.Leave -= txtEmail_Leave; txtEmail.Leave += txtEmail_Leave; }
+            if (txtPhone != null) { txtPhone.KeyPress -= txtPhone_KeyPress; txtPhone.KeyPress += txtPhone_KeyPress; }
+            if (txtPhone != null) { txtPhone.Leave -= txtPhone_Leave; txtPhone.Leave += txtPhone_Leave; }
 
             if (lblMessage != null)
             {
@@ -84,6 +67,15 @@ namespace cloudyLib.Forms
             }
             lblMessage.Visible = false;
 
+            // Upewniamy się, że kontrolki tekstowe są dostępne
+            if (this.txtFirstName == null || this.txtLastName == null || this.txtEmail == null ||
+                this.txtPassword == null || this.txtConfirmPassword == null || this.txtPhone == null)
+            {
+                lblMessage.Text = "Błąd wewnętrzny: Pola formularza nie są dostępne.";
+                lblMessage.Visible = true;
+                return;
+            }
+
             if (!ValidateForm())
             {
                 return;
@@ -100,37 +92,25 @@ namespace cloudyLib.Forms
 
             try
             {
-                // TUTAJ FAKTYCZNA LOGIKA REJESTRACJI Z WYKORZYSTANIEM _db i Twoich modeli
-                // PRZYKŁAD:
-                // 1. Stwórz obiekt Address
-                // var newAddress = new Address
-                // {
-                //     Town = txtCity.Text.Trim(),
-                //     Zip_Code = txtPostalCode.Text.Trim(),
-                //     Street = txtAddress.Text.Trim(),
-                //     Voivodeship = "brak_danych", // Lub wywnioskuj z kodu pocztowego/miasta
-                //     // Apartment_number i House_number mogą być parsowane z txtAddress, lub dodaj osobne pola
-                // };
-                // _db.Addresses.Add(newAddress);
-                // await _db.SaveChangesAsync();
+                // Stwórz obiekt User
+                var newUser = new User
+                {
+                    FirstName = txtFirstName.Text.Trim(),
+                    LastName = txtLastName.Text.Trim(),
+                    Email = txtEmail.Text.Trim(),
+                    // ZMIENIONO: Haszujemy hasło i przypisujemy do PasswordHash
+                    PasswordHash = HashPassword(txtPassword.Text),
+                    // Upewnij się, że User nie ma właściwości 'Password' do mapowania na DB,
+                    // a zamiast niej ma 'PasswordHash'.
+                    PhoneNumber = txtPhone.Text.Trim(),
+                    Role = "Reader" // Domyślna rola dla nowego użytkownika
+                };
+                _db.Users.Add(newUser);
+                await _db.SaveChangesAsync();
 
-                // 2. Stwórz obiekt User
-                // var newUser = new User
-                // {
-                //     First_name = txtFirstName.Text.Trim(),
-                //     Last_name = txtLastName.Text.Trim(),
-                //     Email_varchar = txtEmail.Text.Trim(),
-                //     Password_hash = HashPassword(txtPassword.Text), // <--- KLUCZOWE: HASZUJ HASŁO!
-                //     Phone_number = txtPhone.Text.Trim(),
-                //     Role_varchar = "Czytelnik", // Domyślna rola
-                //     Address_id = newAddress.Address_id // Powiąż z nowo utworzonym adresem
-                // };
-                // _db.Users.Add(newUser);
-                // await _db.SaveChangesAsync();
+                MessageBox.Show("Rejestracja zakończona pomyślnie! Możesz się teraz zalogować.", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-
-                MessageBox.Show("Rejestracja zakończona pomyślnie!", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                // Po rejestracji wróć do widoku logowania
+                // Po udanej rejestracji, wróć do widoku logowania
                 var loginView = _serviceProvider.GetRequiredService<LoginView>();
                 _mainForm.LoadView(loginView);
             }
@@ -138,7 +118,15 @@ namespace cloudyLib.Forms
             {
                 lblMessage.Text = "Błąd rejestracji: " + ex.Message;
                 lblMessage.Visible = true;
+                // W środowisku deweloperskim możesz również zalogować pełny wyjątek:
+                // Console.WriteLine(ex.ToString());
             }
+        }
+
+        // POPRAWIONA FUNKCJA HASZOWANIA HASŁA PRZEZ BCrypt
+        private string HashPassword(string password)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password);
         }
 
         private bool ValidateForm()
@@ -149,17 +137,13 @@ namespace cloudyLib.Forms
                 string.IsNullOrWhiteSpace(txtConfirmPassword.Text) ||
                 string.IsNullOrWhiteSpace(txtFirstName.Text) ||
                 string.IsNullOrWhiteSpace(txtLastName.Text) ||
-                string.IsNullOrWhiteSpace(txtAddress.Text) ||
-                string.IsNullOrWhiteSpace(txtCity.Text) ||
-                string.IsNullOrWhiteSpace(txtPostalCode.Text) ||
                 string.IsNullOrWhiteSpace(txtPhone.Text))
             {
-                lblMessage.Text = "Wszystkie pola są wymagane.";
+                lblMessage.Text = "Wszystkie wymagane pola są puste lub niepoprawne.";
                 lblMessage.Visible = true;
                 return false;
             }
 
-            // Walidacja formatu emaila
             if (!Regex.IsMatch(txtEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
                 lblMessage.Text = "Niepoprawny format adresu e-mail.";
@@ -167,7 +151,6 @@ namespace cloudyLib.Forms
                 return false;
             }
 
-            // Walidacja zgodności haseł
             if (txtPassword.Text != txtConfirmPassword.Text)
             {
                 lblMessage.Text = "Hasła nie są zgodne.";
@@ -175,57 +158,42 @@ namespace cloudyLib.Forms
                 return false;
             }
 
-            // Walidacja siły hasła (przynajmniej 6 znaków, jedna duża litera, jedna cyfra, jeden znak specjalny)
-            if (txtPassword.Text.Length < 6 ||
-                !Regex.IsMatch(txtPassword.Text, "[A-Z]") ||
-                !Regex.IsMatch(txtPassword.Text, "[0-9]") ||
-                !Regex.IsMatch(txtPassword.Text, "[^a-zA-Z0-9]"))
+            // Rozbudowana walidacja siły hasła
+            // Upewnij się, że te regexy są poprawne dla Twoich wymagań
+            if (txtPassword.Text.Length < 8 || // Zmieniono na min. 8 znaków dla lepszego bezpieczeństwa
+                !Regex.IsMatch(txtPassword.Text, "[A-Z]") || // Minimum jedna duża litera
+                !Regex.IsMatch(txtPassword.Text, "[a-z]") || // Minimum jedna mała litera
+                !Regex.IsMatch(txtPassword.Text, "[0-9]") || // Minimum jedna cyfra
+                !Regex.IsMatch(txtPassword.Text, "[^a-zA-Z0-9]")) // Minimum jeden znak specjalny
             {
-                lblMessage.Text = "Hasło musi mieć co najmniej 6 znaków, zawierać dużą literę, cyfrę i znak specjalny.";
+                lblMessage.Text = "Hasło musi mieć co najmniej 8 znaków, zawierać dużą literę, małą literę, cyfrę i znak specjalny.";
                 lblMessage.Visible = true;
                 return false;
             }
 
-            // Walidacja długości telefonu (min. 9 cyfr)
-            if (txtPhone.Text.Length < 9)
+            // Możesz dostosować walidację numeru telefonu w zależności od formatu, który akceptujesz
+            // Obecnie sprawdza tylko długość, ale można dodać regex dla konkretnych formatów np. PL
+            if (txtPhone.Text.Length < 9 || !Regex.IsMatch(txtPhone.Text, @"^\d{9,12}$")) // Sprawdza od 9 do 12 cyfr
             {
-                lblMessage.Text = "Numer telefonu musi zawierać co najmniej 9 cyfr.";
+                lblMessage.Text = "Numer telefonu musi zawierać od 9 do 12 cyfr.";
                 lblMessage.Visible = true;
                 return false;
             }
 
-            // Walidacja kodu pocztowego dla Polski (XX-XXX)
-            if (!Regex.IsMatch(txtPostalCode.Text, @"^\d{2}-\d{3}$"))
-            {
-                lblMessage.Text = "Niepoprawny format kodu pocztowego (np. 00-000).";
-                lblMessage.Visible = true;
-                return false;
-            }
-
-            // Walidacja kontekstowa - kraj to tylko Polska
-            if (cmbCountry.SelectedItem?.ToString() != "Polska")
-            {
-                lblMessage.Text = "Rejestracja możliwa tylko dla użytkowników z Polski.";
-                lblMessage.Visible = true;
-                return false;
-            }
-
+            lblMessage.Visible = false; // Ukryj wiadomość po udanej walidacji
             return true;
         }
 
-        // Symulacja asynchronicznej walidacji unikalności emaila (powinna być w serwisie)
+        // Symulacja asynchronicznej walidacji unikalności emaila
         private async Task<bool> IsEmailUniqueAsync(string email)
         {
-            // W rzeczywistości:
-            // return await _userService.IsEmailUnique(email);
-            await Task.Delay(500); // Symulacja opóźnienia
-            // Sprawdzenie w bazie danych
-            var existingUser = await _db.Users.FirstOrDefaultAsync(u => u.Email== email);
-            return existingUser == null; // Jest unikalny, jeśli nie ma użytkownika z tym emailem
+            // Dodano AsNoTracking, bo tylko odczytujemy.
+            var existingUser = await _db.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email);
+            return existingUser == null;
         }
 
         // Walidacja formatu emaila przy opuszczaniu pola
-        private void txtEmail_Leave(object sender, EventArgs e)
+        private async void txtEmail_Leave(object sender, EventArgs e) // Zmieniono na async
         {
             if (!string.IsNullOrWhiteSpace(txtEmail.Text))
             {
@@ -236,23 +204,18 @@ namespace cloudyLib.Forms
                 }
                 else
                 {
-                    // Asynchroniczna walidacja unikalności
-                    _ = IsEmailUniqueAsync(txtEmail.Text).ContinueWith(task => {
-                        if (!task.Result)
-                        {
-                            Invoke((MethodInvoker)delegate {
-                                lblMessage.Text = "Podany adres e-mail jest już zajęty.";
-                                lblMessage.Visible = true;
-                            });
-                        }
-                        else
-                        {
-                            Invoke((MethodInvoker)delegate {
-                                lblMessage.Text = "";
-                                lblMessage.Visible = false;
-                            });
-                        }
-                    });
+                    // Asynchroniczne sprawdzenie unikalności
+                    bool isUnique = await IsEmailUniqueAsync(txtEmail.Text); // Użycie await
+                    if (!isUnique)
+                    {
+                        lblMessage.Text = "Podany adres e-mail jest już zajęty.";
+                        lblMessage.Visible = true;
+                    }
+                    else
+                    {
+                        lblMessage.Text = "";
+                        lblMessage.Visible = false;
+                    }
                 }
             }
             else
@@ -286,26 +249,10 @@ namespace cloudyLib.Forms
             }
         }
 
-        // Walidacja kodu pocztowego przy opuszczaniu pola
-        private void txtPostalCode_Leave(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(txtPostalCode.Text) && !Regex.IsMatch(txtPostalCode.Text, @"^\d{2}-\d{3}$"))
-            {
-                lblMessage.Text = "Niepoprawny format kodu pocztowego (np. 00-000).";
-                lblMessage.Visible = true;
-            }
-            else
-            {
-                lblMessage.Text = "";
-                lblMessage.Visible = false;
-            }
-        }
-
         private void lblLogin_Click(object sender, EventArgs e)
         {
             try
             {
-                // Wróć do widoku logowania
                 var loginView = _serviceProvider.GetRequiredService<LoginView>();
                 _mainForm.LoadView(loginView);
             }
@@ -314,5 +261,7 @@ namespace cloudyLib.Forms
                 MessageBox.Show($"Nie można załadować widoku logowania: {ex.Message}", "Błąd Nawigacji", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+       
     }
 }

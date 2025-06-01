@@ -79,11 +79,22 @@ namespace cloudyLib
                     services.AddSingleton<MainForm>();
                     services.AddTransient<LoginView>();
                     services.AddTransient<RegisterView>();
-                    //services.AddTransient<AdminView>();
-                    //services.AddTransient<BookListView>();
-                    //services.AddSingleton<MyLoansView>();
-                    //services.AddTransient<MyReviewsView>();
-                    //services.AddTransient<EditProfileView>(); 
+                    services.AddTransient<AdminView>();
+
+                    services.AddTransient<BookListView>();
+                    services.AddTransient<MyLoansView>();
+                    services.AddTransient<MyReviewsView>();
+                    services.AddTransient<EditProfileView>();
+
+                    services.AddSingleton<RateReviewForm>();
+
+                    services.AddTransient<ManageBooksView>();
+                    services.AddSingleton<AddEditUserForm>();
+                    services.AddTransient<AllLoansView>();
+                    services.AddTransient<ManageUsersView>();
+                    services.AddTransient<PopularBooksView>();
+                    services.AddTransient<AllLoansView>();
+                    services.AddTransient<AddEditLoanForm>();
                 });
     }
 
