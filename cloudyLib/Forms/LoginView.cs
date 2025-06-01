@@ -104,7 +104,6 @@ namespace cloudyLib.Forms
             }
         }
 
-        // POPRAWIONA FUNKCJA WERYFIKACJI HASŁA PRZEZ BCrypt
         private bool VerifyPassword(string enteredPassword, string storedHashedPassword)
         {
             try

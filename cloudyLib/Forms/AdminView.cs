@@ -59,13 +59,7 @@ namespace cloudyLib.Forms
                     allLoansTab.Controls.Add(allLoansView);
                 }
 
-                // Zakładka 'Najpopularniejsze Książki'
-                if (popularBooksTab != null)
-                {
-                    var popularBooksView = _serviceProvider.GetRequiredService<PopularBooksView>();
-                    popularBooksView.Dock = DockStyle.Fill;
-                    popularBooksTab.Controls.Add(popularBooksView);
-                }
+         
             }
         }
 

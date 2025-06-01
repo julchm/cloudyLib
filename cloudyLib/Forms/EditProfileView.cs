@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection; // Potrzebne do IServiceProvider
+using Microsoft.Extensions.DependencyInjection; 
 using cloudyLib.Data;
 using cloudyLib.Models;
 
@@ -24,7 +24,6 @@ namespace cloudyLib.Forms
             _mainForm = mainForm ?? throw new ArgumentNullException(nameof(mainForm));
 
             ConfigureEditProfileControls();
-            // Ładowanie danych użytkownika nastąpi w zdarzeniu Load tego UserControl
             this.Load += async (s, e) => await LoadUserProfile();
         }
 
@@ -36,17 +35,15 @@ namespace cloudyLib.Forms
                 lblTitle.TextAlign = ContentAlignment.MiddleCenter;
             }
 
-            // Ustawienia dla pól haseł
             if (txtCurrentPassword != null) txtCurrentPassword.PasswordChar = '●';
             if (txtNewPassword != null) txtNewPassword.PasswordChar = '●';
             if (txtConfirmNewPassword != null) txtConfirmNewPassword.PasswordChar = '●';
 
-            // Domyślnie ukrywamy pola zmiany hasła
             SetPasswordFieldsVisibility(false);
 
             if (lnkChangePassword != null)
             {
-                lnkChangePassword.Click -= LnkChangePassword_Click; // Usuń, aby uniknąć podwójnego przypisania
+                lnkChangePassword.Click -= LnkChangePassword_Click; 
                 lnkChangePassword.Click += LnkChangePassword_Click;
                 lnkChangePassword.Cursor = Cursors.Hand;
             }
@@ -66,16 +63,10 @@ namespace cloudyLib.Forms
 
         private void SetPasswordFieldsVisibility(bool visible)
         {
-            // Zakładam, że masz labelki dla tych pól też (np. lblCurrentPassword, lblNewPassword, lblConfirmNewPassword)
-            // Jeśli nie, dodaj je w Designerze.
-            // if (lblCurrentPassword != null) lblCurrentPassword.Visible = visible;
             if (txtCurrentPassword != null) txtCurrentPassword.Visible = visible;
-            // if (lblNewPassword != null) lblNewPassword.Visible = visible;
             if (txtNewPassword != null) txtNewPassword.Visible = visible;
-            // if (lblConfirmNewPassword != null) lblConfirmNewPassword.Visible = visible;
             if (txtConfirmNewPassword != null) txtConfirmNewPassword.Visible = visible;
 
-            // Zmień tekst linku
             if (lnkChangePassword != null)
             {
                 lnkChangePassword.Text = visible ? "Anuluj zmianę hasła" : "Zmień hasło";
@@ -84,15 +75,13 @@ namespace cloudyLib.Forms
 
         private void LnkChangePassword_Click(object sender, EventArgs e)
         {
-            // Przełącz widoczność pól hasła
             bool currentVisibility = (txtNewPassword != null && txtNewPassword.Visible);
             SetPasswordFieldsVisibility(!currentVisibility);
 
-            // Wyczyść pola hasła po zmianie widoczności
             if (txtCurrentPassword != null) txtCurrentPassword.Text = "";
             if (txtNewPassword != null) txtNewPassword.Text = "";
             if (txtConfirmNewPassword != null) txtConfirmNewPassword.Text = "";
-            ShowMessage("", false); // Wyczyść komunikaty
+            ShowMessage("", false); 
         }
 
 
@@ -148,7 +137,6 @@ namespace cloudyLib.Forms
 
                 bool emailChanged = (txtEmail != null && _userToEdit.Email != txtEmail.Text.Trim());
 
-                // Walidacja unikalności emaila, jeśli został zmieniony
                 if (emailChanged)
                 {
                     bool isEmailUnique = await IsEmailUniqueAsync(txtEmail.Text.Trim(), _userToEdit.UserId);
@@ -162,35 +150,31 @@ namespace cloudyLib.Forms
                 _userToEdit.FirstName = txtFirstName?.Text.Trim() ?? _userToEdit.FirstName;
                 _userToEdit.LastName = txtLastName?.Text.Trim() ?? _userToEdit.LastName;
                 _userToEdit.Email = txtEmail?.Text.Trim() ?? _userToEdit.Email;
-                _userToEdit.PhoneNumber = txtPhone?.Text.Trim(); // PhoneNumber może być null
+                _userToEdit.PhoneNumber = txtPhone?.Text.Trim();
 
-                // Zmiana hasła (jeśli pola są widoczne i wypełnione)
                 if (txtNewPassword != null && txtNewPassword.Visible && !string.IsNullOrWhiteSpace(txtNewPassword.Text))
                 {
-                    // Weryfikacja obecnego hasła
                     if (txtCurrentPassword == null || !VerifyPassword(txtCurrentPassword.Text, _userToEdit.PasswordHash))
                     {
                         ShowMessage("Obecne hasło jest nieprawidłowe.", true);
                         return;
                     }
-                    _userToEdit.PasswordHash = PasswordHasher.HashPassword(txtNewPassword.Text); // Haszowanie nowego hasła
+                    _userToEdit.PasswordHash = PasswordHasher.HashPassword(txtNewPassword.Text); 
                 }
 
                 _db.Users.Update(_userToEdit);
                 await _db.SaveChangesAsync();
 
-                // Aktualizuj obiekt _currentUser w MainFormie, jeśli zmieniono dane (np. imię)
                 if (_mainForm._currentUser != null)
                 {
                     _mainForm._currentUser.FirstName = _userToEdit.FirstName;
                     _mainForm._currentUser.LastName = _userToEdit.LastName;
                     _mainForm._currentUser.Email = _userToEdit.Email;
                     _mainForm._currentUser.PhoneNumber = _userToEdit.PhoneNumber;
-                    _mainForm._currentUser.PasswordHash = _userToEdit.PasswordHash; // Aktualizuj hash w pamięci
+                    _mainForm._currentUser.PasswordHash = _userToEdit.PasswordHash; 
                 }
 
                 ShowMessage("Profil został zaktualizowany pomyślnie!", false);
-                // Ukryj pola zmiany hasła po udanej aktualizacji
                 SetPasswordFieldsVisibility(false);
             }
             catch (Exception ex)
@@ -201,7 +185,6 @@ namespace cloudyLib.Forms
 
         private bool ValidateForm()
         {
-            // Walidacja podstawowych pól
             if (txtFirstName == null || string.IsNullOrWhiteSpace(txtFirstName.Text) ||
                 txtLastName == null || string.IsNullOrWhiteSpace(txtLastName.Text) ||
                 txtEmail == null || string.IsNullOrWhiteSpace(txtEmail.Text) ||
@@ -211,21 +194,18 @@ namespace cloudyLib.Forms
                 return false;
             }
 
-            // Walidacja formatu emaila
             if (!Regex.IsMatch(txtEmail.Text.Trim(), @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
                 ShowMessage("Niepoprawny format adresu e-mail.", true);
                 return false;
             }
 
-            // Walidacja telefonu (tylko cyfry, min. 9 znaków)
-            if (!Regex.IsMatch(txtPhone.Text.Trim(), @"^\d{9,12}$")) // Zakładam, że MaxLength to 12
+            if (!Regex.IsMatch(txtPhone.Text.Trim(), @"^\d{9,12}$"))
             {
                 ShowMessage("Numer telefonu musi zawierać od 9 do 12 cyfr.", true);
                 return false;
             }
 
-            // Walidacja haseł, jeśli są widoczne (czyli użytkownik chce zmienić hasło)
             if (txtNewPassword != null && txtNewPassword.Visible)
             {
                 if (txtCurrentPassword == null || string.IsNullOrWhiteSpace(txtCurrentPassword.Text))
@@ -243,7 +223,6 @@ namespace cloudyLib.Forms
                     ShowMessage("Nowe hasła nie są zgodne.", true);
                     return false;
                 }
-                // Walidacja siły hasła (to samo co w rejestracji)
                 if (txtNewPassword.Text.Length < 6 ||
                     !Regex.IsMatch(txtNewPassword.Text, "[A-Z]") ||
                     !Regex.IsMatch(txtNewPassword.Text, "[0-9]") ||
@@ -260,12 +239,9 @@ namespace cloudyLib.Forms
         private async Task<bool> IsEmailUniqueAsync(string email, int currentUserId)
         {
             var existingUser = await _db.Users.FirstOrDefaultAsync(u => u.Email == email);
-            // Email jest unikalny, jeśli nie ma żadnego użytkownika z takim emailem,
-            // LUB jeśli jest to użytkownik, którego edytujemy.
             return existingUser == null || (existingUser.UserId == currentUserId);
         }
 
-        // PRZYKŁADOWA FUNKCJA WERYFIKACJI HASŁA (DO ZASTĄPIENIA PRZEZ BEZPIECZNĄ BIBLIOTEKĘ HASZUJĄCĄ)
         private bool VerifyPassword(string enteredPassword, string storedHashedPassword)
         {
             // TO JEST TYLKO DLA TESTÓW! W RZECZYWISTEJ APLIKACJI UŻYJ BCrypt.Net lub podobnej

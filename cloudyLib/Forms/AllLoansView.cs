@@ -23,7 +23,7 @@ namespace cloudyLib.Forms
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 
             ConfigureAllLoansView();
-            this.Load += async (s, e) => await LoadLoans(); // Załaduj wypożyczenia przy starcie widoku
+            this.Load += async (s, e) => await LoadLoans(); 
         }
 
         private void ConfigureAllLoansView()
@@ -37,13 +37,12 @@ namespace cloudyLib.Forms
             if (dgvAllLoans != null)
             {
                 dgvAllLoans.AutoGenerateColumns = false;
-                dgvAllLoans.ReadOnly = true; // Ogólnie tylko do odczytu, edycja przez formularz
+                dgvAllLoans.ReadOnly = true;
                 dgvAllLoans.AllowUserToAddRows = false;
                 dgvAllLoans.AllowUserToDeleteRows = false;
                 dgvAllLoans.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                 dgvAllLoans.MultiSelect = false;
 
-                // Definicja kolumn
                 dgvAllLoans.Columns.Add(new DataGridViewTextBoxColumn { Name = "BookLoanId", HeaderText = "ID Wypożyczenia", DataPropertyName = "BookLoanId", ReadOnly = true, Width = 80 });
                 dgvAllLoans.Columns.Add(new DataGridViewTextBoxColumn { Name = "BookTitle", HeaderText = "Tytuł Książki", DataPropertyName = "BookTitle", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
                 dgvAllLoans.Columns.Add(new DataGridViewTextBoxColumn { Name = "UserFullName", HeaderText = "Użytkownik", DataPropertyName = "UserFullName", ReadOnly = true, Width = 200 });
@@ -52,27 +51,25 @@ namespace cloudyLib.Forms
                 dgvAllLoans.Columns.Add(new DataGridViewTextBoxColumn { Name = "ReturnDate", HeaderText = "Data Zwrotu", DataPropertyName = "ReturnDate", ReadOnly = true, Width = 150 });
                 dgvAllLoans.Columns.Add(new DataGridViewTextBoxColumn { Name = "Status", HeaderText = "Status", DataPropertyName = "Status", ReadOnly = true, Width = 100 }); // Status wypożyczenia
 
-                // Ukryte kolumny dla danych Book/User ID
                 dgvAllLoans.Columns.Add(new DataGridViewTextBoxColumn { Name = "BookId", DataPropertyName = "BookId", Visible = false });
                 dgvAllLoans.Columns.Add(new DataGridViewTextBoxColumn { Name = "UserId", DataPropertyName = "UserId", Visible = false });
 
-                // Obsługa zdarzeń
                 dgvAllLoans.CellFormatting += DgvAllLoans_CellFormatting;
-                dgvAllLoans.CellDoubleClick += DgvAllLoans_CellDoubleClick; // Edycja przez podwójne kliknięcie
-            }
+                dgvAllLoans.CellDoubleClick += DgvAllLoans_CellDoubleClick;
 
-            if (txtSearch != null) txtSearch.KeyPress += TxtSearch_KeyPress;
-            if (btnSearch != null) btnSearch.Click += (s, e) => LoadLoans();
+                if (txtSearch != null) txtSearch.KeyPress += TxtSearch_KeyPress;
+                if (btnSearch != null) btnSearch.Click += (s, e) => LoadLoans();
 
-            if (btnAddLoan != null) btnAddLoan.Click += BtnAddLoan_Click;
-            if (btnEditLoan != null) btnEditLoan.Click += BtnEditLoan_Click;
-            if (btnDeleteLoan != null) btnDeleteLoan.Click += BtnDeleteLoan_Click;
-            if (btnReturnBook != null) btnReturnBook.Click += BtnReturnBook_Click;
+                if (btnAddLoan != null) btnAddLoan.Click += BtnAddLoan_Click;
+                if (btnEditLoan != null) btnEditLoan.Click += BtnEditLoan_Click;
+                if (btnDeleteLoan != null) btnDeleteLoan.Click += BtnDeleteLoan_Click;
+                if (btnReturnBook != null) btnReturnBook.Click += BtnReturnBook_Click;
 
-            if (lblMessage != null)
-            {
-                lblMessage.TextAlign = ContentAlignment.MiddleCenter;
-                lblMessage.Visible = false;
+                if (lblMessage != null)
+                {
+                    lblMessage.TextAlign = ContentAlignment.MiddleCenter;
+                    lblMessage.Visible = false;
+                }
             }
         }
 
@@ -82,8 +79,8 @@ namespace cloudyLib.Forms
             try
             {
                 var query = _db.BookLoans
-                                 .Include(bl => bl.Book) // Dołącz dane książki
-                                 .Include(bl => bl.User) // Dołącz dane użytkownika
+                                 .Include(bl => bl.Book) 
+                                 .Include(bl => bl.User) 
                                  .AsQueryable();
 
                 if (txtSearch != null && !string.IsNullOrWhiteSpace(txtSearch.Text))
@@ -95,10 +92,9 @@ namespace cloudyLib.Forms
                                               bl.User.Email.ToLower().Contains(searchTerm));
                 }
 
-                // Domyślnie najpierw aktywne wypożyczenia (ReturnDate == null)
                 var loans = await query
-                                     .OrderBy(bl => bl.ReturnDate.HasValue) // false (null) przed true (nie-null)
-                                     .ThenByDescending(bl => bl.LoanDate) // Najnowsze na górze
+                                     .OrderBy(bl => bl.ReturnDate.HasValue) 
+                                     .ThenByDescending(bl => bl.LoanDate) 
                                      .Select(bl => new
                                      {
                                          bl.BookLoanId,
@@ -106,7 +102,7 @@ namespace cloudyLib.Forms
                                          bl.UserId,
                                          BookTitle = bl.Book.Title,
                                          UserFullName = $"{bl.User.FirstName} {bl.User.LastName} ({bl.User.Email})",
-                                         LoanDate = bl.LoanDate.ToShortDateString(), // Formatowanie daty
+                                         LoanDate = bl.LoanDate.ToShortDateString(), 
                                          PlannedReturnDate = bl.PlannedReturnDate.HasValue ? bl.PlannedReturnDate.Value.ToShortDateString() : "-",
                                          ReturnDate = bl.ReturnDate.HasValue ? bl.ReturnDate.Value.ToShortDateString() : "Aktywne",
                                          Status = bl.ReturnDate == null ? "Aktywne" : "Zwrócono"
@@ -132,26 +128,24 @@ namespace cloudyLib.Forms
 
         private void DgvAllLoans_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            // Koloryzacja wierszy dla wypożyczeń
             if (e.RowIndex >= 0 && dgvAllLoans.Rows[e.RowIndex].DataBoundItem != null)
             {
                 dynamic rowData = dgvAllLoans.Rows[e.RowIndex].DataBoundItem;
 
-                if (rowData.Status == "Aktywne" && rowData.PlannedReturnDate != "-") // Tylko dla aktywnych z datą planowanego zwrotu
+                if (rowData.Status == "Aktywne" && rowData.PlannedReturnDate != "-") 
                 {
-                    // Konwersja PlannedReturnDate z stringa na DateTime, aby obliczyć różnicę
                     if (DateTime.TryParse(rowData.PlannedReturnDate, out DateTime plannedReturn))
                     {
                         TimeSpan timeLeft = plannedReturn - DateTime.Today;
-                        if (timeLeft.TotalDays <= 0) // Termin minął lub jest dzisiaj
+                        if (timeLeft.TotalDays <= 0) 
                         {
-                            dgvAllLoans.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightCoral; // Czerwony dla przeterminowanych
+                            dgvAllLoans.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightCoral; 
                             dgvAllLoans.Rows[e.RowIndex].Cells["Status"].Value = "PRZETERMINOWANE!";
                             dgvAllLoans.Rows[e.RowIndex].Cells["Status"].Style.Font = new Font(dgvAllLoans.Font, FontStyle.Bold);
                         }
-                        else if (timeLeft.TotalDays <= 7) // Tydzień lub mniej do zwrotu
+                        else if (timeLeft.TotalDays <= 7) 
                         {
-                            dgvAllLoans.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightYellow; // Żółty dla zbliżających się
+                            dgvAllLoans.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightYellow; 
                         }
                     }
                 }
@@ -160,13 +154,12 @@ namespace cloudyLib.Forms
 
         private async void BtnAddLoan_Click(object sender, EventArgs e)
         {
-            // Otwórz formularz dodawania wypożyczenia
             var addEditLoanForm = _serviceProvider.GetRequiredService<AddEditLoanForm>();
-            addEditLoanForm.SetLoanToEdit(null); // Tryb dodawania
+            addEditLoanForm.SetLoanToEdit(null); 
 
             if (addEditLoanForm.ShowDialog() == DialogResult.OK)
             {
-                await LoadLoans(); // Odśwież listę po dodaniu
+                await LoadLoans(); 
                 ShowMessage("Nowe wypożyczenie zostało dodane.", false);
             }
         }
@@ -181,11 +174,11 @@ namespace cloudyLib.Forms
 
             var selectedLoanId = (int)dgvAllLoans.SelectedRows[0].Cells["BookLoanId"].Value;
             var addEditLoanForm = _serviceProvider.GetRequiredService<AddEditLoanForm>();
-            addEditLoanForm.SetLoanToEdit(selectedLoanId); // Tryb edycji
+            addEditLoanForm.SetLoanToEdit(selectedLoanId); 
 
             if (addEditLoanForm.ShowDialog() == DialogResult.OK)
             {
-                await LoadLoans(); // Odśwież listę po edycji
+                await LoadLoans(); 
                 ShowMessage("Wypożyczenie zostało zaktualizowane.", false);
             }
         }
@@ -194,7 +187,7 @@ namespace cloudyLib.Forms
         {
             if (e.RowIndex >= 0)
             {
-                BtnEditLoan_Click(this, EventArgs.Empty); // Edycja przez podwójne kliknięcie
+                BtnEditLoan_Click(this, EventArgs.Empty); 
             }
         }
 
@@ -218,13 +211,12 @@ namespace cloudyLib.Forms
                     var loanToDelete = await _db.BookLoans.FindAsync(selectedLoanId);
                     if (loanToDelete != null)
                     {
-                        // Logika aktualizacji dostępności książki po usunięciu wypożyczenia (jeśli było aktywne)
                         if (loanToDelete.ReturnDate == null)
                         {
                             var book = await _db.Books.FindAsync(loanToDelete.BookId);
                             if (book != null)
                             {
-                                book.AvailableCopies++; // Zwiększ dostępność
+                                book.AvailableCopies++; 
                                 _db.Books.Update(book);
                             }
                         }
@@ -255,24 +247,23 @@ namespace cloudyLib.Forms
             try
             {
                 var loanToReturn = await _db.BookLoans
-                                            .Include(bl => bl.Book) // Dołącz książkę, aby zaktualizować jej dostępność
+                                            .Include(bl => bl.Book) 
                                             .FirstOrDefaultAsync(bl => bl.BookLoanId == selectedLoanId);
 
-                if (loanToReturn != null && loanToReturn.ReturnDate == null) // Jeśli wypożyczenie jest aktywne
+                if (loanToReturn != null && loanToReturn.ReturnDate == null) 
                 {
-                    loanToReturn.ReturnDate = DateTime.Today; // Ustaw dzisiejszą datę zwrotu
+                    loanToReturn.ReturnDate = DateTime.Today; 
                     _db.BookLoans.Update(loanToReturn);
 
-                    // Zwiększ dostępność książki
                     if (loanToReturn.Book != null)
                     {
-                        loanToReturn.Book.AvailableCopies++; // Zwiększ AvailableCopies
+                        loanToReturn.Book.AvailableCopies++; 
                         _db.Books.Update(loanToReturn.Book);
                     }
 
                     await _db.SaveChangesAsync();
                     MessageBox.Show($"Książka '{loanToReturn.Book.Title}' została oznaczona jako zwrócona.", "Zwrot książki", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    await LoadLoans(); // Odśwież listę
+                    await LoadLoans(); 
                 }
                 else
                 {

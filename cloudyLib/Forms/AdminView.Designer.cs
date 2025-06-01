@@ -11,8 +11,7 @@
         protected internal System.Windows.Forms.TabControl adminTabControl; 
         protected internal System.Windows.Forms.TabPage manageBooksTab;    
         protected internal System.Windows.Forms.TabPage manageUsersTab;    
-        protected internal System.Windows.Forms.TabPage allLoansTab;       
-        protected internal System.Windows.Forms.TabPage popularBooksTab;
+        protected internal System.Windows.Forms.TabPage allLoansTab;      
 
         /// <summary>
         /// Clean up any resources being used.
@@ -41,7 +40,6 @@
             this.manageBooksTab = new System.Windows.Forms.TabPage();
             this.manageUsersTab = new System.Windows.Forms.TabPage();
             this.allLoansTab = new System.Windows.Forms.TabPage();
-            this.popularBooksTab = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1.SuspendLayout();
             this.adminTabControl.SuspendLayout();
             this.SuspendLayout();
@@ -80,7 +78,6 @@
             this.adminTabControl.Controls.Add(this.manageBooksTab);
             this.adminTabControl.Controls.Add(this.manageUsersTab);
             this.adminTabControl.Controls.Add(this.allLoansTab);
-            this.adminTabControl.Controls.Add(this.popularBooksTab);
             this.adminTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.adminTabControl.Font = new System.Drawing.Font("Georgia", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.adminTabControl.Location = new System.Drawing.Point(13, 73); 
@@ -119,16 +116,7 @@
             this.allLoansTab.Size = new System.Drawing.Size(866, 482);
             this.allLoansTab.TabIndex = 2;
             this.allLoansTab.Text = "Wypożyczenia";
-            //
-            // popularBooksTab
-            //
-            this.popularBooksTab.BackColor = System.Drawing.Color.AntiqueWhite;
-            this.popularBooksTab.Location = new System.Drawing.Point(4, 28);
-            this.popularBooksTab.Name = "popularBooksTab";
-            this.popularBooksTab.Padding = new System.Windows.Forms.Padding(3);
-            this.popularBooksTab.Size = new System.Drawing.Size(866, 482);
-            this.popularBooksTab.TabIndex = 3;
-            this.popularBooksTab.Text = "Najpopularniejsze Książki";
+         
             //
             // AdminView
             //

@@ -170,7 +170,6 @@ namespace cloudyLib.Forms
                     
                     var bookTitle = rowData.BookTitle;
 
-                    // Otwórz formularz oceny i recenzji
                     var rateReviewForm = new RateReviewForm(bookId, bookTitle, _db, _mainForm._currentUser);
 
 

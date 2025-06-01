@@ -92,7 +92,6 @@ namespace cloudyLib
                     services.AddSingleton<AddEditUserForm>();
                     services.AddTransient<AllLoansView>();
                     services.AddTransient<ManageUsersView>();
-                    services.AddTransient<PopularBooksView>();
                     services.AddTransient<AllLoansView>();
                     services.AddTransient<AddEditLoanForm>();
                 });

@@ -1,26 +1,22 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using cloudyLib.Models; // Dla obiektu User
-using cloudyLib.Forms; // Dla LoginView, RegisterView i innych UserControl
-using Microsoft.Extensions.DependencyInjection; // Dla IServiceProvider
+using cloudyLib.Models; 
+using cloudyLib.Forms; 
+using Microsoft.Extensions.DependencyInjection; 
 
 namespace cloudyLib.Forms
 {
     public partial class MainForm : Form
     {
-        public User _currentUser; // Publiczna właściwość do przechowywania zalogowanego użytkownika
+        public User _currentUser; 
 
-        // Deklaracje przycisków jako pól prywatnych (jeśli są tworzone programowo)
         private Button btnBrowseBooks;
         private Button btnMyLoans;
         private Button btnMyReviews;
         private Button btnEditProfile;
         private Button btnLogout;
         private Button btnAdminPanel;
-
-        // Deklaracja FlowLayoutPanel (jeśli jest tworzona programowo, a nie w Designer.cs)
-        //private FlowLayoutPanel navButtonsPanel;
 
         private readonly IServiceProvider _serviceProvider;
 
@@ -47,36 +43,13 @@ namespace cloudyLib.Forms
             leftPanel.Width = 200;
             leftPanel.BackColor = Color.DarkGreen;
 
-            // Konfiguracja panelu na przyciski w lewym panelu
-            // Upewnij się, że navButtonsPanel jest zadeklarowany jako pole w Designer.cs
-            // LUB jeśli jest tworzony programowo, jak w poprzedniej wersji, to taka linia jest ok.
-            // Biorąc pod uwagę Twój designer, jest już zadeklarowany jako pole w Designer.cs.
-            // A więc ta linia może być usunięta lub zmieniona, jeśli navButtonsPanel jest już zainicjowane w Designer.cs.
-            // Jeśli `navButtonsPanel = new FlowLayoutPanel();` jest tu, to jest tworzone programowo, a Designer.cs
-            // nie powinien mieć deklaracji dla niego (lub nie powinien go dodawać do Controls, by uniknąć duplikatów).
-            // Zakładam, że w Designer.cs jest tylko deklaracja i panel jest dodany do leftPanel, a tu dodajemy jego zawartość.
-            // Aby uniknąć duplikatów lub niejasności, jeśli Designer.cs obsługuje tworzenie i dodawanie navButtonsPanel,
-            // ta linia `navButtonsPanel = new FlowLayoutPanel();` powinna zostać usunięta.
-            // Na podstawie Twojego Designera: `navButtonsPanel` jest już tworzony w `InitializeComponent()`.
-            // Usuń więc linię `navButtonsPanel = new FlowLayoutPanel();` z tej metody,
-            // ponieważ kontrolka jest już inicjalizowana przez projektanta.
-
-            // Nie ruszam tej linii, zakładając, że chcesz, aby ten panel był tworzony programowo,
-            // a deklaracja w Designer.cs służy tylko jako referencja.
-            // Pamiętaj, że to może prowadzić do niejasności, jeśli Visual Studio spróbuje to zarządzać.
-            // Najlepsza praktyka: albo wszystko w designerze, albo wszystko programowo.
-            // Skoro podałeś designer, który deklaruje navButtonsPanel, usunąłbym tę linię.
-
-            // Usunięto: navButtonsPanel = new FlowLayoutPanel(); // Jeśli jest w Designer.cs, nie twórz ponownie
 
             navButtonsPanel.Dock = DockStyle.Fill;
             navButtonsPanel.FlowDirection = FlowDirection.TopDown;
             navButtonsPanel.WrapContents = false;
             navButtonsPanel.Padding = new Padding(10, 20, 10, 10);
             navButtonsPanel.AutoScroll = true;
-            // `leftPanel.Controls.Add(navButtonsPanel);` - ta linia również jest już w Designer.cs, więc jest zbędna tutaj.
 
-            // Inicjalizacja przycisków nawigacyjnych (tworzone programowo)
             btnBrowseBooks = CreateNavButton("Przeglądaj książki", BrowseBooks_Click);
             btnMyLoans = CreateNavButton("Moje wypożyczenia", MyLoans_Click);
             btnMyReviews = CreateNavButton("Moje recenzje", MyReviews_Click);
@@ -84,7 +57,6 @@ namespace cloudyLib.Forms
             btnAdminPanel = CreateNavButton("Panel Administratora", AdminPanel_Click);
             btnLogout = CreateNavButton("Wyloguj", Logout_Click);
 
-            // Dodanie przycisków do FlowLayoutPanel
             navButtonsPanel.Controls.Add(btnBrowseBooks);
             navButtonsPanel.Controls.Add(btnMyLoans);
             navButtonsPanel.Controls.Add(btnMyReviews);

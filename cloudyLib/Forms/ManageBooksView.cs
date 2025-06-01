@@ -45,7 +45,6 @@ namespace cloudyLib.Forms
                 dgvBooks.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                 dgvBooks.MultiSelect = false;
 
-                // Definicja kolumn dla DGV książek w panelu admina
                 dgvBooks.Columns.Add(new DataGridViewTextBoxColumn { Name = "BookId", HeaderText = "ID", DataPropertyName = "BookId", ReadOnly = true, Width = 50 });
                 dgvBooks.Columns.Add(new DataGridViewTextBoxColumn { Name = "Title", HeaderText = "Tytuł", DataPropertyName = "Title", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
                 dgvBooks.Columns.Add(new DataGridViewTextBoxColumn { Name = "ISBN", HeaderText = "ISBN", DataPropertyName = "ISBN", ReadOnly = true, Width = 120 });
@@ -148,7 +147,6 @@ namespace cloudyLib.Forms
         {
             try
             {
-                // Walidacja: czy książka nie jest aktualnie wypożyczona
                 var isActiveLoan = await _db.BookLoans.AnyAsync(bl => bl.BookId == bookId && bl.ReturnDate == null);
                 if (isActiveLoan)
                 {

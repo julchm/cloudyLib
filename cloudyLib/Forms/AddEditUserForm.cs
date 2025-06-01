@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using Microsoft.EntityFrameworkCore;
 using cloudyLib.Data;
 using cloudyLib.Models;
-using BCrypt.Net; // DODAJ TEN USING!
+using BCrypt.Net; 
 
 namespace cloudyLib.Forms
 {
@@ -73,7 +73,7 @@ namespace cloudyLib.Forms
                 try
                 {
                     _userBeingEdited = await _db.Users
-                                                .AsNoTracking() // Dodano AsNoTracking, bo encja będzie potem aktualizowana lub nie
+                                                .AsNoTracking() 
                                                 .FirstOrDefaultAsync(u => u.UserId == _userIdToEdit.Value);
 
                     if (_userBeingEdited != null)
@@ -84,7 +84,6 @@ namespace cloudyLib.Forms
                         txtPhone.Text = _userBeingEdited.PhoneNumber;
                         cmbRole.SelectedItem = _userBeingEdited.Role;
 
-                        // Ukryj pola hasła w trybie edycji dla istniejącego użytkownika
                         lblPassword.Visible = false;
                         txtPassword.Visible = false;
                         lblConfirmPassword.Visible = false;
@@ -103,7 +102,6 @@ namespace cloudyLib.Forms
             else
             {
                 lblTitle.Text = "Dodaj Nowego Użytkownika";
-                // Upewnij się, że te kontrolki są widoczne, jeśli są niewidoczne domyślnie
                 lblPassword.Visible = true;
                 txtPassword.Visible = true;
                 lblConfirmPassword.Visible = true;
@@ -122,12 +120,10 @@ namespace cloudyLib.Forms
 
             try
             {
-                if (_userIdToEdit.HasValue) // Tryb edycji
+                if (_userIdToEdit.HasValue) 
                 {
                     if (_userBeingEdited != null)
                     {
-                        // Ponownie pobierz użytkownika do aktualizacji, aby EF Core go śledził
-                        // Jest to ważne, jeśli użyliśmy AsNoTracking w LoadUserData
                         var userToUpdate = await _db.Users.FindAsync(_userIdToEdit.Value);
                         if (userToUpdate == null)
                         {
@@ -149,9 +145,9 @@ namespace cloudyLib.Forms
                         MessageBox.Show("Dane użytkownika zostały zaktualizowane.", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
-                else // Tryb dodawania nowego użytkownika
+                else 
                 {
-                    // Walidacja unikalności emaila tylko dla nowego użytkownika
+                    
                     bool isEmailUnique = await IsEmailUniqueAsync(txtEmail.Text);
                     if (!isEmailUnique)
                     {
@@ -160,7 +156,7 @@ namespace cloudyLib.Forms
                         return;
                     }
 
-                    // Stwórz nowego użytkownika
+                   
                     var newUser = new User
                     {
                         FirstName = txtFirstName.Text.Trim(),
@@ -181,13 +177,11 @@ namespace cloudyLib.Forms
             catch (Exception ex)
             {
                 ShowMessage($"Błąd podczas zapisu: {ex.Message}", true);
-                // Console.WriteLine(ex.ToString()); // Do debugowania
             }
         }
 
         private bool ValidateForm()
         {
-            // Walidacja pól formularza
             if (string.IsNullOrWhiteSpace(txtEmail.Text) ||
                 string.IsNullOrWhiteSpace(txtFirstName.Text) ||
                 string.IsNullOrWhiteSpace(txtLastName.Text) ||
@@ -197,7 +191,6 @@ namespace cloudyLib.Forms
                 return false;
             }
 
-            // Walidacja hasła tylko dla nowego użytkownika
             if (!_userIdToEdit.HasValue)
             {
                 if (string.IsNullOrWhiteSpace(txtPassword.Text) || string.IsNullOrWhiteSpace(txtConfirmPassword.Text))

@@ -172,7 +172,6 @@ namespace cloudyLib.Forms
             ShowMessage("Usuwanie użytkownika...", false);
             try
             {
-                // Sprawdzenie aktywnych wypożyczeń 
                 var hasActiveLoans = await _db.BookLoans.AnyAsync(bl => bl.UserId == userId && bl.ReturnDate == null); 
                 if (hasActiveLoans)
                 {
@@ -222,6 +221,6 @@ namespace cloudyLib.Forms
         }
 
         private void dgvUsers_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
-        private void btnAddUser_Click_1(object sender, EventArgs e) { } // Ta metoda wydaje się być duplikatem BtnAddUser_Click. Sprawdź, czy nie jest to błąd projektanta.
+        private void btnAddUser_Click_1(object sender, EventArgs e) { }
     }
 }
