@@ -6,6 +6,7 @@
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.TableLayoutPanel mainContainerTableLayoutPanel; 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label lblRegisterTitle;
         private System.Windows.Forms.Label lblEmail;
@@ -17,7 +18,7 @@
         private System.Windows.Forms.Label lblFirstName;
         private System.Windows.Forms.TextBox txtFirstName;
         private System.Windows.Forms.Label lblLastName;
-        private System.Windows.Forms.TextBox txtLastName;   
+        private System.Windows.Forms.TextBox txtLastName;
         private System.Windows.Forms.Label lblPhone;
         private System.Windows.Forms.TextBox txtPhone;
         private System.Windows.Forms.Button btnRegister;
@@ -45,6 +46,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            mainContainerTableLayoutPanel = new TableLayoutPanel();
             tableLayoutPanel1 = new TableLayoutPanel();
             lblRegisterTitle = new Label();
             lblEmail = new Label();
@@ -62,16 +64,35 @@
             btnRegister = new Button();
             lblLogin = new Label();
             lblMessage = new Label();
+            mainContainerTableLayoutPanel.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
+            // 
+            // mainContainerTableLayoutPanel
+            // 
+            mainContainerTableLayoutPanel.BackColor = Color.AntiqueWhite;
+            mainContainerTableLayoutPanel.ColumnCount = 3;
+            mainContainerTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            mainContainerTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 508F));
+            mainContainerTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            mainContainerTableLayoutPanel.Controls.Add(tableLayoutPanel1, 1, 1);
+            mainContainerTableLayoutPanel.Dock = DockStyle.Fill;
+            mainContainerTableLayoutPanel.Location = new Point(0, 0);
+            mainContainerTableLayoutPanel.Name = "mainContainerTableLayoutPanel";
+            mainContainerTableLayoutPanel.RowCount = 3;
+            mainContainerTableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            mainContainerTableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 450F));
+            mainContainerTableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            mainContainerTableLayoutPanel.Size = new Size(800, 450);
+            mainContainerTableLayoutPanel.TabIndex = 0;
             // 
             // tableLayoutPanel1
             // 
             tableLayoutPanel1.AutoScroll = true;
             tableLayoutPanel1.BackColor = Color.AntiqueWhite;
             tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 24.7011948F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 75.2988052F));
             tableLayoutPanel1.Controls.Add(lblRegisterTitle, 0, 0);
             tableLayoutPanel1.Controls.Add(lblEmail, 0, 1);
             tableLayoutPanel1.Controls.Add(txtEmail, 1, 1);
@@ -89,32 +110,31 @@
             tableLayoutPanel1.Controls.Add(lblLogin, 0, 8);
             tableLayoutPanel1.Controls.Add(lblMessage, 0, 9);
             tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(0, 0);
+            tableLayoutPanel1.Location = new Point(149, 3);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.Padding = new Padding(30, 20, 30, 20);
             tableLayoutPanel1.RowCount = 10;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            tableLayoutPanel1.Size = new Size(800, 450);
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 39F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 37F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 39F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 37F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 81F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            tableLayoutPanel1.Size = new Size(502, 444);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // lblRegisterTitle
             // 
             tableLayoutPanel1.SetColumnSpan(lblRegisterTitle, 2);
             lblRegisterTitle.Dock = DockStyle.Fill;
-            lblRegisterTitle.Font = new Font("Georgia", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblRegisterTitle.Font = new Font("Georgia", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblRegisterTitle.ForeColor = Color.DarkGreen;
-            lblRegisterTitle.Location = new Point(33, 20);
+            lblRegisterTitle.Location = new Point(3, 0);
             lblRegisterTitle.Name = "lblRegisterTitle";
-            lblRegisterTitle.Size = new Size(734, 60);
+            lblRegisterTitle.Size = new Size(496, 60);
             lblRegisterTitle.TabIndex = 0;
             lblRegisterTitle.Text = "Zarejestruj się w cloudyLib";
             lblRegisterTitle.TextAlign = ContentAlignment.MiddleCenter;
@@ -125,7 +145,7 @@
             lblEmail.AutoSize = true;
             lblEmail.Font = new Font("Georgia", 10F);
             lblEmail.ForeColor = Color.Black;
-            lblEmail.Location = new Point(264, 87);
+            lblEmail.Location = new Point(62, 70);
             lblEmail.Name = "lblEmail";
             lblEmail.Size = new Size(59, 20);
             lblEmail.TabIndex = 1;
@@ -138,9 +158,9 @@
             txtEmail.BorderStyle = BorderStyle.FixedSingle;
             txtEmail.Font = new Font("Georgia", 10F);
             txtEmail.ForeColor = Color.Black;
-            txtEmail.Location = new Point(329, 84);
+            txtEmail.Location = new Point(127, 67);
             txtEmail.Name = "txtEmail";
-            txtEmail.Size = new Size(438, 26);
+            txtEmail.Size = new Size(372, 26);
             txtEmail.TabIndex = 2;
             // 
             // lblPassword
@@ -149,7 +169,7 @@
             lblPassword.AutoSize = true;
             lblPassword.Font = new Font("Georgia", 10F);
             lblPassword.ForeColor = Color.Black;
-            lblPassword.Location = new Point(265, 122);
+            lblPassword.Location = new Point(63, 108);
             lblPassword.Name = "lblPassword";
             lblPassword.Size = new Size(58, 20);
             lblPassword.TabIndex = 3;
@@ -162,9 +182,9 @@
             txtPassword.BorderStyle = BorderStyle.FixedSingle;
             txtPassword.Font = new Font("Georgia", 10F);
             txtPassword.ForeColor = Color.Black;
-            txtPassword.Location = new Point(329, 119);
+            txtPassword.Location = new Point(127, 105);
             txtPassword.Name = "txtPassword";
-            txtPassword.Size = new Size(438, 26);
+            txtPassword.Size = new Size(372, 26);
             txtPassword.TabIndex = 4;
             // 
             // lblConfirmPassword
@@ -173,9 +193,9 @@
             lblConfirmPassword.AutoSize = true;
             lblConfirmPassword.Font = new Font("Georgia", 10F);
             lblConfirmPassword.ForeColor = Color.Black;
-            lblConfirmPassword.Location = new Point(189, 157);
+            lblConfirmPassword.Location = new Point(32, 136);
             lblConfirmPassword.Name = "lblConfirmPassword";
-            lblConfirmPassword.Size = new Size(134, 20);
+            lblConfirmPassword.Size = new Size(89, 39);
             lblConfirmPassword.TabIndex = 5;
             lblConfirmPassword.Text = "Potwierdź hasło:";
             // 
@@ -186,9 +206,9 @@
             txtConfirmPassword.BorderStyle = BorderStyle.FixedSingle;
             txtConfirmPassword.Font = new Font("Georgia", 10F);
             txtConfirmPassword.ForeColor = Color.Black;
-            txtConfirmPassword.Location = new Point(329, 154);
+            txtConfirmPassword.Location = new Point(127, 142);
             txtConfirmPassword.Name = "txtConfirmPassword";
-            txtConfirmPassword.Size = new Size(438, 26);
+            txtConfirmPassword.Size = new Size(372, 26);
             txtConfirmPassword.TabIndex = 6;
             // 
             // lblFirstName
@@ -197,7 +217,7 @@
             lblFirstName.AutoSize = true;
             lblFirstName.Font = new Font("Georgia", 10F);
             lblFirstName.ForeColor = Color.Black;
-            lblFirstName.Location = new Point(274, 192);
+            lblFirstName.Location = new Point(72, 183);
             lblFirstName.Name = "lblFirstName";
             lblFirstName.Size = new Size(49, 20);
             lblFirstName.TabIndex = 7;
@@ -210,9 +230,9 @@
             txtFirstName.BorderStyle = BorderStyle.FixedSingle;
             txtFirstName.Font = new Font("Georgia", 10F);
             txtFirstName.ForeColor = Color.Black;
-            txtFirstName.Location = new Point(329, 189);
+            txtFirstName.Location = new Point(127, 180);
             txtFirstName.Name = "txtFirstName";
-            txtFirstName.Size = new Size(438, 26);
+            txtFirstName.Size = new Size(372, 26);
             txtFirstName.TabIndex = 8;
             // 
             // lblLastName
@@ -221,7 +241,7 @@
             lblLastName.AutoSize = true;
             lblLastName.Font = new Font("Georgia", 10F);
             lblLastName.ForeColor = Color.Black;
-            lblLastName.Location = new Point(236, 227);
+            lblLastName.Location = new Point(34, 221);
             lblLastName.Name = "lblLastName";
             lblLastName.Size = new Size(87, 20);
             lblLastName.TabIndex = 9;
@@ -234,9 +254,9 @@
             txtLastName.BorderStyle = BorderStyle.FixedSingle;
             txtLastName.Font = new Font("Georgia", 10F);
             txtLastName.ForeColor = Color.Black;
-            txtLastName.Location = new Point(329, 224);
+            txtLastName.Location = new Point(127, 218);
             txtLastName.Name = "txtLastName";
-            txtLastName.Size = new Size(438, 26);
+            txtLastName.Size = new Size(372, 26);
             txtLastName.TabIndex = 10;
             // 
             // lblPhone
@@ -245,7 +265,7 @@
             lblPhone.AutoSize = true;
             lblPhone.Font = new Font("Georgia", 10F);
             lblPhone.ForeColor = Color.Black;
-            lblPhone.Location = new Point(252, 262);
+            lblPhone.Location = new Point(50, 259);
             lblPhone.Name = "lblPhone";
             lblPhone.Size = new Size(71, 20);
             lblPhone.TabIndex = 11;
@@ -258,9 +278,9 @@
             txtPhone.BorderStyle = BorderStyle.FixedSingle;
             txtPhone.Font = new Font("Georgia", 10F);
             txtPhone.ForeColor = Color.Black;
-            txtPhone.Location = new Point(329, 259);
+            txtPhone.Location = new Point(127, 256);
             txtPhone.Name = "txtPhone";
-            txtPhone.Size = new Size(438, 26);
+            txtPhone.Size = new Size(372, 26);
             txtPhone.TabIndex = 12;
             // 
             // btnRegister
@@ -272,7 +292,7 @@
             btnRegister.FlatStyle = FlatStyle.Flat;
             btnRegister.Font = new Font("Georgia", 11F, FontStyle.Bold);
             btnRegister.ForeColor = Color.White;
-            btnRegister.Location = new Point(300, 295);
+            btnRegister.Location = new Point(151, 308);
             btnRegister.Name = "btnRegister";
             btnRegister.Size = new Size(200, 40);
             btnRegister.TabIndex = 13;
@@ -286,7 +306,7 @@
             tableLayoutPanel1.SetColumnSpan(lblLogin, 2);
             lblLogin.Font = new Font("Georgia", 9.75F, FontStyle.Underline);
             lblLogin.ForeColor = Color.SaddleBrown;
-            lblLogin.Location = new Point(289, 347);
+            lblLogin.Location = new Point(140, 372);
             lblLogin.Name = "lblLogin";
             lblLogin.Size = new Size(221, 20);
             lblLogin.TabIndex = 14;
@@ -299,10 +319,11 @@
             tableLayoutPanel1.SetColumnSpan(lblMessage, 2);
             lblMessage.Font = new Font("Georgia", 9F, FontStyle.Italic);
             lblMessage.ForeColor = Color.Red;
-            lblMessage.Location = new Point(33, 390);
+            lblMessage.Location = new Point(3, 407);
             lblMessage.Name = "lblMessage";
-            lblMessage.Size = new Size(734, 25);
+            lblMessage.Size = new Size(496, 25);
             lblMessage.TabIndex = 15;
+            lblMessage.Text = "Komunikat";
             lblMessage.TextAlign = ContentAlignment.MiddleCenter;
             lblMessage.Visible = false;
             // 
@@ -311,10 +332,11 @@
             AutoScaleDimensions = new SizeF(8F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.AntiqueWhite;
-            Controls.Add(tableLayoutPanel1);
+            Controls.Add(mainContainerTableLayoutPanel);
             Font = new Font("Georgia", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Name = "RegisterView";
             Size = new Size(800, 450);
+            mainContainerTableLayoutPanel.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             ResumeLayout(false);

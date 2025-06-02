@@ -9,8 +9,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.TextBox txtSearchTitle;
-        private System.Windows.Forms.ComboBox cmbFilterAuthor;
-        private System.Windows.Forms.ComboBox cmbFilterGenre;
+        private System.Windows.Forms.ComboBox cmbFilterGenre; 
         private System.Windows.Forms.ComboBox cmbSortBy;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Button btnApplyFilters;
@@ -44,7 +43,6 @@
             lblTitle = new Label();
             txtSearchTitle = new TextBox();
             btnSearch = new Button();
-            cmbFilterAuthor = new ComboBox();
             cmbFilterGenre = new ComboBox();
             cmbSortBy = new ComboBox();
             btnApplyFilters = new Button();
@@ -57,7 +55,7 @@
             // tableLayoutPanel1
             // 
             tableLayoutPanel1.BackColor = Color.AntiqueWhite;
-            tableLayoutPanel1.ColumnCount = 4;
+            tableLayoutPanel1.ColumnCount = 3;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 220F));
@@ -65,10 +63,9 @@
             tableLayoutPanel1.Controls.Add(lblTitle, 0, 0);
             tableLayoutPanel1.Controls.Add(txtSearchTitle, 0, 1);
             tableLayoutPanel1.Controls.Add(btnSearch, 1, 1);
-            tableLayoutPanel1.Controls.Add(cmbFilterAuthor, 0, 2);
-            tableLayoutPanel1.Controls.Add(cmbFilterGenre, 1, 2);
-            tableLayoutPanel1.Controls.Add(cmbSortBy, 2, 2);
-            tableLayoutPanel1.Controls.Add(btnApplyFilters, 3, 2);
+            tableLayoutPanel1.Controls.Add(cmbFilterGenre, 0, 2);
+            tableLayoutPanel1.Controls.Add(cmbSortBy, 1, 2);
+            tableLayoutPanel1.Controls.Add(btnApplyFilters, 2, 2);
             tableLayoutPanel1.Controls.Add(dgvBooks, 0, 3);
             tableLayoutPanel1.Controls.Add(lblMessage, 0, 4);
             tableLayoutPanel1.Dock = DockStyle.Fill;
@@ -86,7 +83,7 @@
             // 
             // lblTitle
             // 
-            tableLayoutPanel1.SetColumnSpan(lblTitle, 4);
+            tableLayoutPanel1.SetColumnSpan(lblTitle, 3);
             lblTitle.Dock = DockStyle.Fill;
             lblTitle.Font = new Font("Georgia", 20F, FontStyle.Bold);
             lblTitle.ForeColor = Color.DarkGreen;
@@ -105,7 +102,7 @@
             txtSearchTitle.Location = new Point(18, 78);
             txtSearchTitle.Name = "txtSearchTitle";
             txtSearchTitle.PlaceholderText = "Szukaj po tytule lub autorze...";
-            txtSearchTitle.Size = new Size(304, 26);
+            txtSearchTitle.Size = new Size(524, 26);
             txtSearchTitle.TabIndex = 1;
             // 
             // btnSearch
@@ -116,25 +113,12 @@
             btnSearch.FlatStyle = FlatStyle.Flat;
             btnSearch.Font = new Font("Georgia", 9F, FontStyle.Bold);
             btnSearch.ForeColor = Color.White;
-            btnSearch.Location = new Point(328, 78);
+            btnSearch.Location = new Point(548, 78);
             btnSearch.Name = "btnSearch";
             btnSearch.Size = new Size(114, 34);
             btnSearch.TabIndex = 2;
             btnSearch.Text = "Szukaj";
             btnSearch.UseVisualStyleBackColor = false;
-            btnSearch.Click += btnSearch_Click_2;
-            // 
-            // cmbFilterAuthor
-            // 
-            cmbFilterAuthor.Dock = DockStyle.Fill;
-            cmbFilterAuthor.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbFilterAuthor.Font = new Font("Georgia", 10F);
-            cmbFilterAuthor.ForeColor = Color.Black;
-            cmbFilterAuthor.FormattingEnabled = true;
-            cmbFilterAuthor.Location = new Point(18, 118);
-            cmbFilterAuthor.Name = "cmbFilterAuthor";
-            cmbFilterAuthor.Size = new Size(304, 28);
-            cmbFilterAuthor.TabIndex = 3;
             // 
             // cmbFilterGenre
             // 
@@ -143,9 +127,9 @@
             cmbFilterGenre.Font = new Font("Georgia", 10F);
             cmbFilterGenre.ForeColor = Color.Black;
             cmbFilterGenre.FormattingEnabled = true;
-            cmbFilterGenre.Location = new Point(328, 118);
+            cmbFilterGenre.Location = new Point(18, 118);
             cmbFilterGenre.Name = "cmbFilterGenre";
-            cmbFilterGenre.Size = new Size(114, 28);
+            cmbFilterGenre.Size = new Size(524, 28);
             cmbFilterGenre.TabIndex = 4;
             // 
             // cmbSortBy
@@ -155,9 +139,9 @@
             cmbSortBy.Font = new Font("Georgia", 10F);
             cmbSortBy.ForeColor = Color.Black;
             cmbSortBy.FormattingEnabled = true;
-            cmbSortBy.Location = new Point(448, 118);
+            cmbSortBy.Location = new Point(548, 118);
             cmbSortBy.Name = "cmbSortBy";
-            cmbSortBy.Size = new Size(214, 28);
+            cmbSortBy.Size = new Size(114, 28);
             cmbSortBy.TabIndex = 5;
             // 
             // btnApplyFilters
@@ -172,9 +156,8 @@
             btnApplyFilters.Name = "btnApplyFilters";
             btnApplyFilters.Size = new Size(214, 34);
             btnApplyFilters.TabIndex = 8;
-            btnApplyFilters.Text = "Zastosuj Filtry";
+            btnApplyFilters.Text = "Zastosuj Filtry i Sortowanie";
             btnApplyFilters.UseVisualStyleBackColor = false;
-            btnApplyFilters.Click += btnApplyFilters_Click;
             // 
             // dgvBooks
             // 
@@ -190,7 +173,7 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dgvBooks.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvBooks.ColumnHeadersHeight = 30;
-            tableLayoutPanel1.SetColumnSpan(dgvBooks, 4);
+            tableLayoutPanel1.SetColumnSpan(dgvBooks, 3);
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = Color.AntiqueWhite;
             dataGridViewCellStyle2.Font = new Font("Georgia", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -209,11 +192,10 @@
             dgvBooks.RowTemplate.Height = 24;
             dgvBooks.Size = new Size(864, 394);
             dgvBooks.TabIndex = 6;
-            dgvBooks.CellContentClick += dgvBooks_CellContentClick_1;
             // 
             // lblMessage
             // 
-            tableLayoutPanel1.SetColumnSpan(lblMessage, 4);
+            tableLayoutPanel1.SetColumnSpan(lblMessage, 3);
             lblMessage.Dock = DockStyle.Fill;
             lblMessage.Font = new Font("Georgia", 9F, FontStyle.Italic);
             lblMessage.ForeColor = Color.DarkGreen;

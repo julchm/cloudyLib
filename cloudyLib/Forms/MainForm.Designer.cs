@@ -7,16 +7,19 @@
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        // Ważne: Deklaracje tych kontrolek powinny być `protected internal` lub `public`
-        // aby były dostępne w MainForm.cs, jeśli nie są tworzone tam programowo.
-        // Jeśli są tworzone programowo w MainForm.cs, te deklaracje w Designerze są zbędne.
-        // Biorąc pod uwagę Twój kod w MainForm.cs, te są tworzone w Designerze,
-        // a ich zawartość (przyciski) jest dodawana programowo.
         protected internal System.Windows.Forms.Panel leftPanel;
-        protected internal System.Windows.Forms.FlowLayoutPanel navButtonsPanel; // Zmieniono na protected internal
-        protected internal System.Windows.Forms.Label lblWelcomeMessage; // Zmieniono na protected internal
-        protected internal System.Windows.Forms.Label lblAppTitle;       // Zmieniono na protected internal
-        protected internal System.Windows.Forms.Panel contentPanel;     // Zmieniono na protected internal
+        protected internal System.Windows.Forms.FlowLayoutPanel navButtonsPanel;
+        protected internal System.Windows.Forms.Label lblWelcomeMessage;
+        protected internal System.Windows.Forms.Label lblAppTitle;
+        protected internal System.Windows.Forms.Panel contentPanel;
+
+        // Deklaracje przycisków (jak w Twoim ostatnim pliku)
+        protected internal System.Windows.Forms.Button btnBrowseBooks;
+        protected internal System.Windows.Forms.Button btnMyLoans;
+        protected internal System.Windows.Forms.Button btnMyReviews;
+        protected internal System.Windows.Forms.Button btnEditProfile;
+        protected internal System.Windows.Forms.Button btnLogout;
+        protected internal System.Windows.Forms.Button btnAdminPanel;
 
 
         /// <summary>
@@ -42,10 +45,20 @@
         {
             this.leftPanel = new System.Windows.Forms.Panel();
             this.navButtonsPanel = new System.Windows.Forms.FlowLayoutPanel();
+
+            // Inicjalizacja wszystkich przycisków
+            this.btnBrowseBooks = new System.Windows.Forms.Button();
+            this.btnMyLoans = new System.Windows.Forms.Button();
+            this.btnMyReviews = new System.Windows.Forms.Button();
+            this.btnEditProfile = new System.Windows.Forms.Button();
+            this.btnAdminPanel = new System.Windows.Forms.Button();
+            this.btnLogout = new System.Windows.Forms.Button(); // Pamiętaj o tym przycisku!
+
             this.lblWelcomeMessage = new System.Windows.Forms.Label();
             this.lblAppTitle = new System.Windows.Forms.Label();
             this.contentPanel = new System.Windows.Forms.Panel();
             this.leftPanel.SuspendLayout();
+            this.navButtonsPanel.SuspendLayout(); // Dodano, jeśli navButtonsPanel ma Layout
             this.SuspendLayout();
             //
             // leftPanel
@@ -57,27 +70,45 @@
             this.leftPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.leftPanel.Location = new System.Drawing.Point(0, 0);
             this.leftPanel.Name = "leftPanel";
-            this.leftPanel.Size = new System.Drawing.Size(200, 775);
+            this.leftPanel.Size = new System.Drawing.Size(200, 775); // Wysokość dopasowana do ClientSize
             this.leftPanel.TabIndex = 0;
             //
             // navButtonsPanel
             //
             this.navButtonsPanel.AutoScroll = true;
-            this.navButtonsPanel.Dock = System.Windows.Forms.DockStyle.Fill; // Może być Full, jeśli lblWelcomeMessage i lblAppTitle są dokowane inaczej
+            this.navButtonsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.navButtonsPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.navButtonsPanel.Location = new System.Drawing.Point(0, 140); // Zakładam, że zaczyna się pod tytułem i powitaniem
+            this.navButtonsPanel.WrapContents = false; // Zapobiega zawijaniu przycisków
+            this.navButtonsPanel.Padding = new System.Windows.Forms.Padding(10, 20, 10, 10); // Odstępy
+            this.navButtonsPanel.Location = new System.Drawing.Point(0, 140); // Po lblAppTitle i lblWelcomeMessage
             this.navButtonsPanel.Name = "navButtonsPanel";
-            this.navButtonsPanel.Size = new System.Drawing.Size(200, 635);
+            this.navButtonsPanel.Size = new System.Drawing.Size(200, 635); // Dopasowana wysokość
             this.navButtonsPanel.TabIndex = 2;
-            this.navButtonsPanel.WrapContents = false;
-            this.navButtonsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.navButtonsPanel_Paint);
+            this.navButtonsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.navButtonsPanel_Paint); // Pozostawiamy handler
+            // Dodawanie przycisków do navButtonsPanel (kolejność jest ważna)
+            this.navButtonsPanel.Controls.Add(this.btnBrowseBooks);
+            this.navButtonsPanel.Controls.Add(this.btnMyLoans);
+            this.navButtonsPanel.Controls.Add(this.btnMyReviews);
+            this.navButtonsPanel.Controls.Add(this.btnEditProfile);
+            this.navButtonsPanel.Controls.Add(this.btnAdminPanel);
+            this.navButtonsPanel.Controls.Add(this.btnLogout); // Upewnij się, że btnLogout jest na końcu
+
+            // Konfiguracja stylów dla wszystkich przycisków
+            // Powtarzamy ten blok dla każdego przycisku, zmieniając tylko nazwę
+            this.ConfigureButtonDefaults(this.btnBrowseBooks, "Przeglądaj książki");
+            this.ConfigureButtonDefaults(this.btnMyLoans, "Moje wypożyczenia");
+            this.ConfigureButtonDefaults(this.btnMyReviews, "Moje recenzje");
+            this.ConfigureButtonDefaults(this.btnEditProfile, "Edytuj profil");
+            this.ConfigureButtonDefaults(this.btnAdminPanel, "Panel Administratora");
+            this.ConfigureButtonDefaults(this.btnLogout, "Wyloguj");
+
             //
             // lblWelcomeMessage
             //
             this.lblWelcomeMessage.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblWelcomeMessage.Font = new System.Drawing.Font("Georgia", 12F, System.Drawing.FontStyle.Bold);
             this.lblWelcomeMessage.ForeColor = System.Drawing.Color.LightGreen;
-            this.lblWelcomeMessage.Location = new System.Drawing.Point(0, 80); // Pod lblAppTitle
+            this.lblWelcomeMessage.Location = new System.Drawing.Point(0, 80);
             this.lblWelcomeMessage.Name = "lblWelcomeMessage";
             this.lblWelcomeMessage.Padding = new System.Windows.Forms.Padding(10);
             this.lblWelcomeMessage.Size = new System.Drawing.Size(200, 60);
@@ -94,7 +125,7 @@
             this.lblAppTitle.ForeColor = System.Drawing.Color.White;
             this.lblAppTitle.Location = new System.Drawing.Point(0, 0);
             this.lblAppTitle.Name = "lblAppTitle";
-            this.lblAppTitle.Padding = new Padding(10, 20, 10, 10);
+            this.lblAppTitle.Padding = new System.Windows.Forms.Padding(10, 20, 10, 10);
             this.lblAppTitle.Size = new System.Drawing.Size(200, 80);
             this.lblAppTitle.TabIndex = 0;
             this.lblAppTitle.Text = "cloudyLib";
@@ -106,7 +137,7 @@
             this.contentPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.contentPanel.Location = new System.Drawing.Point(200, 0);
             this.contentPanel.Name = "contentPanel";
-            this.contentPanel.Size = new System.Drawing.Size(1000, 775);
+            this.contentPanel.Size = new System.Drawing.Size(1000, 775); // Szerokość Main Form - szerokość leftPanel
             this.contentPanel.TabIndex = 1;
             this.contentPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.contentPanel_Paint);
             //
@@ -121,8 +152,25 @@
             this.Name = "MainForm";
             this.Text = "cloudyLib";
             this.leftPanel.ResumeLayout(false);
+            this.navButtonsPanel.ResumeLayout(false); // Dodano
             this.ResumeLayout(false);
 
+        }
+
+        // Metoda pomocnicza do ustawiania domyślnych właściwości przycisków nawigacyjnych
+        private void ConfigureButtonDefaults(System.Windows.Forms.Button button, string text)
+        {
+            button.Text = text;
+            button.Size = new System.Drawing.Size(180, 45);
+            button.Font = new System.Drawing.Font("Georgia", 11F, System.Drawing.FontStyle.Bold);
+            button.BackColor = System.Drawing.Color.ForestGreen;
+            button.ForeColor = System.Drawing.Color.White;
+            button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            button.FlatAppearance.BorderSize = 0;
+            button.Margin = new System.Windows.Forms.Padding(0, 5, 0, 5);
+            button.Cursor = System.Windows.Forms.Cursors.Hand;
+            button.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            button.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
         }
 
         #endregion

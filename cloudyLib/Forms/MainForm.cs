@@ -1,22 +1,18 @@
-﻿using System;
+﻿// W MainForm.cs
+using System;
 using System.Drawing;
 using System.Windows.Forms;
-using cloudyLib.Models; 
-using cloudyLib.Forms; 
-using Microsoft.Extensions.DependencyInjection; 
+using cloudyLib.Models;
+using cloudyLib.Forms;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace cloudyLib.Forms
 {
     public partial class MainForm : Form
     {
-        public User _currentUser; 
+        public User _currentUser;
 
-        private Button btnBrowseBooks;
-        private Button btnMyLoans;
-        private Button btnMyReviews;
-        private Button btnEditProfile;
-        private Button btnLogout;
-        private Button btnAdminPanel;
+        // Deklaracje przycisków są w Designer.cs, więc nie ma ich tutaj.
 
         private readonly IServiceProvider _serviceProvider;
 
@@ -43,47 +39,24 @@ namespace cloudyLib.Forms
             leftPanel.Width = 200;
             leftPanel.BackColor = Color.DarkGreen;
 
-
             navButtonsPanel.Dock = DockStyle.Fill;
             navButtonsPanel.FlowDirection = FlowDirection.TopDown;
             navButtonsPanel.WrapContents = false;
             navButtonsPanel.Padding = new Padding(10, 20, 10, 10);
             navButtonsPanel.AutoScroll = true;
 
-            btnBrowseBooks = CreateNavButton("Przeglądaj książki", BrowseBooks_Click);
-            btnMyLoans = CreateNavButton("Moje wypożyczenia", MyLoans_Click);
-            btnMyReviews = CreateNavButton("Moje recenzje", MyReviews_Click);
-            btnEditProfile = CreateNavButton("Edytuj profil", EditProfile_Click);
-            btnAdminPanel = CreateNavButton("Panel Administratora", AdminPanel_Click);
-            btnLogout = CreateNavButton("Wyloguj", Logout_Click);
-
-            navButtonsPanel.Controls.Add(btnBrowseBooks);
-            navButtonsPanel.Controls.Add(btnMyLoans);
-            navButtonsPanel.Controls.Add(btnMyReviews);
-            navButtonsPanel.Controls.Add(btnEditProfile);
-            navButtonsPanel.Controls.Add(btnAdminPanel);
-            navButtonsPanel.Controls.Add(btnLogout);
+            // Dodaj event handlery do PRZYCISKÓW ZDEKLAROWANYCH W DESIGNERZE
+            if (btnBrowseBooks != null) btnBrowseBooks.Click += BrowseBooks_Click;
+            if (btnMyLoans != null) btnMyLoans.Click += MyLoans_Click;
+            if (btnMyReviews != null) btnMyReviews.Click += MyReviews_Click;
+            if (btnEditProfile != null) btnEditProfile.Click += EditProfile_Click;
+            if (btnAdminPanel != null) btnAdminPanel.Click += AdminPanel_Click;
+            // !!! USUWAMY ODWOLANIE DO btnManageReviews.Click, bo usuwamy ten przycisk !!!
+            // if (btnManageReviews != null) btnManageReviews.Click += ManageReviews_Click;
+            if (btnLogout != null) btnLogout.Click += Logout_Click;
 
             UpdateNavigationView(null);
             this.Load += (s, e) => LoadView(_serviceProvider.GetRequiredService<LoginView>());
-        }
-
-        private Button CreateNavButton(string text, EventHandler clickHandler)
-        {
-            var button = new Button();
-            button.Text = text;
-            button.Size = new Size(180, 45);
-            button.Font = new Font("Georgia", 11F, FontStyle.Bold);
-            button.BackColor = Color.ForestGreen;
-            button.ForeColor = Color.White;
-            button.FlatStyle = FlatStyle.Flat;
-            button.FlatAppearance.BorderSize = 0;
-            button.Margin = new Padding(0, 5, 0, 5);
-            button.Cursor = Cursors.Hand;
-            button.TextAlign = ContentAlignment.MiddleLeft;
-            button.Padding = new Padding(10, 0, 0, 0);
-            button.Click += clickHandler;
-            return button;
         }
 
         public void LoadView(UserControl view)
@@ -111,12 +84,15 @@ namespace cloudyLib.Forms
 
             UpdateNavigationView(user);
 
+            // Ładowanie początkowego widoku po zalogowaniu
             if (_currentUser.Role == "Administrator")
             {
+                // Administrator widzi AdminView od razu po zalogowaniu
                 LoadView(_serviceProvider.GetRequiredService<AdminView>());
             }
             else
             {
+                // Czytelnik widzi BookListView
                 LoadView(_serviceProvider.GetRequiredService<BookListView>());
             }
         }
@@ -139,18 +115,23 @@ namespace cloudyLib.Forms
         {
             bool isLoggedIn = (user != null);
             bool isAdmin = isLoggedIn && user.Role == "Administrator";
-            bool isReader = isLoggedIn && user.Role == "Reader"; 
+            bool isReader = isLoggedIn && user.Role == "Reader";
 
             leftPanel.Visible = isLoggedIn;
 
-            btnBrowseBooks.Visible = isLoggedIn;
-            btnLogout.Visible = isLoggedIn;
-            btnEditProfile.Visible = isLoggedIn;
+            // Przyciski widoczne dla czytelników
+            if (btnBrowseBooks != null) btnBrowseBooks.Visible = isReader; // TYLKO CZYTELNIK WIDZI PRZEGLĄDAJ KSIĄŻKI
+            if (btnMyLoans != null) btnMyLoans.Visible = isReader;
+            if (btnMyReviews != null) btnMyReviews.Visible = isReader;
 
-            btnMyLoans.Visible = isReader;
-            btnMyReviews.Visible = isReader;
+            // Przyciski widoczne dla wszystkich zalogowanych
+            if (btnEditProfile != null) btnEditProfile.Visible = isLoggedIn;
+            if (btnLogout != null) btnLogout.Visible = isLoggedIn;
 
-            btnAdminPanel.Visible = isAdmin;
+            // Przyciski widoczne TYLKO dla administratorów
+            if (btnAdminPanel != null) btnAdminPanel.Visible = isAdmin;
+            // !!! USUWAMY REFERENCJĘ DO btnManageReviews (jeśli się tak nazywał drugi przycisk admina) !!!
+            // if (btnManageReviews != null) btnManageReviews.Visible = isAdmin;
         }
 
         private void BrowseBooks_Click(object sender, EventArgs e)
@@ -189,6 +170,9 @@ namespace cloudyLib.Forms
                 LoadView(_serviceProvider.GetRequiredService<AdminView>());
             }
         }
+
+        // !!! USUWAMY CAŁKOWICIE METODĘ ManageReviews_Click, bo przycisk jest usuwany !!!
+        // private void ManageReviews_Click(object sender, EventArgs e) { ... }
 
         private void lblWelcomeMessage_Click(object sender, EventArgs e) { }
         private void lblAppTitle_Click(object sender, EventArgs e) { }

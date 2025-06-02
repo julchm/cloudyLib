@@ -5,9 +5,10 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection; 
+using Microsoft.Extensions.DependencyInjection;
 using cloudyLib.Data;
 using cloudyLib.Models;
+using BCrypt.Net;
 
 namespace cloudyLib.Forms
 {
@@ -15,7 +16,7 @@ namespace cloudyLib.Forms
     {
         private readonly LibraryDbContext _db;
         private readonly MainForm _mainForm;
-        private User _userToEdit; 
+        private User _userToEdit;
 
         public EditProfileView(LibraryDbContext db, MainForm mainForm)
         {
@@ -25,6 +26,7 @@ namespace cloudyLib.Forms
 
             ConfigureEditProfileControls();
             this.Load += async (s, e) => await LoadUserProfile();
+            this.SizeChanged += EditProfileView_SizeChanged;
         }
 
         private void ConfigureEditProfileControls()
@@ -39,13 +41,11 @@ namespace cloudyLib.Forms
             if (txtNewPassword != null) txtNewPassword.PasswordChar = '●';
             if (txtConfirmNewPassword != null) txtConfirmNewPassword.PasswordChar = '●';
 
-            SetPasswordFieldsVisibility(false);
+            SetPasswordFieldsVisibility(true);
 
             if (lnkChangePassword != null)
             {
-                lnkChangePassword.Click -= LnkChangePassword_Click; 
-                lnkChangePassword.Click += LnkChangePassword_Click;
-                lnkChangePassword.Cursor = Cursors.Hand;
+                lnkChangePassword.Visible = false;
             }
 
             if (btnSaveChanges != null)
@@ -53,6 +53,12 @@ namespace cloudyLib.Forms
                 btnSaveChanges.Click -= BtnSaveChanges_Click;
                 btnSaveChanges.Click += BtnSaveChanges_Click;
             }
+
+            if (txtEmail != null) txtEmail.Leave += TxtEmail_Leave;
+            if (txtPhone != null) txtPhone.KeyPress += TxtPhone_KeyPress;
+            if (txtPhone != null) txtPhone.Leave += TxtPhone_Leave;
+            if (txtNewPassword != null) txtNewPassword.Leave += TxtPassword_Leave; // Dodano
+            if (txtConfirmNewPassword != null) txtConfirmNewPassword.Leave += TxtPassword_Leave; // Dodano
 
             if (lblMessage != null)
             {
@@ -63,27 +69,13 @@ namespace cloudyLib.Forms
 
         private void SetPasswordFieldsVisibility(bool visible)
         {
+            if (lblCurrentPassword != null) lblCurrentPassword.Visible = visible;
             if (txtCurrentPassword != null) txtCurrentPassword.Visible = visible;
+            if (lblNewPassword != null) lblNewPassword.Visible = visible;
             if (txtNewPassword != null) txtNewPassword.Visible = visible;
+            if (lblConfirmNewPassword != null) lblConfirmNewPassword.Visible = visible;
             if (txtConfirmNewPassword != null) txtConfirmNewPassword.Visible = visible;
-
-            if (lnkChangePassword != null)
-            {
-                lnkChangePassword.Text = visible ? "Anuluj zmianę hasła" : "Zmień hasło";
-            }
         }
-
-        private void LnkChangePassword_Click(object sender, EventArgs e)
-        {
-            bool currentVisibility = (txtNewPassword != null && txtNewPassword.Visible);
-            SetPasswordFieldsVisibility(!currentVisibility);
-
-            if (txtCurrentPassword != null) txtCurrentPassword.Text = "";
-            if (txtNewPassword != null) txtNewPassword.Text = "";
-            if (txtConfirmNewPassword != null) txtConfirmNewPassword.Text = "";
-            ShowMessage("", false); 
-        }
-
 
         private async Task LoadUserProfile()
         {
@@ -96,8 +88,7 @@ namespace cloudyLib.Forms
                     return;
                 }
 
-                _userToEdit = await _db.Users
-                                        .FirstOrDefaultAsync(u => u.UserId == _mainForm._currentUser.UserId);
+                _userToEdit = await _db.Users.FindAsync(_mainForm._currentUser.UserId);
 
                 if (_userToEdit != null)
                 {
@@ -152,15 +143,24 @@ namespace cloudyLib.Forms
                 _userToEdit.Email = txtEmail?.Text.Trim() ?? _userToEdit.Email;
                 _userToEdit.PhoneNumber = txtPhone?.Text.Trim();
 
-                if (txtNewPassword != null && txtNewPassword.Visible && !string.IsNullOrWhiteSpace(txtNewPassword.Text))
+                // Logika zmiany hasła - tylko jeśli pola nowego hasła są wypełnione
+                if (!string.IsNullOrWhiteSpace(txtNewPassword?.Text)) // Wystarczy sprawdzić jedno z pól nowego hasła
                 {
+                    // Weryfikacja obecnego hasła
                     if (txtCurrentPassword == null || !VerifyPassword(txtCurrentPassword.Text, _userToEdit.PasswordHash))
                     {
                         ShowMessage("Obecne hasło jest nieprawidłowe.", true);
                         return;
                     }
-                    _userToEdit.PasswordHash = PasswordHasher.HashPassword(txtNewPassword.Text); 
+                    // Walidacja nowego hasła (już jest w ValidateForm(), więc nie trzeba duplikować tutaj)
+                    // _userToEdit.PasswordHash = PasswordHasher.HashPassword(txtNewPassword.Text); // Ta linia powinna być po wszystkich walidacjach
                 }
+
+                if (!string.IsNullOrWhiteSpace(txtNewPassword?.Text))
+                {
+                    _userToEdit.PasswordHash = PasswordHasher.HashPassword(txtNewPassword.Text);
+                }
+
 
                 _db.Users.Update(_userToEdit);
                 await _db.SaveChangesAsync();
@@ -171,11 +171,13 @@ namespace cloudyLib.Forms
                     _mainForm._currentUser.LastName = _userToEdit.LastName;
                     _mainForm._currentUser.Email = _userToEdit.Email;
                     _mainForm._currentUser.PhoneNumber = _userToEdit.PhoneNumber;
-                    _mainForm._currentUser.PasswordHash = _userToEdit.PasswordHash; 
+                    _mainForm._currentUser.PasswordHash = _userToEdit.PasswordHash;
                 }
 
                 ShowMessage("Profil został zaktualizowany pomyślnie!", false);
-                SetPasswordFieldsVisibility(false);
+                if (txtCurrentPassword != null) txtCurrentPassword.Text = "";
+                if (txtNewPassword != null) txtNewPassword.Text = "";
+                if (txtConfirmNewPassword != null) txtConfirmNewPassword.Text = "";
             }
             catch (Exception ex)
             {
@@ -206,14 +208,17 @@ namespace cloudyLib.Forms
                 return false;
             }
 
-            if (txtNewPassword != null && txtNewPassword.Visible)
+            if (!string.IsNullOrWhiteSpace(txtNewPassword?.Text) ||
+                !string.IsNullOrWhiteSpace(txtConfirmNewPassword?.Text) ||
+                !string.IsNullOrWhiteSpace(txtCurrentPassword?.Text))
             {
                 if (txtCurrentPassword == null || string.IsNullOrWhiteSpace(txtCurrentPassword.Text))
                 {
                     ShowMessage("Wprowadź obecne hasło, aby je zmienić.", true);
                     return false;
                 }
-                if (string.IsNullOrWhiteSpace(txtNewPassword.Text) || string.IsNullOrWhiteSpace(txtConfirmNewPassword.Text))
+                if (txtNewPassword == null || string.IsNullOrWhiteSpace(txtNewPassword.Text) ||
+                    txtConfirmNewPassword == null || string.IsNullOrWhiteSpace(txtConfirmNewPassword.Text))
                 {
                     ShowMessage("Nowe hasło i potwierdzenie są wymagane.", true);
                     return false;
@@ -223,12 +228,13 @@ namespace cloudyLib.Forms
                     ShowMessage("Nowe hasła nie są zgodne.", true);
                     return false;
                 }
-                if (txtNewPassword.Text.Length < 6 ||
+                if (txtNewPassword.Text.Length < 8 ||
                     !Regex.IsMatch(txtNewPassword.Text, "[A-Z]") ||
+                    !Regex.IsMatch(txtNewPassword.Text, "[a-z]") ||
                     !Regex.IsMatch(txtNewPassword.Text, "[0-9]") ||
                     !Regex.IsMatch(txtNewPassword.Text, "[^a-zA-Z0-9]"))
                 {
-                    ShowMessage("Nowe hasło musi mieć co najmniej 6 znaków, zawierać dużą literę, cyfrę i znak specjalny.", true);
+                    ShowMessage("Nowe hasło musi mieć co najmniej 8 znaków, zawierać dużą literę, małą literę, cyfrę i znak specjalny.", true);
                     return false;
                 }
             }
@@ -238,25 +244,101 @@ namespace cloudyLib.Forms
 
         private async Task<bool> IsEmailUniqueAsync(string email, int currentUserId)
         {
-            var existingUser = await _db.Users.FirstOrDefaultAsync(u => u.Email == email);
+            var existingUser = await _db.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email);
             return existingUser == null || (existingUser.UserId == currentUserId);
         }
 
         private bool VerifyPassword(string enteredPassword, string storedHashedPassword)
         {
-            // TO JEST TYLKO DLA TESTÓW! W RZECZYWISTEJ APLIKACJI UŻYJ BCrypt.Net lub podobnej
-            // np. return BCrypt.Net.BCrypt.Verify(enteredPassword, storedHashedPassword);
-            return enteredPassword == storedHashedPassword; // NIEBEZPIECZNE!
+            try
+            {
+                return BCrypt.Net.BCrypt.Verify(enteredPassword, storedHashedPassword);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Błąd weryfikacji hasła BCrypt: {ex.Message}");
+                return false;
+            }
         }
 
-        // PRZYKŁADOWA FUNKCJA HASZOWANIA HASŁA (DO ZASTĄPIENIA PRZEZ BEZPIECZNĄ BIBLIOTEKĘ HASZUJĄCĄ)
-        private static class PasswordHasher // Możesz przenieść to do oddzielnego serwisu
+        private static class PasswordHasher
         {
             public static string HashPassword(string password)
             {
-                // TO JEST TYLKO DLA TESTÓW! W RZECZYWISTEJ APLIKACJI UŻYJ BCrypt.Net lub podobnej
-                // np. return BCrypt.Net.BCrypt.HashPassword(password);
-                return password; // Zwraca jawne hasło - NIEBEZPIECZNE!
+                return BCrypt.Net.BCrypt.HashPassword(password);
+            }
+        }
+
+        private void TxtEmail_Leave(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(txtEmail.Text))
+            {
+                if (!Regex.IsMatch(txtEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                {
+                    ShowMessage("Niepoprawny format adresu e-mail.", true);
+                }
+                else
+                {
+                    _ = IsEmailUniqueAsync(txtEmail.Text, _userToEdit?.UserId ?? 0).ContinueWith(task =>
+                    {
+                        if (!task.Result)
+                        {
+                            Invoke((MethodInvoker)delegate
+                            {
+                                ShowMessage("Podany adres e-mail jest już zajęty.", true);
+                            });
+                        }
+                        else
+                        {
+                            Invoke((MethodInvoker)delegate
+                            {
+                                ShowMessage("", false);
+                            });
+                        }
+                    });
+                }
+            }
+            else
+            {
+                ShowMessage("", false);
+            }
+        }
+
+        private void TxtPhone_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void TxtPhone_Leave(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(txtPhone.Text) && (txtPhone.Text.Length < 9 || !Regex.IsMatch(txtPhone.Text, @"^\d+$")))
+            {
+                ShowMessage("Numer telefonu musi zawierać od 9 do 12 cyfr i składać się tylko z cyfr.", true);
+            }
+            else
+            {
+                ShowMessage("", false);
+            }
+        }
+
+        private void TxtPassword_Leave(object sender, EventArgs e)
+        {
+            if (txtNewPassword != null && txtConfirmNewPassword != null &&
+                !string.IsNullOrEmpty(txtNewPassword.Text) && !string.IsNullOrEmpty(txtConfirmNewPassword.Text) &&
+                txtNewPassword.Text != txtConfirmNewPassword.Text)
+            {
+                ShowMessage("Nowe hasła nie są zgodne.", true);
+            }
+            else if (string.IsNullOrEmpty(txtNewPassword.Text) && string.IsNullOrEmpty(txtConfirmNewPassword.Text) && string.IsNullOrEmpty(txtCurrentPassword.Text))
+            {
+                ShowMessage("", false);
+            }
+            else
+            {
+                ShowMessage("", false);
             }
         }
 
@@ -272,6 +354,16 @@ namespace cloudyLib.Forms
                 lblMessage.Text = message;
                 lblMessage.ForeColor = isError ? Color.Red : Color.DarkGreen;
                 lblMessage.Visible = !string.IsNullOrEmpty(message);
+            }
+        }
+
+        private void EditProfileView_SizeChanged(object sender, EventArgs e)
+        {
+            if (tableLayoutPanel1 != null)
+            {
+                int x = (this.Width - tableLayoutPanel1.Width) / 2;
+                int y = (this.Height - tableLayoutPanel1.Height) / 2;
+                tableLayoutPanel1.Location = new Point(x, y);
             }
         }
     }
