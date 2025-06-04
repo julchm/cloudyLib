@@ -96,7 +96,7 @@ Ta komenda zastosuje wszelkie oczekujące migracje do bazy danych librarydb w ko
 5. Uruchomienie aplikacji:
 Po zastosowaniu migracji i upewnieniu się, że kontenery Docker są uruchomione, możesz uruchomić aplikację z poziomu Visual Studio, naciskając klawisz F5 lub klikając przycisk "Start".
 
-**Konfiguracja Połączenia z Bazą Danych w trakcie działania:**
+#### Konfiguracja Połączenia z Bazą Danych w trakcie działania:
 Aplikacja posiada również funkcjonalność umożliwiającą zmianę połączenia z bazą danych w czasie działania, prawdopodobnie poprzez interfejs użytkownika, co pozwala na elastyczną adaptację do różnych środowisk bazodanowych bez konieczności modyfikacji kodu.
 
 ## 4.Przykładowe Dane Logowania (z seeder'a)
