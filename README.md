@@ -1,6 +1,6 @@
 # cloudyLib
 
-## 1. Opis Aplikacji
+## 1. Opis aplikacji
 
 `cloudyLib` to aplikacja okienkowa w technologii C# służąca do zarządzania biblioteką. System umożliwia użytkownikom (czytelnikom) przeglądanie, wyszukiwanie, wypożyczanie i zwracanie książek, a także zarządzanie ich danymi kontaktowymi. Aplikacja wyróżnia dwie główne role: Administratora i Czytelnika, z różnymi poziomami uprawnień. Baza danych aplikacji jest zbudowana na platformie Docker, wykorzystując PostgreSQL jako system zarządzania bazą danych. System wykorzystuje ORM Entity Framework Core.
 
@@ -32,11 +32,11 @@
     * Seedowanie przykładowych danych (książki, użytkownicy, wypożyczenia).
     * Migracje bazy danych (automatyczne tworzenie schematu).
 
-## 2. Opis Bazy Danych
+## 2. Opis bazy danych
 
 Aplikacja `cloudyLib` wykorzystuje relacyjną bazę danych **PostgreSQL**, zarządzaną za pośrednictwem **Entity Framework Core**. Struktura bazy danych jest zdefiniowana przez modele C# i migracje.
 
-### Modele (Tabele) w Bazie Danych:
+### Modele (tabele) w bazie danych:
 
 * **`Author`**: Przechowuje informacje o autorach książek.
 * **`Book`**: Przechowuje szczegóły dotyczące książek (tytuł, ISBN, liczba dostępnych kopii, rok wydania, data dodania).
@@ -48,7 +48,11 @@ Aplikacja `cloudyLib` wykorzystuje relacyjną bazę danych **PostgreSQL**, zarz�
 * **`Review`**: Przechowuje recenzje tekstowe książek dodane przez użytkowników.
 * **`User`**: Przechowuje informacje o użytkownikach systemu (imię, nazwisko, email, numer telefonu, hasło, rola).
 
-### Konfiguracja Połączenia z Bazą Danych:
+#### Diagram ERD
+![diagramERD-C#](https://github.com/user-attachments/assets/efd8dc70-bd8d-4dfe-9314-1bdc6c503698)
+
+
+### Konfiguracja połączenia z bazą danych:
 
 Połączenie z bazą danych jest zdefiniowane w pliku `appsettings.json`:
 
@@ -59,11 +63,11 @@ Połączenie z bazą danych jest zdefiniowane w pliku `appsettings.json`:
   }
 }
 ```
-### Seedowanie Danych:
+### Seedowanie danych:
 Początkowe dane do bazy danych są seedowane bezpośrednio w metodzie SeedData() klasy LibraryDbContext.cs. Metoda ta dodaje przykładowych użytkowników (w tym administratora z hasłem **AdminPassword!1** \ i czytelników), autorów, gatunki, książki, powiązania książek z autorami i gatunkami, recenzje, oceny oraz fikcyjne wypożyczenia. Hasła użytkowników są bezpiecznie haszowane przy użyciu BCrypt.Net.
 
 
-## 3. Konfiguracja i Uruchomienie Aplikacji
+## 3. Konfiguracja i uruchomienie aplikacji
 Aplikacja jest projektem C# WinForms, który wymaga środowiska .NET 9.0 i Visual Studio 2022. Baza danych PostgreSQL jest uruchamiana w kontenerach Docker.
 
 ### Wymagania wstępne:
@@ -96,10 +100,10 @@ Ta komenda zastosuje wszelkie oczekujące migracje do bazy danych librarydb w ko
 5. Uruchomienie aplikacji:
 Po zastosowaniu migracji i upewnieniu się, że kontenery Docker są uruchomione, możesz uruchomić aplikację z poziomu Visual Studio, naciskając klawisz F5 lub klikając przycisk "Start".
 
-#### Konfiguracja Połączenia z Bazą Danych w trakcie działania:
+#### Konfiguracja połączenia z bazą danych w trakcie działania:
 Aplikacja posiada również funkcjonalność umożliwiającą zmianę połączenia z bazą danych w czasie działania, prawdopodobnie poprzez interfejs użytkownika, co pozwala na elastyczną adaptację do różnych środowisk bazodanowych bez konieczności modyfikacji kodu.
 
-## 4.Przykładowe Dane Logowania (z seeder'a)
+## 4.Przykładowe dane logowania (z seeder'a)
 Po pierwszym uruchomieniu i zastosowaniu migracji, baza danych zostanie wypełniona przykładowymi danymi:
 
 * **Administrator:**
