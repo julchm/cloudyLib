@@ -53,7 +53,6 @@ namespace cloudyLib.Forms
             if (btnSave != null) btnSave.Click += BtnSave_Click;
             if (btnCancel != null) btnCancel.Click += (s, e) => this.Close();
 
-            // Walidacja na bieżąco
             if (txtEmail != null) txtEmail.Leave += TxtEmail_Leave;
             if (txtPhone != null) txtPhone.KeyPress += TxtPhone_KeyPress;
             if (txtPhone != null) txtPhone.Leave += TxtPhone_Leave;
@@ -136,9 +135,6 @@ namespace cloudyLib.Forms
                         userToUpdate.PhoneNumber = txtPhone.Text.Trim();
                         userToUpdate.Role = cmbRole.SelectedItem.ToString();
 
-                        // W trybie edycji NIE ZMIENIAMY HASŁA ani EMAILA.
-                        // Zmiana hasła powinna odbywać się na osobnym widoku/formularzu.
-                        // Zmiana emaila jest bardziej złożona (np. wymaga weryfikacji).
 
                         _db.Users.Update(userToUpdate); 
                         await _db.SaveChangesAsync();

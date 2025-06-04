@@ -78,27 +78,27 @@
             this.tableLayoutPanel1.Controls.Add(this.dtpLoanDate, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.lblPlannedReturnDate, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.dtpPlannedReturnDate, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.chkReturned, 0, 5); // CheckBox w kolumnie 0, rozciągnięty na 2 kolumny
-            this.tableLayoutPanel1.Controls.Add(this.lblReturnDate, 0, 6); // Data zwrotu
+            this.tableLayoutPanel1.Controls.Add(this.chkReturned, 0, 5); 
+            this.tableLayoutPanel1.Controls.Add(this.lblReturnDate, 0, 6); 
             this.tableLayoutPanel1.Controls.Add(this.dtpReturnDate, 1, 6);
-            this.tableLayoutPanel1.Controls.Add(this.btnSave, 0, 7); // Przyciski zapisu/anulowania
+            this.tableLayoutPanel1.Controls.Add(this.btnSave, 0, 7); 
             this.tableLayoutPanel1.Controls.Add(this.btnCancel, 1, 7);
-            this.tableLayoutPanel1.Controls.Add(this.lblMessage, 0, 8); // Komunikat
+            this.tableLayoutPanel1.Controls.Add(this.lblMessage, 0, 8); 
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(20);
             this.tableLayoutPanel1.RowCount = 9; 
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F)); // Tytuł
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F)); // Książka
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F)); // Użytkownik
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F)); // Data wypożyczenia
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F)); // Planowana data zwrotu
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F)); // CheckBox Zwrócono
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F)); // Data zwrotu
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F)); // Przyciski
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F)); // Komunikat
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(550, 400); // Docelowy rozmiar formularza
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F)); 
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F)); 
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F)); 
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F)); 
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F)); 
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F)); 
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F)); 
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F)); 
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F)); 
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(550, 400); 
             this.tableLayoutPanel1.TabIndex = 0;
             //
             // lblTitle
