@@ -25,91 +25,93 @@ namespace cloudyLib.Forms
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 
             ConfigureManageUsersControls();
-            LoadUsers();
+            this.Load += async (s, e) => await LoadUsers(); 
         }
 
         private void ConfigureManageUsersControls()
         {
-            if (lblTitle != null)
+            if (this.lblTitle != null)
             {
-                lblTitle.Text = "Zarządzanie Użytkownikami";
-                lblTitle.TextAlign = ContentAlignment.MiddleCenter;
+                this.lblTitle.Text = "Zarządzanie Użytkownikami";
+                this.lblTitle.TextAlign = ContentAlignment.MiddleCenter;
             }
 
-            if (dgvUsers != null)
+            if (this.dgvUsers != null)
             {
-                dgvUsers.AutoGenerateColumns = false;
-                dgvUsers.ReadOnly = true;
-                dgvUsers.AllowUserToAddRows = false;
-                dgvUsers.AllowUserToDeleteRows = false;
-                dgvUsers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                dgvUsers.MultiSelect = false;
+                this.dgvUsers.AutoGenerateColumns = false;
+                this.dgvUsers.ReadOnly = true;
+                this.dgvUsers.AllowUserToAddRows = false;
+                this.dgvUsers.AllowUserToDeleteRows = false;
+                this.dgvUsers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                this.dgvUsers.MultiSelect = false;
 
-                dgvUsers.Columns.Add(new DataGridViewTextBoxColumn { Name = "UserId", HeaderText = "ID", DataPropertyName = "UserId", ReadOnly = true, Width = 50 }); 
-                dgvUsers.Columns.Add(new DataGridViewTextBoxColumn { Name = "FirstName", HeaderText = "Imię", DataPropertyName = "FirstName", ReadOnly = true, Width = 120 }); 
-                dgvUsers.Columns.Add(new DataGridViewTextBoxColumn { Name = "LastName", HeaderText = "Nazwisko", DataPropertyName = "LastName", ReadOnly = true, Width = 150 });
-                dgvUsers.Columns.Add(new DataGridViewTextBoxColumn { Name = "Email", HeaderText = "Email", DataPropertyName = "Email", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill }); 
-                dgvUsers.Columns.Add(new DataGridViewTextBoxColumn { Name = "Phone", HeaderText = "Telefon", DataPropertyName = "PhoneNumber", ReadOnly = true, Width = 120 }); 
-                dgvUsers.Columns.Add(new DataGridViewTextBoxColumn { Name = "Role", HeaderText = "Rola", DataPropertyName = "Role", ReadOnly = true, Width = 100 }); 
-                
+               
+                this.dgvUsers.Columns.Add(new DataGridViewTextBoxColumn { Name = "UserId", HeaderText = "ID", DataPropertyName = "UserId", ReadOnly = true, Width = 50 });
+                this.dgvUsers.Columns.Add(new DataGridViewTextBoxColumn { Name = "FirstName", HeaderText = "Imię", DataPropertyName = "FirstName", ReadOnly = true, Width = 120 });
+                this.dgvUsers.Columns.Add(new DataGridViewTextBoxColumn { Name = "LastName", HeaderText = "Nazwisko", DataPropertyName = "LastName", ReadOnly = true, Width = 150 });
+                this.dgvUsers.Columns.Add(new DataGridViewTextBoxColumn { Name = "Email", HeaderText = "Email", DataPropertyName = "Email", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
+                this.dgvUsers.Columns.Add(new DataGridViewTextBoxColumn { Name = "Phone", HeaderText = "Telefon", DataPropertyName = "PhoneNumber", ReadOnly = true, Width = 120 });
+                this.dgvUsers.Columns.Add(new DataGridViewTextBoxColumn { Name = "Role", HeaderText = "Rola", DataPropertyName = "Role", ReadOnly = true, Width = 100 });
+
             }
 
-            if (btnAddUser != null) btnAddUser.Click += BtnAddUser_Click;
-            if (btnEditUser != null) btnEditUser.Click += BtnEditUser_Click;
-            if (btnDeleteUser != null) btnDeleteUser.Click += BtnDeleteUser_Click;
+            
+            if (this.btnAddUser != null) this.btnAddUser.Click += BtnAddUser_Click;
+            if (this.btnEditUser != null) this.btnEditUser.Click += BtnEditUser_Click;
+            if (this.btnDeleteUser != null) this.btnDeleteUser.Click += BtnDeleteUser_Click;
 
-            if (txtSearchUser != null) txtSearchUser.KeyPress += TxtSearchUser_KeyPress;
-            if (btnSearchUser != null) btnSearchUser.Click += (s, e) => LoadUsers();
+            if (this.txtSearchUser != null) this.txtSearchUser.KeyPress += TxtSearchUser_KeyPress;
+            if (this.btnSearchUser != null) this.btnSearchUser.Click += (s, e) => LoadUsers();
 
-            if (lblMessage != null)
+            if (this.lblMessage != null)
             {
-                lblMessage.TextAlign = ContentAlignment.MiddleCenter;
-                lblMessage.Visible = false;
+                this.lblMessage.TextAlign = ContentAlignment.MiddleCenter;
+                this.lblMessage.Visible = false;
             }
         }
 
         public async Task LoadUsers()
         {
-            ShowMessage("Ładowanie użytkowników...", false);
+            this.ShowMessage("Ładowanie użytkowników...", false);
             try
             {
                 var query = _db.Users.AsQueryable();
 
-                if (txtSearchUser != null && !string.IsNullOrWhiteSpace(txtSearchUser.Text))
+                if (this.txtSearchUser != null && !string.IsNullOrWhiteSpace(this.txtSearchUser.Text))
                 {
-                    var searchTerm = txtSearchUser.Text.Trim().ToLower();
-                    query = query.Where(u => u.Email.ToLower().Contains(searchTerm) || 
-                                             u.FirstName.ToLower().Contains(searchTerm) || 
-                                             u.LastName.ToLower().Contains(searchTerm)); 
+                    var searchTerm = this.txtSearchUser.Text.Trim().ToLower();
+                    query = query.Where(u => u.Email.ToLower().Contains(searchTerm) ||
+                                             u.FirstName.ToLower().Contains(searchTerm) ||
+                                             u.LastName.ToLower().Contains(searchTerm));
                 }
 
                 var users = await query
-                                     .OrderBy(u => u.LastName) 
-                                     .Select(u => new
-                                     {
-                                         u.UserId, 
-                                         u.FirstName, 
-                                         u.LastName, 
-                                         u.Email, 
-                                         u.PhoneNumber, 
-                                         u.Role, 
-                                     })
-                                     .ToListAsync();
+                                           .OrderBy(u => u.UserId) 
+                                           .Select(u => new
+                                           {
+                                               u.UserId,
+                                               u.FirstName,
+                                               u.LastName,
+                                               u.Email,
+                                               u.PhoneNumber,
+                                               u.Role,
+                                           })
+                                           .ToListAsync();
 
-                if (dgvUsers != null)
+                if (this.dgvUsers != null)
                 {
-                    dgvUsers.DataSource = users;
+                    this.dgvUsers.DataSource = users;
                 }
 
-                ShowMessage("", false);
+                this.ShowMessage("", false);
                 if (!users.Any())
                 {
-                    ShowMessage("Brak użytkowników spełniających kryteria.", false);
+                    this.ShowMessage("Brak użytkowników spełniających kryteria.", false);
                 }
             }
             catch (Exception ex)
             {
-                ShowMessage($"Błąd podczas ładowania użytkowników: {ex.Message}", true);
+                this.ShowMessage($"Błąd podczas ładowania użytkowników: {ex.Message}", true);
             }
         }
 
@@ -127,13 +129,13 @@ namespace cloudyLib.Forms
 
         private async void BtnEditUser_Click(object sender, EventArgs e)
         {
-            if (dgvUsers.SelectedRows.Count == 0)
+            if (this.dgvUsers.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Proszę wybrać użytkownika do edycji.", "Brak wyboru", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
-            var selectedUserId = (int)dgvUsers.SelectedRows[0].Cells["UserId"].Value;
+            var selectedUserId = (int)this.dgvUsers.SelectedRows[0].Cells["UserId"].Value;
             var addEditUserForm = _serviceProvider.GetRequiredService<AddEditUserForm>();
             addEditUserForm.SetUserToEdit(selectedUserId);
 
@@ -145,16 +147,16 @@ namespace cloudyLib.Forms
 
         private async void BtnDeleteUser_Click(object sender, EventArgs EventArgs)
         {
-            if (dgvUsers.SelectedRows.Count == 0)
+            if (this.dgvUsers.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Proszę wybrać użytkownika do usunięcia.", "Brak wyboru", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
-            var selectedUserId = (int)dgvUsers.SelectedRows[0].Cells["UserId"].Value; 
-            var userEmail = dgvUsers.SelectedRows[0].Cells["Email"].Value.ToString(); 
+            var selectedUserId = (int)this.dgvUsers.SelectedRows[0].Cells["UserId"].Value;
+            var userEmail = this.dgvUsers.SelectedRows[0].Cells["Email"].Value?.ToString();
 
-            if (_mainForm._currentUser != null && selectedUserId == _mainForm._currentUser.UserId) 
+            if (_mainForm._currentUser != null && selectedUserId == _mainForm._currentUser.UserId)
             {
                 MessageBox.Show("Nie możesz usunąć własnego konta.", "Błąd usuwania", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -169,27 +171,27 @@ namespace cloudyLib.Forms
 
         private async Task TryDeleteUser(int userId, string userEmail)
         {
-            ShowMessage("Usuwanie użytkownika...", false);
+            this.ShowMessage("Usuwanie użytkownika...", false);
             try
             {
-                var hasActiveLoans = await _db.BookLoans.AnyAsync(bl => bl.UserId == userId && bl.ReturnDate == null); 
+                var hasActiveLoans = await _db.BookLoans.AnyAsync(bl => bl.UserId == userId && bl.ReturnDate == null);
                 if (hasActiveLoans)
                 {
                     MessageBox.Show($"Nie można usunąć użytkownika '{userEmail}', ponieważ posiada aktywne wypożyczenia. Najpierw musi zwrócić wszystkie książki.", "Błąd usuwania", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                var userReviews = await _db.Reviews.Where(r => r.UserId == userId).ToListAsync(); 
-                if (userReviews.Any()) _db.Reviews.RemoveRange(userReviews);
+                var userReviews = await _db.Reviews.Where(r => r.UserId == userId).ToListAsync();
+                if (userReviews.Any()) this._db.Reviews.RemoveRange(userReviews);
 
-                var userRates = await _db.Rates.Where(r => r.UserId == userId).ToListAsync(); 
-                if (userRates.Any()) _db.Rates.RemoveRange(userRates);
+                var userRates = await _db.Rates.Where(r => r.UserId == userId).ToListAsync();
+                if (userRates.Any()) this._db.Rates.RemoveRange(userRates);
 
                 var userToDelete = await _db.Users
-                                                .FirstOrDefaultAsync(u => u.UserId == userId); 
+                                            .FirstOrDefaultAsync(u => u.UserId == userId);
                 if (userToDelete != null)
                 {
-                    _db.Users.Remove(userToDelete);
+                    this._db.Users.Remove(userToDelete);
                     await _db.SaveChangesAsync();
                     MessageBox.Show($"Użytkownik '{userEmail}' został usunięty pomyślnie.", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     await LoadUsers();
@@ -197,7 +199,7 @@ namespace cloudyLib.Forms
             }
             catch (Exception ex)
             {
-                ShowMessage($"Błąd podczas usuwania użytkownika: {ex.Message}", true);
+                this.ShowMessage($"Błąd podczas usuwania użytkownika: {ex.Message}", true);
             }
         }
 
@@ -205,22 +207,25 @@ namespace cloudyLib.Forms
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
-                btnSearchUser?.PerformClick();
+                this.btnSearchUser?.PerformClick();
                 e.Handled = true;
             }
         }
 
         private void ShowMessage(string message, bool isError)
         {
-            if (lblMessage != null)
+            if (this.lblMessage != null)
             {
-                lblMessage.Text = message;
-                lblMessage.ForeColor = isError ? Color.Red : Color.DarkGreen;
-                lblMessage.Visible = !string.IsNullOrEmpty(message);
+                if (this.InvokeRequired)
+                {
+                    this.Invoke(new MethodInvoker(() => ShowMessage(message, isError)));
+                    return;
+                }
+                this.lblMessage.Text = message;
+                this.lblMessage.ForeColor = isError ? Color.Red : Color.DarkGreen;
+                this.lblMessage.Visible = !string.IsNullOrEmpty(message);
             }
         }
 
-        private void dgvUsers_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
-        private void btnAddUser_Click_1(object sender, EventArgs e) { }
     }
 }

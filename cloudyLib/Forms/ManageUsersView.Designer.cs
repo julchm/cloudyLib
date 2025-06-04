@@ -152,7 +152,6 @@
             dgvUsers.RowTemplate.Height = 24;
             dgvUsers.Size = new Size(834, 280);
             dgvUsers.TabIndex = 3;
-            dgvUsers.CellContentClick += dgvUsers_CellContentClick;
             // 
             // actionButtonsPanel
             // 
@@ -209,7 +208,6 @@
             btnAddUser.TabIndex = 0;
             btnAddUser.Text = "Dodaj";
             btnAddUser.UseVisualStyleBackColor = false;
-            btnAddUser.Click += btnAddUser_Click_1;
             // 
             // lblMessage
             // 

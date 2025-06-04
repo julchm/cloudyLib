@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using cloudyLib.Data;
 using cloudyLib.Models;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Threading.Tasks; 
 using Microsoft.EntityFrameworkCore;
 
 namespace cloudyLib.Forms
@@ -13,9 +13,8 @@ namespace cloudyLib.Forms
     public partial class ManageBooksView : UserControl
     {
         private readonly LibraryDbContext _db;
-        private readonly MainForm _mainForm; 
-        private readonly IServiceProvider _serviceProvider; 
-
+        private readonly MainForm _mainForm;
+        private readonly IServiceProvider _serviceProvider;
 
         public ManageBooksView(LibraryDbContext db, MainForm mainForm, IServiceProvider serviceProvider)
         {
@@ -25,7 +24,7 @@ namespace cloudyLib.Forms
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 
             ConfigureManageBooksControls();
-            LoadBooks(); 
+            this.Load += async (s, e) => await LoadBooks(); 
         }
 
         private void ConfigureManageBooksControls()
@@ -50,7 +49,7 @@ namespace cloudyLib.Forms
                 dgvBooks.Columns.Add(new DataGridViewTextBoxColumn { Name = "ISBN", HeaderText = "ISBN", DataPropertyName = "ISBN", ReadOnly = true, Width = 120 });
                 dgvBooks.Columns.Add(new DataGridViewTextBoxColumn { Name = "Author", HeaderText = "Autor(zy)", DataPropertyName = "AuthorNames", ReadOnly = true, Width = 150 });
                 dgvBooks.Columns.Add(new DataGridViewTextBoxColumn { Name = "Genre", HeaderText = "Gatunek(ki)", DataPropertyName = "GenreNames", ReadOnly = true, Width = 120 });
-                dgvBooks.Columns.Add(new DataGridViewTextBoxColumn { Name = "AvailableCopies", HeaderText = "Dostępne", DataPropertyName = "AvailableCopies", ReadOnly = true, Width = 80, DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter } }); 
+                dgvBooks.Columns.Add(new DataGridViewTextBoxColumn { Name = "AvailableCopies", HeaderText = "Dostępne", DataPropertyName = "AvailableCopies", ReadOnly = true, Width = 80, DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter } });
                 dgvBooks.Columns.Add(new DataGridViewTextBoxColumn { Name = "TotalCopies", HeaderText = "Wszystkie", DataPropertyName = "TotalCopies", ReadOnly = true, Width = 80, DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter } });
             }
 
@@ -65,31 +64,34 @@ namespace cloudyLib.Forms
             }
         }
 
-        public async Task LoadBooks()
+        public async Task LoadBooks() 
         {
             ShowMessage("Ładowanie książek...", false);
             try
             {
                 var books = await _db.Books
-                                     .Include(b => b.BookAuthors)
-                                         .ThenInclude(ba => ba.Author)
-                                     .Include(b => b.BookGenres)
-                                         .ThenInclude(bg => bg.Genre)
-                                     .Select(b => new
-                                     {
-                                         BookId = b.BookId, 
-                                         b.Title, 
-                                         b.ISBN, 
-                                         AuthorNames = string.Join(", ", b.BookAuthors.Select(ba => $"{ba.Author.FirstName} {ba.Author.LastName}")),
-                                         GenreNames = string.Join(", ", b.BookGenres.Select(bg => bg.Genre.Name)),
-                                         AvailableCopies = b.AvailableCopies, 
-                                         TotalCopies = b.AvailableCopies + b.BookLoans.Count(bl => bl.ReturnDate == null)
-                                     })
-                                     .ToListAsync();
+                                           .Include(b => b.BookAuthors)
+                                               .ThenInclude(ba => ba.Author)
+                                           .Include(b => b.BookGenres)
+                                               .ThenInclude(bg => bg.Genre)
+                                           .AsNoTracking()
+                                           .ToListAsync();
 
-                dgvBooks.DataSource = books;
+                var displayBooks = books.Select(b => new
+                {
+                    BookId = b.BookId,
+                    b.Title,
+                    b.ISBN,
+                    AuthorNames = string.Join(", ", b.BookAuthors.Select(ba => $"{ba.Author.FirstName} {ba.Author.LastName}")),
+                    GenreNames = string.Join(", ", b.BookGenres.Select(bg => bg.Genre.Name)),
+                    AvailableCopies = b.AvailableCopies,
+                    TotalCopies = b.AvailableCopies + (b.BookLoans?.Count(bl => bl.ReturnDate == null) ?? 0) 
+                }).ToList();
+
+
+                dgvBooks.DataSource = displayBooks;
                 ShowMessage("", false);
-                if (!books.Any())
+                if (!displayBooks.Any())
                 {
                     ShowMessage("Brak książek w systemie.", false);
                 }
@@ -97,20 +99,24 @@ namespace cloudyLib.Forms
             catch (Exception ex)
             {
                 ShowMessage($"Błąd podczas ładowania książek: {ex.Message}", true);
+                Console.WriteLine(ex.ToString());
             }
         }
 
-        private void BtnAddBook_Click(object sender, EventArgs e)
+        
+        private async void BtnAddBook_Click(object sender, EventArgs e)
         {
-            // Otwórz formularz dodawania książki
             MessageBox.Show("Dodawanie nowej książki.", "Informacja");
-            // Example of how to use _serviceProvider to get a new form instance:
-            // var addBookForm = _serviceProvider.GetRequiredService<AddEditBookForm>();
-            // addBookForm.ShowDialog();
-            // await LoadBooks(); // Odśwież listę
+            var addBookForm = _serviceProvider.GetRequiredService<AddEditBookForm>();
+            
+            if (addBookForm.ShowDialog() == DialogResult.OK)
+            {
+                await LoadBooks(); 
+            }
         }
 
-        private void BtnEditBook_Click(object sender, EventArgs e)
+        
+        private async void BtnEditBook_Click(object sender, EventArgs e)
         {
             if (dgvBooks.SelectedRows.Count == 0)
             {
@@ -119,11 +125,13 @@ namespace cloudyLib.Forms
             }
             var selectedBookId = (int)dgvBooks.SelectedRows[0].Cells["BookId"].Value;
             MessageBox.Show($"Edycja książki o ID: {selectedBookId}.", "Informacja");
-            // Example of how to use _serviceProvider to get a new form instance:
-            // var editBookForm = _serviceProvider.GetRequiredService<AddEditBookForm>();
-            // editBookForm.LoadBook(selectedBookId); // Assume AddEditBookForm has a LoadBook method
-            // editBookForm.ShowDialog();
-            // await LoadBooks(); // Odśwież listę
+
+            var editBookForm = _serviceProvider.GetRequiredService<AddEditBookForm>();
+            editBookForm.SetBookToEdit(selectedBookId);
+            if (editBookForm.ShowDialog() == DialogResult.OK)
+            {
+                await LoadBooks(); 
+            }
         }
 
         private async void BtnDeleteBook_Click(object sender, EventArgs e)
@@ -160,12 +168,13 @@ namespace cloudyLib.Forms
                     _db.Books.Remove(bookToDelete);
                     await _db.SaveChangesAsync();
                     MessageBox.Show($"Książka '{bookTitle}' została usunięta pomyślnie.", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    await LoadBooks(); 
+                    await LoadBooks();
                 }
             }
             catch (Exception ex)
             {
                 ShowMessage($"Błąd podczas usuwania książki: {ex.Message}", true);
+                Console.WriteLine(ex.ToString());
             }
         }
 
@@ -173,6 +182,11 @@ namespace cloudyLib.Forms
         {
             if (lblMessage != null)
             {
+                if (this.InvokeRequired)
+                {
+                    this.Invoke(new MethodInvoker(() => ShowMessage(message, isError)));
+                    return;
+                }
                 lblMessage.Text = message;
                 lblMessage.ForeColor = isError ? Color.Red : Color.DarkGreen;
                 lblMessage.Visible = !string.IsNullOrEmpty(message);
@@ -181,7 +195,7 @@ namespace cloudyLib.Forms
 
         private void dgvBooks_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Możesz dodać logikę obsługi kliknięcia komórki, np. otwarcie widoku szczegółów
+            
         }
     }
 }

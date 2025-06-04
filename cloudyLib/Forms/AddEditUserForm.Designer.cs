@@ -98,11 +98,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(20);
             this.tableLayoutPanel1.RowCount = 10; 
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F)); // Tytuł
-            //for (int i = 0; i < 7; i++) // Teraz 7 wierszy dla pól tekstowych/combo (Email, Pass, Conf, First, Last, Phone, Role)
-            //{
-            //    this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            //}
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F)); 
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
@@ -110,7 +106,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F)); 
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F)); 
             this.tableLayoutPanel1.Size = new System.Drawing.Size(550, 470); 
@@ -255,7 +250,7 @@
             this.lblPhone.AutoSize = true;
             this.lblPhone.Font = new System.Drawing.Font("Georgia", 10F);
             this.lblPhone.ForeColor = System.Drawing.Color.Black;
-            this.lblPhone.Location = new System.Drawing.Point(135, 260); // Przesunięcie w górę
+            this.lblPhone.Location = new System.Drawing.Point(135, 260); 
             this.lblPhone.Name = "lblPhone";
             this.lblPhone.Size = new System.Drawing.Size(68, 20);
             this.lblPhone.TabIndex = 11;
@@ -299,7 +294,7 @@
             this.cmbRole.TabIndex = 14;
             
             //
-            // btnSave (Zaktualizowano indeks wiersza w tableLayoutPanel1)
+            // btnSave 
             //
             this.btnSave.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.btnSave.BackColor = System.Drawing.Color.ForestGreen;

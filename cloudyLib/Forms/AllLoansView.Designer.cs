@@ -15,7 +15,7 @@
         protected internal System.Windows.Forms.Button btnAddLoan;
         protected internal System.Windows.Forms.Button btnEditLoan;
         protected internal System.Windows.Forms.Button btnDeleteLoan;
-        protected internal System.Windows.Forms.Button btnReturnBook; // Nowy przycisk
+        protected internal System.Windows.Forms.Button btnReturnBook; 
         protected internal System.Windows.Forms.Label lblMessage;
 
         /// <summary>
