@@ -57,8 +57,8 @@ namespace cloudyLib.Forms
             if (txtEmail != null) txtEmail.Leave += TxtEmail_Leave;
             if (txtPhone != null) txtPhone.KeyPress += TxtPhone_KeyPress;
             if (txtPhone != null) txtPhone.Leave += TxtPhone_Leave;
-            if (txtNewPassword != null) txtNewPassword.Leave += TxtPassword_Leave; // Dodano
-            if (txtConfirmNewPassword != null) txtConfirmNewPassword.Leave += TxtPassword_Leave; // Dodano
+            if (txtNewPassword != null) txtNewPassword.Leave += TxtPassword_Leave; 
+            if (txtConfirmNewPassword != null) txtConfirmNewPassword.Leave += TxtPassword_Leave; 
 
             if (lblMessage != null)
             {
@@ -143,17 +143,16 @@ namespace cloudyLib.Forms
                 _userToEdit.Email = txtEmail?.Text.Trim() ?? _userToEdit.Email;
                 _userToEdit.PhoneNumber = txtPhone?.Text.Trim();
 
-                // Logika zmiany hasła - tylko jeśli pola nowego hasła są wypełnione
-                if (!string.IsNullOrWhiteSpace(txtNewPassword?.Text)) // Wystarczy sprawdzić jedno z pól nowego hasła
+                if (!string.IsNullOrWhiteSpace(txtNewPassword?.Text)) 
                 {
-                    // Weryfikacja obecnego hasła
+                    
                     if (txtCurrentPassword == null || !VerifyPassword(txtCurrentPassword.Text, _userToEdit.PasswordHash))
                     {
                         ShowMessage("Obecne hasło jest nieprawidłowe.", true);
                         return;
                     }
-                    // Walidacja nowego hasła (już jest w ValidateForm(), więc nie trzeba duplikować tutaj)
-                    // _userToEdit.PasswordHash = PasswordHasher.HashPassword(txtNewPassword.Text); // Ta linia powinna być po wszystkich walidacjach
+                    
+                    _userToEdit.PasswordHash = PasswordHasher.HashPassword(txtNewPassword.Text); 
                 }
 
                 if (!string.IsNullOrWhiteSpace(txtNewPassword?.Text))

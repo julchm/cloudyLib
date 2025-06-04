@@ -1,5 +1,4 @@
-﻿// W MainForm.cs
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 using cloudyLib.Models;
@@ -12,7 +11,6 @@ namespace cloudyLib.Forms
     {
         public User _currentUser;
 
-        // Deklaracje przycisków są w Designer.cs, więc nie ma ich tutaj.
 
         private readonly IServiceProvider _serviceProvider;
 
@@ -45,14 +43,12 @@ namespace cloudyLib.Forms
             navButtonsPanel.Padding = new Padding(10, 20, 10, 10);
             navButtonsPanel.AutoScroll = true;
 
-            // Dodaj event handlery do PRZYCISKÓW ZDEKLAROWANYCH W DESIGNERZE
+            
             if (btnBrowseBooks != null) btnBrowseBooks.Click += BrowseBooks_Click;
             if (btnMyLoans != null) btnMyLoans.Click += MyLoans_Click;
             if (btnMyReviews != null) btnMyReviews.Click += MyReviews_Click;
             if (btnEditProfile != null) btnEditProfile.Click += EditProfile_Click;
             if (btnAdminPanel != null) btnAdminPanel.Click += AdminPanel_Click;
-            // !!! USUWAMY ODWOLANIE DO btnManageReviews.Click, bo usuwamy ten przycisk !!!
-            // if (btnManageReviews != null) btnManageReviews.Click += ManageReviews_Click;
             if (btnLogout != null) btnLogout.Click += Logout_Click;
 
             UpdateNavigationView(null);
@@ -84,15 +80,13 @@ namespace cloudyLib.Forms
 
             UpdateNavigationView(user);
 
-            // Ładowanie początkowego widoku po zalogowaniu
+            
             if (_currentUser.Role == "Administrator")
             {
-                // Administrator widzi AdminView od razu po zalogowaniu
                 LoadView(_serviceProvider.GetRequiredService<AdminView>());
             }
             else
             {
-                // Czytelnik widzi BookListView
                 LoadView(_serviceProvider.GetRequiredService<BookListView>());
             }
         }
@@ -119,19 +113,14 @@ namespace cloudyLib.Forms
 
             leftPanel.Visible = isLoggedIn;
 
-            // Przyciski widoczne dla czytelników
-            if (btnBrowseBooks != null) btnBrowseBooks.Visible = isReader; // TYLKO CZYTELNIK WIDZI PRZEGLĄDAJ KSIĄŻKI
+            if (btnBrowseBooks != null) btnBrowseBooks.Visible = isReader; 
             if (btnMyLoans != null) btnMyLoans.Visible = isReader;
             if (btnMyReviews != null) btnMyReviews.Visible = isReader;
 
-            // Przyciski widoczne dla wszystkich zalogowanych
             if (btnEditProfile != null) btnEditProfile.Visible = isLoggedIn;
             if (btnLogout != null) btnLogout.Visible = isLoggedIn;
 
-            // Przyciski widoczne TYLKO dla administratorów
             if (btnAdminPanel != null) btnAdminPanel.Visible = isAdmin;
-            // !!! USUWAMY REFERENCJĘ DO btnManageReviews (jeśli się tak nazywał drugi przycisk admina) !!!
-            // if (btnManageReviews != null) btnManageReviews.Visible = isAdmin;
         }
 
         private void BrowseBooks_Click(object sender, EventArgs e)
@@ -171,8 +160,6 @@ namespace cloudyLib.Forms
             }
         }
 
-        // !!! USUWAMY CAŁKOWICIE METODĘ ManageReviews_Click, bo przycisk jest usuwany !!!
-        // private void ManageReviews_Click(object sender, EventArgs e) { ... }
 
         private void lblWelcomeMessage_Click(object sender, EventArgs e) { }
         private void lblAppTitle_Click(object sender, EventArgs e) { }

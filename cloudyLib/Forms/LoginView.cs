@@ -99,8 +99,6 @@ namespace cloudyLib.Forms
             {
                 lblMessage.Text = "Wystąpił błąd podczas logowania. Spróbuj ponownie. (" + ex.Message + ")";
                 lblMessage.Visible = true;
-                // W środowisku deweloperskim możesz również zalogować pełny wyjątek:
-                // Console.WriteLine(ex.ToString());
             }
         }
 
@@ -133,7 +131,7 @@ namespace cloudyLib.Forms
 
         private void txtEmail_TextChanged(object sender, EventArgs e)
         {
-            // Możesz dodać logikę walidacji e-maila w czasie rzeczywistym, jeśli chcesz
+           
         }
 
         private void txtPassword_TextChanged(object sender, EventArgs e)
@@ -141,6 +139,5 @@ namespace cloudyLib.Forms
 
         }
 
-        // private void LoginView_Load(object sender, EventArgs e) { }
     }
 }

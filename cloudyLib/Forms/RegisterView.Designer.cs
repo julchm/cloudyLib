@@ -91,24 +91,24 @@
             tableLayoutPanel1.AutoScroll = true;
             tableLayoutPanel1.BackColor = Color.AntiqueWhite;
             tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 24.7011948F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 75.2988052F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 29.28287F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70.71713F));
             tableLayoutPanel1.Controls.Add(lblRegisterTitle, 0, 0);
-            tableLayoutPanel1.Controls.Add(lblEmail, 0, 1);
-            tableLayoutPanel1.Controls.Add(txtEmail, 1, 1);
-            tableLayoutPanel1.Controls.Add(lblPassword, 0, 2);
-            tableLayoutPanel1.Controls.Add(txtPassword, 1, 2);
-            tableLayoutPanel1.Controls.Add(lblConfirmPassword, 0, 3);
-            tableLayoutPanel1.Controls.Add(txtConfirmPassword, 1, 3);
-            tableLayoutPanel1.Controls.Add(lblFirstName, 0, 4);
-            tableLayoutPanel1.Controls.Add(txtFirstName, 1, 4);
-            tableLayoutPanel1.Controls.Add(lblLastName, 0, 5);
-            tableLayoutPanel1.Controls.Add(txtLastName, 1, 5);
-            tableLayoutPanel1.Controls.Add(lblPhone, 0, 6);
-            tableLayoutPanel1.Controls.Add(txtPhone, 1, 6);
             tableLayoutPanel1.Controls.Add(btnRegister, 0, 7);
             tableLayoutPanel1.Controls.Add(lblLogin, 0, 8);
             tableLayoutPanel1.Controls.Add(lblMessage, 0, 9);
+            tableLayoutPanel1.Controls.Add(txtPhone, 1, 4);
+            tableLayoutPanel1.Controls.Add(lblPhone, 0, 4);
+            tableLayoutPanel1.Controls.Add(lblConfirmPassword, 0, 6);
+            tableLayoutPanel1.Controls.Add(lblPassword, 0, 5);
+            tableLayoutPanel1.Controls.Add(txtConfirmPassword, 1, 6);
+            tableLayoutPanel1.Controls.Add(txtPassword, 1, 5);
+            tableLayoutPanel1.Controls.Add(lblFirstName, 0, 1);
+            tableLayoutPanel1.Controls.Add(lblEmail, 0, 3);
+            tableLayoutPanel1.Controls.Add(lblLastName, 0, 2);
+            tableLayoutPanel1.Controls.Add(txtFirstName, 1, 1);
+            tableLayoutPanel1.Controls.Add(txtEmail, 1, 3);
+            tableLayoutPanel1.Controls.Add(txtLastName, 1, 2);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(149, 3);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -145,7 +145,7 @@
             lblEmail.AutoSize = true;
             lblEmail.Font = new Font("Georgia", 10F);
             lblEmail.ForeColor = Color.Black;
-            lblEmail.Location = new Point(62, 70);
+            lblEmail.Location = new Point(85, 145);
             lblEmail.Name = "lblEmail";
             lblEmail.Size = new Size(59, 20);
             lblEmail.TabIndex = 1;
@@ -158,9 +158,9 @@
             txtEmail.BorderStyle = BorderStyle.FixedSingle;
             txtEmail.Font = new Font("Georgia", 10F);
             txtEmail.ForeColor = Color.Black;
-            txtEmail.Location = new Point(127, 67);
+            txtEmail.Location = new Point(150, 142);
             txtEmail.Name = "txtEmail";
-            txtEmail.Size = new Size(372, 26);
+            txtEmail.Size = new Size(349, 26);
             txtEmail.TabIndex = 2;
             // 
             // lblPassword
@@ -169,7 +169,7 @@
             lblPassword.AutoSize = true;
             lblPassword.Font = new Font("Georgia", 10F);
             lblPassword.ForeColor = Color.Black;
-            lblPassword.Location = new Point(63, 108);
+            lblPassword.Location = new Point(86, 221);
             lblPassword.Name = "lblPassword";
             lblPassword.Size = new Size(58, 20);
             lblPassword.TabIndex = 3;
@@ -182,9 +182,9 @@
             txtPassword.BorderStyle = BorderStyle.FixedSingle;
             txtPassword.Font = new Font("Georgia", 10F);
             txtPassword.ForeColor = Color.Black;
-            txtPassword.Location = new Point(127, 105);
+            txtPassword.Location = new Point(150, 218);
             txtPassword.Name = "txtPassword";
-            txtPassword.Size = new Size(372, 26);
+            txtPassword.Size = new Size(349, 26);
             txtPassword.TabIndex = 4;
             // 
             // lblConfirmPassword
@@ -193,9 +193,9 @@
             lblConfirmPassword.AutoSize = true;
             lblConfirmPassword.Font = new Font("Georgia", 10F);
             lblConfirmPassword.ForeColor = Color.Black;
-            lblConfirmPassword.Location = new Point(32, 136);
+            lblConfirmPassword.Location = new Point(10, 259);
             lblConfirmPassword.Name = "lblConfirmPassword";
-            lblConfirmPassword.Size = new Size(89, 39);
+            lblConfirmPassword.Size = new Size(134, 20);
             lblConfirmPassword.TabIndex = 5;
             lblConfirmPassword.Text = "Potwierdź hasło:";
             // 
@@ -206,9 +206,9 @@
             txtConfirmPassword.BorderStyle = BorderStyle.FixedSingle;
             txtConfirmPassword.Font = new Font("Georgia", 10F);
             txtConfirmPassword.ForeColor = Color.Black;
-            txtConfirmPassword.Location = new Point(127, 142);
+            txtConfirmPassword.Location = new Point(150, 256);
             txtConfirmPassword.Name = "txtConfirmPassword";
-            txtConfirmPassword.Size = new Size(372, 26);
+            txtConfirmPassword.Size = new Size(349, 26);
             txtConfirmPassword.TabIndex = 6;
             // 
             // lblFirstName
@@ -217,7 +217,7 @@
             lblFirstName.AutoSize = true;
             lblFirstName.Font = new Font("Georgia", 10F);
             lblFirstName.ForeColor = Color.Black;
-            lblFirstName.Location = new Point(72, 183);
+            lblFirstName.Location = new Point(95, 70);
             lblFirstName.Name = "lblFirstName";
             lblFirstName.Size = new Size(49, 20);
             lblFirstName.TabIndex = 7;
@@ -230,9 +230,9 @@
             txtFirstName.BorderStyle = BorderStyle.FixedSingle;
             txtFirstName.Font = new Font("Georgia", 10F);
             txtFirstName.ForeColor = Color.Black;
-            txtFirstName.Location = new Point(127, 180);
+            txtFirstName.Location = new Point(150, 67);
             txtFirstName.Name = "txtFirstName";
-            txtFirstName.Size = new Size(372, 26);
+            txtFirstName.Size = new Size(349, 26);
             txtFirstName.TabIndex = 8;
             // 
             // lblLastName
@@ -241,7 +241,7 @@
             lblLastName.AutoSize = true;
             lblLastName.Font = new Font("Georgia", 10F);
             lblLastName.ForeColor = Color.Black;
-            lblLastName.Location = new Point(34, 221);
+            lblLastName.Location = new Point(57, 108);
             lblLastName.Name = "lblLastName";
             lblLastName.Size = new Size(87, 20);
             lblLastName.TabIndex = 9;
@@ -254,9 +254,9 @@
             txtLastName.BorderStyle = BorderStyle.FixedSingle;
             txtLastName.Font = new Font("Georgia", 10F);
             txtLastName.ForeColor = Color.Black;
-            txtLastName.Location = new Point(127, 218);
+            txtLastName.Location = new Point(150, 105);
             txtLastName.Name = "txtLastName";
-            txtLastName.Size = new Size(372, 26);
+            txtLastName.Size = new Size(349, 26);
             txtLastName.TabIndex = 10;
             // 
             // lblPhone
@@ -265,7 +265,7 @@
             lblPhone.AutoSize = true;
             lblPhone.Font = new Font("Georgia", 10F);
             lblPhone.ForeColor = Color.Black;
-            lblPhone.Location = new Point(50, 259);
+            lblPhone.Location = new Point(73, 183);
             lblPhone.Name = "lblPhone";
             lblPhone.Size = new Size(71, 20);
             lblPhone.TabIndex = 11;
@@ -278,9 +278,9 @@
             txtPhone.BorderStyle = BorderStyle.FixedSingle;
             txtPhone.Font = new Font("Georgia", 10F);
             txtPhone.ForeColor = Color.Black;
-            txtPhone.Location = new Point(127, 256);
+            txtPhone.Location = new Point(150, 180);
             txtPhone.Name = "txtPhone";
-            txtPhone.Size = new Size(372, 26);
+            txtPhone.Size = new Size(349, 26);
             txtPhone.TabIndex = 12;
             // 
             // btnRegister

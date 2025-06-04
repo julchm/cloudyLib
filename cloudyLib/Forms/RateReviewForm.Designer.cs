@@ -6,12 +6,11 @@
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-        // Zmieniono modyfikatory dostępu na protected internal
         protected internal System.Windows.Forms.Label lblBookTitle;
         protected internal System.Windows.Forms.Label lblRating;
         protected internal System.Windows.Forms.NumericUpDown numRating;
         protected internal System.Windows.Forms.Label lblReview;
-        protected internal System.Windows.Forms.TextBox txtReview; // Zgodnie z Twoim plikiem, jest 'txtReview'
+        protected internal System.Windows.Forms.TextBox txtReview; 
         protected internal System.Windows.Forms.Button btnSubmit;
         protected internal System.Windows.Forms.Button btnCancel;
         protected internal System.Windows.Forms.Label lblMessage;
