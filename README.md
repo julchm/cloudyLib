@@ -80,7 +80,11 @@ docker-compose up -d
 Ta komenda uruchomi dwa serwisy:
  - **postgres**: Kontener z bazą danych PostgreSQL dostępny na porcie 5432. Nazwa bazy danych to librarydb, użytkownik postgres, hasło admin123.
  - **pgadmin**: Narzędzie do zarządzania bazami danych PostgreSQL, dostępne pod adresem `http://localhost:5050`. Domyślne dane logowania to e-mail: admin@example.com i hasło: admin123.
-Jeśli kontenery już istnieją i chcesz je odbudować, użyj `docker-compose up -d --build`.
+Jeśli kontenery już istnieją i chcesz je odbudować, użyj:
+```bash
+docker-compose up -d --build
+```
+
 3. Otworzenie projektu w Visual Studio:
 Otwórz plik rozwiązania `cloudyLib.sln` w Visual Studio 2022.
 4. Zastosowanie migracji bazy danych:
