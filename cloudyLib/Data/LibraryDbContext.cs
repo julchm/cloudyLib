@@ -187,26 +187,26 @@ namespace cloudyLib.Data
             // 5. BookAuthor 
             var bookAuthors = new List<BookAuthor>
             {
-                new BookAuthor { BookId = book1.BookId, AuthorId = author1.AuthorId }, // Quo Vadis - Sienkiewicz
-                new BookAuthor { BookId = book2.BookId, AuthorId = author2.AuthorId }, // Pan Tadeusz - Mickiewicz
-                new BookAuthor { BookId = book3.BookId, AuthorId = author3.AuthorId }, // Księgi Jakubowe - Tokarczuk
-                new BookAuthor { BookId = book4.BookId, AuthorId = author4.AuthorId }, // IT - King
-                new BookAuthor { BookId = book5.BookId, AuthorId = author1.AuthorId }, // Lalka - Sienkiewicz
-                new BookAuthor { BookId = book6.BookId, AuthorId = author6.AuthorId }, // Mały Książę - Pratchett (przykładowo)
-                new BookAuthor { BookId = book7.BookId, AuthorId = author7.AuthorId }, // Władca Pierścieni - Tolkien
-                new BookAuthor { BookId = book8.BookId, AuthorId = author1.AuthorId }, // Zbrodnia i kara - Sienkiewicz (przykładowo)
-                new BookAuthor { BookId = book9.BookId, AuthorId = author5.AuthorId }, // Paragraf 22 - Chmielewska (przykładowo)
-                new BookAuthor { BookId = book10.BookId, AuthorId = author2.AuthorId }, // Dziady - Mickiewicz
-                new BookAuthor { BookId = book11.BookId, AuthorId = author1.AuthorId }, // W pustyni i w puszczy - Sienkiewicz
-                new BookAuthor { BookId = book12.BookId, AuthorId = author3.AuthorId }, // Nieznośna lekkość bytu - Tokarczuk (przykładowo)
-                new BookAuthor { BookId = book13.BookId, AuthorId = author6.AuthorId }, // Diuna - Pratchett (przykładowo)
-                new BookAuthor { BookId = book14.BookId, AuthorId = author10.AuthorId },// Blade Runner - Lem (przykładowo)
-                new BookAuthor { BookId = book15.BookId, AuthorId = author10.AuthorId },// Solaris - Lem
-                new BookAuthor { BookId = book16.BookId, AuthorId = author11.AuthorId },// Rok 1984 - Orwell
-                new BookAuthor { BookId = book17.BookId, AuthorId = author12.AuthorId },// Duma i uprzedzenie - Austen
-                new BookAuthor { BookId = book18.BookId, AuthorId = author13.AuthorId },// Sto lat samotności - Marquez
-                new BookAuthor { BookId = book19.BookId, AuthorId = author14.AuthorId },// Lewa ręka ciemności - Le Guin
-                new BookAuthor { BookId = book20.BookId, AuthorId = author4.AuthorId }  // Pamięć absolutna - King (przykładowo)
+                new BookAuthor { BookId = book1.BookId, AuthorId = author1.AuthorId }, 
+                new BookAuthor { BookId = book2.BookId, AuthorId = author2.AuthorId }, 
+                new BookAuthor { BookId = book3.BookId, AuthorId = author3.AuthorId }, 
+                new BookAuthor { BookId = book4.BookId, AuthorId = author4.AuthorId }, 
+                new BookAuthor { BookId = book5.BookId, AuthorId = author1.AuthorId }, 
+                new BookAuthor { BookId = book6.BookId, AuthorId = author6.AuthorId }, 
+                new BookAuthor { BookId = book7.BookId, AuthorId = author7.AuthorId }, 
+                new BookAuthor { BookId = book8.BookId, AuthorId = author1.AuthorId }, 
+                new BookAuthor { BookId = book9.BookId, AuthorId = author5.AuthorId }, 
+                new BookAuthor { BookId = book10.BookId, AuthorId = author2.AuthorId }, 
+                new BookAuthor { BookId = book11.BookId, AuthorId = author1.AuthorId }, 
+                new BookAuthor { BookId = book12.BookId, AuthorId = author3.AuthorId }, 
+                new BookAuthor { BookId = book13.BookId, AuthorId = author6.AuthorId }, 
+                new BookAuthor { BookId = book14.BookId, AuthorId = author10.AuthorId },
+                new BookAuthor { BookId = book15.BookId, AuthorId = author10.AuthorId },
+                new BookAuthor { BookId = book16.BookId, AuthorId = author11.AuthorId },
+                new BookAuthor { BookId = book17.BookId, AuthorId = author12.AuthorId },
+                new BookAuthor { BookId = book18.BookId, AuthorId = author13.AuthorId },
+                new BookAuthor { BookId = book19.BookId, AuthorId = author14.AuthorId },
+                new BookAuthor { BookId = book20.BookId, AuthorId = author4.AuthorId }  
             };
             BookAuthors.AddRange(bookAuthors);
             SaveChanges();
@@ -214,28 +214,28 @@ namespace cloudyLib.Data
             // 6. BookGenre
             var bookGenres = new List<BookGenre>
             {
-                new BookGenre { BookId = book1.BookId, GenreId = genre1.GenreId }, // Quo Vadis - Powieść historyczna
-                new BookGenre { BookId = book1.BookId, GenreId = genre7.GenreId }, // Quo Vadis - Literatura piękna
-                new BookGenre { BookId = book2.BookId, GenreId = genre2.GenreId }, // Pan Tadeusz - Epika
-                new BookGenre { BookId = book3.BookId, GenreId = genre7.GenreId }, // Księgi Jakubowe - Literatura piękna
-                new BookGenre { BookId = book4.BookId, GenreId = genre4.GenreId }, // IT - Horror
-                new BookGenre { BookId = book4.BookId, GenreId = genre3.GenreId }, // IT - Fantasy
-                new BookGenre { BookId = book5.BookId, GenreId = genre7.GenreId }, // Lalka - Literatura piękna
-                new BookGenre { BookId = book6.BookId, GenreId = genre3.GenreId }, // Mały Książę - Fantasy
-                new BookGenre { BookId = book7.BookId, GenreId = genre3.GenreId }, // Władca Pierścieni - Fantasy
-                new BookGenre { BookId = book8.BookId, GenreId = genre7.GenreId }, // Zbrodnia i kara - Literatura piękna
-                new BookGenre { BookId = book9.BookId, GenreId = genre7.GenreId }, // Paragraf 22 - Literatura piękna
-                new BookGenre { BookId = book10.BookId, GenreId = genre2.GenreId },// Dziady - Epika
-                new BookGenre { BookId = book11.BookId, GenreId = genre1.GenreId },// W pustyni i w puszczy - Powieść historyczna
-                new BookGenre { BookId = book12.BookId, GenreId = genre7.GenreId },// Nieznośna lekkość bytu - Literatura piękna
-                new BookGenre { BookId = book13.BookId, GenreId = genre6.GenreId },// Diuna - Science Fiction
-                new BookGenre { BookId = book14.BookId, GenreId = genre6.GenreId },// Blade Runner - Science Fiction
-                new BookGenre { BookId = book15.BookId, GenreId = genre6.GenreId },// Solaris - Science Fiction
-                new BookGenre { BookId = book16.BookId, GenreId = genre6.GenreId },// Rok 1984 - Science Fiction
-                new BookGenre { BookId = book17.BookId, GenreId = genre7.GenreId },// Duma i uprzedzenie - Literatura piękna
-                new BookGenre { BookId = book18.BookId, GenreId = genre7.GenreId },// Sto lat samotności - Literatura piękna
-                new BookGenre { BookId = book19.BookId, GenreId = genre6.GenreId },// Lewa ręka ciemności - Science Fiction
-                new BookGenre { BookId = book20.BookId, GenreId = genre6.GenreId } // Pamięć absolutna - Science Fiction
+                new BookGenre { BookId = book1.BookId, GenreId = genre1.GenreId }, 
+                new BookGenre { BookId = book1.BookId, GenreId = genre7.GenreId }, 
+                new BookGenre { BookId = book2.BookId, GenreId = genre2.GenreId },
+                new BookGenre { BookId = book3.BookId, GenreId = genre7.GenreId }, 
+                new BookGenre { BookId = book4.BookId, GenreId = genre4.GenreId }, 
+                new BookGenre { BookId = book4.BookId, GenreId = genre3.GenreId }, 
+                new BookGenre { BookId = book5.BookId, GenreId = genre7.GenreId }, 
+                new BookGenre { BookId = book6.BookId, GenreId = genre3.GenreId }, 
+                new BookGenre { BookId = book7.BookId, GenreId = genre3.GenreId }, 
+                new BookGenre { BookId = book8.BookId, GenreId = genre7.GenreId }, 
+                new BookGenre { BookId = book9.BookId, GenreId = genre7.GenreId }, 
+                new BookGenre { BookId = book10.BookId, GenreId = genre2.GenreId },
+                new BookGenre { BookId = book11.BookId, GenreId = genre1.GenreId },
+                new BookGenre { BookId = book12.BookId, GenreId = genre7.GenreId },
+                new BookGenre { BookId = book13.BookId, GenreId = genre6.GenreId },
+                new BookGenre { BookId = book14.BookId, GenreId = genre6.GenreId },
+                new BookGenre { BookId = book15.BookId, GenreId = genre6.GenreId },
+                new BookGenre { BookId = book16.BookId, GenreId = genre6.GenreId },
+                new BookGenre { BookId = book17.BookId, GenreId = genre7.GenreId },
+                new BookGenre { BookId = book18.BookId, GenreId = genre7.GenreId },
+                new BookGenre { BookId = book19.BookId, GenreId = genre6.GenreId },
+                new BookGenre { BookId = book20.BookId, GenreId = genre6.GenreId } 
             };
             BookGenres.AddRange(bookGenres);
             SaveChanges();
@@ -260,7 +260,7 @@ namespace cloudyLib.Data
             Reviews.AddRange(review1, review2, review3, review4, review5, review6, review7, review8, review9, review10, review11, review12, review13, review14, review15);
             SaveChanges();
 
-            // 8. Oceny (20 ocen)
+            // 8. Oceny 
             var rate1 = new Rate { UserId = user1_admin.UserId, BookId = book1.BookId, RateValue = 5 };
             var rate2 = new Rate { UserId = user2.UserId, BookId = book4.BookId, RateValue = 4 };
             var rate3 = new Rate { UserId = user3.UserId, BookId = book2.BookId, RateValue = 5 };
@@ -285,9 +285,8 @@ namespace cloudyLib.Data
             Rates.AddRange(rate1, rate2, rate3, rate4, rate5, rate6, rate7, rate8, rate9, rate10, rate11, rate12, rate13, rate14, rate15, rate16, rate17, rate18, rate19, rate20);
             SaveChanges();
 
-            // 9. Wypożyczenia (50 wypożyczeń)
+            // 9. Wypożyczenia 
             var bookLoans = new List<BookLoan>();
-            // Przykładowe 50 wypożyczeń
             var allUsers = new List<User> { user1_admin, user2, user3, user4, user5, user6, user7, user8 };
             var allBooks = new List<Book> { book1, book2, book3, book4, book5, book6, book7, book8, book9, book10, book11, book12, book13, book14, book15, book16, book17, book18, book19, book20 };
 
