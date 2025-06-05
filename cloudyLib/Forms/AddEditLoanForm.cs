@@ -12,16 +12,15 @@ namespace cloudyLib.Forms
     public partial class AddEditLoanForm : Form
     {
         private readonly LibraryDbContext _db;
-        private int? _bookLoanIdToEdit; 
-        private BookLoan? _loanBeingEdited; 
+        private int? _bookLoanIdToEdit;
+        private BookLoan? _loanBeingEdited;
 
-      
         public AddEditLoanForm(LibraryDbContext db)
         {
             InitializeComponent();
             _db = db ?? throw new ArgumentNullException(nameof(db));
             ConfigureFormControls();
-            this.Load += async (s, e) => await LoadFormData();
+            this.Load += async (s, e) => await LoadFormData(); // LoadFormData będzie teraz obsługiwać zarówno dane początkowe, jak i dane do edycji
         }
 
         public void SetLoanToEdit(int? bookLoanId)
@@ -41,21 +40,21 @@ namespace cloudyLib.Forms
             if (cmbBook != null)
             {
                 cmbBook.DropDownStyle = ComboBoxStyle.DropDownList;
-                cmbBook.DisplayMember = "Title"; 
-                cmbBook.ValueMember = "BookId";  
-                LoadBooksIntoComboBox();
+                cmbBook.DisplayMember = "Title";
+                cmbBook.ValueMember = "BookId";
+                // LoadBooksIntoComboBox() zostanie wywołane w LoadFormData()
             }
 
             if (cmbUser != null)
             {
                 cmbUser.DropDownStyle = ComboBoxStyle.DropDownList;
-                cmbUser.DisplayMember = "FullName"; 
-                cmbUser.ValueMember = "UserId";     
-                LoadUsersIntoComboBox();
+                cmbUser.DisplayMember = "FullName";
+                cmbUser.ValueMember = "UserId";
+                // LoadUsersIntoComboBox() zostanie wywołane w LoadFormData()
             }
 
             if (dtpLoanDate != null) dtpLoanDate.Value = DateTime.Today;
-            if (dtpPlannedReturnDate != null) dtpPlannedReturnDate.Value = DateTime.Today.AddDays(14); 
+            if (dtpPlannedReturnDate != null) dtpPlannedReturnDate.Value = DateTime.Today.AddDays(14);
 
             if (chkReturned != null)
             {
@@ -64,7 +63,6 @@ namespace cloudyLib.Forms
                 dtpReturnDate.Visible = false;
                 dtpReturnDate.Value = DateTime.Today;
             }
-
 
             if (btnSave != null) btnSave.Click += BtnSave_Click;
             if (btnCancel != null) btnCancel.Click += (s, e) => this.Close();
@@ -122,15 +120,19 @@ namespace cloudyLib.Forms
 
         private async Task LoadFormData()
         {
+            // Zawsze ładuj książki i użytkowników, gdy formularz się ładuje, niezależnie od tego, czy jest to nowe wypożyczenie, czy edycja
+            await LoadBooksIntoComboBox();
+            await LoadUsersIntoComboBox();
+
             if (_bookLoanIdToEdit.HasValue)
             {
                 lblTitle.Text = "Edytuj Wypożyczenie";
                 try
                 {
                     _loanBeingEdited = await _db.BookLoans
-                                                .Include(bl => bl.Book) 
-                                                .Include(bl => bl.User) 
-                                                .FirstOrDefaultAsync(bl => bl.BookLoanId == _bookLoanIdToEdit.Value);
+                                                 .Include(bl => bl.Book)
+                                                 .Include(bl => bl.User)
+                                                 .FirstOrDefaultAsync(bl => bl.BookLoanId == _bookLoanIdToEdit.Value);
 
                     if (_loanBeingEdited != null)
                     {
@@ -143,17 +145,17 @@ namespace cloudyLib.Forms
                         {
                             if (chkReturned != null) chkReturned.Checked = true;
                             if (dtpReturnDate != null) dtpReturnDate.Value = _loanBeingEdited.ReturnDate.Value;
-                            SetPasswordFieldsVisibility(true); 
+                            SetReturnDateVisibility(true); // Zmieniono nazwę, aby lepiej odzwierciedlała cel
                         }
                         else
                         {
                             if (chkReturned != null) chkReturned.Checked = false;
-                            SetPasswordFieldsVisibility(false); 
+                            SetReturnDateVisibility(false); // Zmieniono nazwę
                         }
 
-                        if (cmbBook != null) cmbBook.Enabled = false; 
-                        if (cmbUser != null) cmbUser.Enabled = false; 
-                        if (dtpLoanDate != null) dtpLoanDate.Enabled = false; 
+                        if (cmbBook != null) cmbBook.Enabled = false;
+                        if (cmbUser != null) cmbUser.Enabled = false;
+                        if (dtpLoanDate != null) dtpLoanDate.Enabled = false;
                     }
                     else
                     {
@@ -171,8 +173,8 @@ namespace cloudyLib.Forms
                 if (cmbBook != null) cmbBook.Enabled = true;
                 if (cmbUser != null) cmbUser.Enabled = true;
                 if (dtpLoanDate != null) dtpLoanDate.Enabled = true;
-                if (chkReturned != null) chkReturned.Checked = false; 
-                SetPasswordFieldsVisibility(false); 
+                if (chkReturned != null) chkReturned.Checked = false;
+                SetReturnDateVisibility(false); // Zmieniono nazwę
             }
         }
 
@@ -187,10 +189,17 @@ namespace cloudyLib.Forms
 
             try
             {
+                // Upewnij się, że SelectedValue nie jest null przed rzutowaniem
+                if (cmbBook.SelectedValue == null || cmbUser.SelectedValue == null)
+                {
+                    ShowMessage("Proszę wybrać książkę i użytkownika.", true);
+                    return;
+                }
+
                 int selectedBookId = (int)cmbBook.SelectedValue;
                 int selectedUserId = (int)cmbUser.SelectedValue;
 
-                if (_bookLoanIdToEdit.HasValue) 
+                if (_bookLoanIdToEdit.HasValue)
                 {
                     if (_loanBeingEdited != null)
                     {
@@ -205,10 +214,10 @@ namespace cloudyLib.Forms
                         }
                         else
                         {
-                            _loanBeingEdited.ReturnDate = null; 
+                            _loanBeingEdited.ReturnDate = null;
                         }
 
-                        if (wasActive && _loanBeingEdited.ReturnDate.HasValue) 
+                        if (wasActive && _loanBeingEdited.ReturnDate.HasValue)
                         {
                             var book = await _db.Books.FindAsync(oldBookId);
                             if (book != null)
@@ -217,7 +226,7 @@ namespace cloudyLib.Forms
                                 _db.Books.Update(book);
                             }
                         }
-                        else if (!wasActive && _loanBeingEdited.ReturnDate == null) 
+                        else if (!wasActive && _loanBeingEdited.ReturnDate == null)
                         {
                             var book = await _db.Books.FindAsync(oldBookId);
                             if (book != null)
@@ -232,7 +241,7 @@ namespace cloudyLib.Forms
                         MessageBox.Show("Dane wypożyczenia zostały zaktualizowane.", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
-                else 
+                else
                 {
                     var bookToLoan = await _db.Books.FindAsync(selectedBookId);
                     if (bookToLoan == null || bookToLoan.AvailableCopies <= 0)
@@ -242,9 +251,9 @@ namespace cloudyLib.Forms
                     }
 
                     var existingActiveLoan = await _db.BookLoans
-                                                        .AnyAsync(bl => bl.BookId == selectedBookId &&
-                                                                        bl.UserId == selectedUserId &&
-                                                                        bl.ReturnDate == null);
+                                                            .AnyAsync(bl => bl.BookId == selectedBookId &&
+                                                                             bl.UserId == selectedUserId &&
+                                                                             bl.ReturnDate == null);
                     if (existingActiveLoan)
                     {
                         ShowMessage("Ten użytkownik ma już aktywnie wypożyczoną tę książkę.", true);
@@ -257,7 +266,7 @@ namespace cloudyLib.Forms
                         UserId = selectedUserId,
                         LoanDate = dtpLoanDate.Value,
                         PlannedReturnDate = dtpPlannedReturnDate.Value,
-                        ReturnDate = chkReturned.Checked ? dtpReturnDate.Value : (DateTime?)null 
+                        ReturnDate = chkReturned.Checked ? dtpReturnDate.Value : (DateTime?)null
                     };
 
                     bookToLoan.AvailableCopies--;
@@ -322,7 +331,8 @@ namespace cloudyLib.Forms
             return true;
         }
 
-        private void SetPasswordFieldsVisibility(bool visible) 
+        // Zmieniono nazwę na bardziej opisową, aby odzwierciedlała jej cel związany z widocznością daty zwrotu
+        private void SetReturnDateVisibility(bool visible)
         {
             if (lblReturnDate != null) lblReturnDate.Visible = visible;
             if (dtpReturnDate != null) dtpReturnDate.Visible = visible;

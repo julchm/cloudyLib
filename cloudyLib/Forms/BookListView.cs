@@ -69,7 +69,7 @@ namespace cloudyLib.Forms
 
             if (cmbSortBy != null)
             {
-                cmbSortBy.Items.AddRange(new object[] { "Tytuł (A-Z)", "Autor (A-Z)", "Średnia ocena (Rosnąco)", "Średnia ocena (Malejąco)", "Popularność (Rosnąco)", "Popularność (Malejąco)", "Najnowsze" });
+                cmbSortBy.Items.AddRange(new object[] { "Tytuł (A-Z)", "Autor (A-Z)", "Ocena rosnąco", "Ocena malejąco", "Top popularność", "Najmniej popularne", "Najnowsze" });
                 cmbSortBy.SelectedIndex = 0;
             }
 

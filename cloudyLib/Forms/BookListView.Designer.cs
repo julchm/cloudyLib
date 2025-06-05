@@ -57,7 +57,7 @@
             tableLayoutPanel1.BackColor = Color.AntiqueWhite;
             tableLayoutPanel1.ColumnCount = 3;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 159F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 220F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 220F));
             tableLayoutPanel1.Controls.Add(lblTitle, 0, 0);
@@ -102,7 +102,7 @@
             txtSearchTitle.Location = new Point(18, 78);
             txtSearchTitle.Name = "txtSearchTitle";
             txtSearchTitle.PlaceholderText = "Szukaj po tytule lub autorze...";
-            txtSearchTitle.Size = new Size(524, 26);
+            txtSearchTitle.Size = new Size(485, 26);
             txtSearchTitle.TabIndex = 1;
             // 
             // btnSearch
@@ -113,9 +113,9 @@
             btnSearch.FlatStyle = FlatStyle.Flat;
             btnSearch.Font = new Font("Georgia", 9F, FontStyle.Bold);
             btnSearch.ForeColor = Color.White;
-            btnSearch.Location = new Point(548, 78);
+            btnSearch.Location = new Point(509, 78);
             btnSearch.Name = "btnSearch";
-            btnSearch.Size = new Size(114, 34);
+            btnSearch.Size = new Size(153, 34);
             btnSearch.TabIndex = 2;
             btnSearch.Text = "Szukaj";
             btnSearch.UseVisualStyleBackColor = false;
@@ -129,7 +129,7 @@
             cmbFilterGenre.FormattingEnabled = true;
             cmbFilterGenre.Location = new Point(18, 118);
             cmbFilterGenre.Name = "cmbFilterGenre";
-            cmbFilterGenre.Size = new Size(524, 28);
+            cmbFilterGenre.Size = new Size(485, 28);
             cmbFilterGenre.TabIndex = 4;
             // 
             // cmbSortBy
@@ -139,9 +139,9 @@
             cmbSortBy.Font = new Font("Georgia", 10F);
             cmbSortBy.ForeColor = Color.Black;
             cmbSortBy.FormattingEnabled = true;
-            cmbSortBy.Location = new Point(548, 118);
+            cmbSortBy.Location = new Point(509, 118);
             cmbSortBy.Name = "cmbSortBy";
-            cmbSortBy.Size = new Size(114, 28);
+            cmbSortBy.Size = new Size(153, 28);
             cmbSortBy.TabIndex = 5;
             // 
             // btnApplyFilters
