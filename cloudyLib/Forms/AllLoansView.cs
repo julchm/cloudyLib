@@ -46,11 +46,11 @@ namespace cloudyLib.Forms
                 this.dgvAllLoans.Columns.Add(new DataGridViewTextBoxColumn { Name = "BookLoanId", HeaderText = "ID Wypożyczenia", DataPropertyName = "BookLoanId", ReadOnly = true, Width = 80 });
                 this.dgvAllLoans.Columns.Add(new DataGridViewTextBoxColumn { Name = "BookTitle", HeaderText = "Tytuł Książki", DataPropertyName = "BookTitle", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
                 this.dgvAllLoans.Columns.Add(new DataGridViewTextBoxColumn { Name = "UserFullName", HeaderText = "Użytkownik", DataPropertyName = "UserFullName", ReadOnly = true, Width = 200 });
-             
+
                 this.dgvAllLoans.Columns.Add(new DataGridViewTextBoxColumn { Name = "LoanDate", HeaderText = "Data Wypożyczenia", DataPropertyName = "LoanDate", ReadOnly = true, Width = 150 });
                 this.dgvAllLoans.Columns.Add(new DataGridViewTextBoxColumn { Name = "PlannedReturnDate", HeaderText = "Planowany Zwrot", DataPropertyName = "PlannedReturnDate", ReadOnly = true, Width = 150 });
                 this.dgvAllLoans.Columns.Add(new DataGridViewTextBoxColumn { Name = "ReturnDate", HeaderText = "Data Zwrotu", DataPropertyName = "ReturnDate", ReadOnly = true, Width = 150 });
-                this.dgvAllLoans.Columns.Add(new DataGridViewTextBoxColumn { Name = "Status", HeaderText = "Status", DataPropertyName = "StatusDisplay", ReadOnly = true, Width = 120 }); 
+                this.dgvAllLoans.Columns.Add(new DataGridViewTextBoxColumn { Name = "Status", HeaderText = "Status", DataPropertyName = "StatusDisplay", ReadOnly = true, Width = 120 });
 
                 this.dgvAllLoans.Columns.Add(new DataGridViewTextBoxColumn { Name = "BookId", DataPropertyName = "BookId", Visible = false });
                 this.dgvAllLoans.Columns.Add(new DataGridViewTextBoxColumn { Name = "UserId", DataPropertyName = "UserId", Visible = false });
@@ -146,12 +146,12 @@ namespace cloudyLib.Forms
                     e.Value = dateValue.Value.ToShortDateString();
                     e.FormattingApplied = true;
                 }
-                else if (columnName == "ReturnDate") 
+                else if (columnName == "ReturnDate")
                 {
                     e.Value = "Aktywne";
                     e.FormattingApplied = true;
                 }
-                else 
+                else
                 {
                     e.Value = "-";
                     e.FormattingApplied = true;
@@ -162,9 +162,9 @@ namespace cloudyLib.Forms
             {
                 string statusText = rowData.StatusDisplay;
                 e.Value = statusText;
-                e.FormattingApplied = true; 
+                e.FormattingApplied = true;
 
-                if (statusText == "PRZETERMINOWANE!")
+                if (statusText == "PO TERMINIE!")
                 {
                     e.CellStyle.BackColor = Color.LightCoral;
                     e.CellStyle.Font = new Font(this.dgvAllLoans.Font, FontStyle.Bold);
@@ -177,9 +177,9 @@ namespace cloudyLib.Forms
                 {
                     e.CellStyle.BackColor = Color.LightGreen;
                 }
-                else 
+                else
                 {
-                    e.CellStyle.BackColor = Color.AntiqueWhite; 
+                    e.CellStyle.BackColor = Color.AntiqueWhite;
                 }
             }
         }
@@ -348,5 +348,7 @@ namespace cloudyLib.Forms
                 this.lblMessage.Visible = !string.IsNullOrEmpty(message);
             }
         }
+
+   
     }
 }

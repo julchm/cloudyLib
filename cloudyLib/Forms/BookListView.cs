@@ -168,16 +168,16 @@ namespace cloudyLib.Forms
                         case "Autor (A-Z)":
                             bookDtos = bookDtos.OrderBy(b => b.AuthorNames).ToList();
                             break;
-                        case "Średnia ocena (Rosnąco)":
+                        case "Ocena rosnąco":
                             bookDtos = bookDtos.OrderBy(b => b.AverageRating).ToList();
                             break;
-                        case "Średnia ocena (Malejąco)":
+                        case "Ocena malejąco":
                             bookDtos = bookDtos.OrderByDescending(b => b.AverageRating).ToList();
                             break;
-                        case "Popularność (Rosnąco)":
+                        case "Top popularność":
                             bookDtos = bookDtos.OrderBy(b => b.NumberOfLoans).ToList();
                             break;
-                        case "Popularność (Malejąco)":
+                        case "Najmniej popularne":
                             bookDtos = bookDtos.OrderByDescending(b => b.NumberOfLoans).ToList();
                             break;
                         case "Najnowsze":
